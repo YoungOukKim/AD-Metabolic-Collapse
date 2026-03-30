@@ -2,14 +2,11 @@
 
 **Astrocytic lactate shuttle disruption is linked to cross-cellular lysosomal energetic decoupling in Alzheimer's disease**
 
-YoungOuk Kim, WooMyung Heo, Se Jin Park, YoungChul Kim  
-BioXP Research Institute / Kangwon National University
-
 ---
 
-## Paper
+## Overview
 
-> Kim et al. (2025). *Astrocytic lactate shuttle disruption is linked to cross-cellular lysosomal energetic decoupling in Alzheimer's disease.* Nature Aging (submitted).
+This repository contains all R code and sample data used to reproduce the figures and tables in the manuscript. The analysis integrates single-nucleus transcriptomics (SEA-AD atlas) with CSF proteomics (ADNI Emory TMT-MS) to define an **'energy-starved lysosome' (ESL)** state in Alzheimer's disease.
 
 ---
 
@@ -19,28 +16,30 @@ BioXP Research Institute / Kangwon National University
 AD-Metabolic-Collapse/
 ├── README.md
 ├── data/
-│   └── sample/                  # Sample CSVs derived from SEA-AD (bin-level means)
+│   └── sample/                          # Bin-level summary CSVs (included)
 │       ├── astro_bin_means.csv          # Astrocyte bin-level expression means
-│       ├── neuron_bin_means.csv         # Excitatory neuron bin-level expression means
-│       ├── donor_level_summary.csv      # Donor-level (n=84) summary statistics
-│       └── astro_subtype_trajectories.csv  # Astrocyte subtype ANLS trajectories
+│       ├── neuron_bin_means.csv         # Excitatory neuron bin-level means
+│       ├── donor_level_summary.csv      # Donor-level (n=84) summary
+│       └── astro_subtype_trajectories.csv
 ├── R/
 │   ├── data_extraction/
-│   │   └── 01_extract_seaad.R       # Extract gene expression from SEA-AD h5ad
+│   │   ├── 01_extract_seaad.R           # Extract from SEA-AD h5ad (raw data)
+│   │   └── 02_generate_sample_csvs.R    # Generate data/sample/ CSVs
 │   ├── figures/
-│   │   ├── Fig1_Dissociation.R          # Fig 1 (a-d): Energetic dissociation
-│   │   ├── Fig2_CrossCellular.R         # Fig 2 (a-f): Cross-cellular propagation
-│   │   ├── Fig3_Subtype_Network.R       # Fig 3 (a-c): Subtype + Network
-│   │   ├── Fig4_Clinical.R              # Fig 4 (a-f): Donor-level clinical
-│   │   ├── Fig5_CSF_Validation.R        # Fig 5 (a-h): CSF proteomic validation
-│   │   ├── Fig6_Iron_Suppression.R      # Fig 6 (a): Iron suppression effect
-│   │   ├── ED_Fig1_Comprehensive.R      # Extended Data Fig 1
-│   │   ├── ED_Fig2_Iron_Ragulator.R     # Extended Data Fig 2
-│   │   ├── ED_Fig3_Temporal.R           # Extended Data Fig 3
-│   │   └── ED_Fig4_Donor_Partial.R      # Extended Data Fig 4
+│   │   ├── utils.R                      # Shared theme & helper functions
+│   │   ├── Fig1_Dissociation.R          # Fig 1 (a-d)
+│   │   ├── Fig2_CrossCellular.R         # Fig 2 (a-f)
+│   │   ├── Fig3_Subtype_Network.R       # Fig 3 (a-c)
+│   │   ├── Fig4_Clinical.R              # Fig 4 (a-f)
+│   │   ├── Fig5_CSF_Validation.R        # Fig 5 (a-h)
+│   │   ├── Fig6_Iron_Suppression.R      # Fig 6 (a)
+│   │   ├── ED_Fig1_Comprehensive.R
+│   │   ├── ED_Fig2_Iron_Ragulator.R
+│   │   ├── ED_Fig3_Temporal.R
+│   │   └── ED_Fig4_Donor_Partial.R
 │   └── tables/
-│       ├── Table1_CrossCellular.R       # Table 1: Cross-cellular correlations
-│       └── Supp_Table3_Sensitivity.R    # Supplementary Table 3: Bin 0.1 sensitivity
+│       ├── Table1_CrossCellular.R
+│       └── Supp_Table3_Sensitivity.R
 └── docs/
     └── data_dictionary.md               # Variable definitions and CSV schemas
 ```
@@ -51,69 +50,61 @@ AD-Metabolic-Collapse/
 
 ### SEA-AD (not included — requires data access agreement)
 
-The primary analysis uses the **Seattle Alzheimer's Disease Brain Cell Atlas** (SEA-AD) single-nucleus RNA-seq dataset:
-
-- File: `SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad`  
-- Access: [portal.brain-map.org](https://portal.brain-map.org)  
+- File: `SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad`
+- Access: [portal.brain-map.org](https://portal.brain-map.org)
 - n = 1,378,211 nuclei, 84 donors
 
 ### ADNI Emory TMT-MS CSF Proteomics (not included — requires ADNI access)
 
-- Access: [adni.loni.usc.edu](https://adni.loni.usc.edu)  
+- Access: [adni.loni.usc.edu](https://adni.loni.usc.edu)
 - n = 1,105 subjects, 3,907 proteins
 
 ### Sample Data (included)
 
-`data/sample/` contains **bin-level summary statistics** (mean expression per pseudo-progression bin) derived from SEA-AD. These are sufficient to reproduce all figures. See `docs/data_dictionary.md` for variable definitions.
+`data/sample/` contains **bin-level summary statistics** derived from SEA-AD.
+These are sufficient to reproduce all figures without the raw h5ad file.
+See `docs/data_dictionary.md` for variable definitions.
 
 ---
 
 ## Reproducing Figures
 
-### Step 1: Data extraction from SEA-AD (if you have access)
+### Step 1: (Optional) Re-extract from SEA-AD raw data
 
 ```r
-source("R/data_extraction/01_extract_seaad.R")
+# Only needed if you have SEA-AD h5ad access and want to regenerate CSVs
+source("R/data_extraction/01_extract_seaad.R")  # generates per-cell CSVs
+source("R/data_extraction/02_generate_sample_csvs.R")  # generates data/sample/
 ```
 
-This generates the full per-cell CSVs. **If you do not have SEA-AD access**, skip this step and use the pre-computed `data/sample/` CSVs directly.
-
-### Step 2: Generate figures individually
+### Step 2: Generate figures
 
 ```r
-# Set your output path at the top of each script
+# All scripts use relative paths from the repository root
 source("R/figures/Fig1_Dissociation.R")
 source("R/figures/Fig2_CrossCellular.R")
-# ... etc.
+source("R/figures/Fig3_Subtype_Network.R")
+source("R/figures/Fig4_Clinical.R")
+# Fig 5 & 6 require ADNI proteomics access
+source("R/figures/Fig5_CSF_Validation.R")
+source("R/figures/Fig6_Iron_Suppression.R")
 ```
 
-All scripts use **relative paths** from the repository root. Set `data_path` and `save_path` at the top of each script.
+Output figures are saved to `output/figures/`.
 
 ---
 
 ## Dependencies
 
 ```r
-install.packages(c("ggplot2", "dplyr", "tidyr", "patchwork", "scales", "rhdf5"))
-```
+install.packages(c("ggplot2", "dplyr", "tidyr", "patchwork", "scales", "data.table"))
 
-- R >= 4.3.0  
-- `rhdf5` required only for `01_extract_seaad.R` (Bioconductor)
-
-```r
+# rhdf5 required only for 01_extract_seaad.R
 if (!require("BiocManager")) install.packages("BiocManager")
 BiocManager::install("rhdf5")
 ```
 
----
-
-## Citation
-
-```
-Kim YO, Heo WM, Park SJ, Kim YC. Astrocytic lactate shuttle disruption is linked 
-to cross-cellular lysosomal energetic decoupling in Alzheimer's disease. 
-Nature Aging (2025, submitted).
-```
+R >= 4.3.0
 
 ---
 

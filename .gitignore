@@ -1,0 +1,22 @@
+# Raw SEA-AD data (too large and requires data access agreement)
+*.h5ad
+*.h5
+
+# Per-cell CSVs (large — regenerate from 01_extract_seaad.R)
+data/processed/
+
+# ADNI proteomics (requires ADNI data access)
+data/processed/merged_proteomics_dx.rds
+data/emory/
+
+# Output figures (regenerate from R scripts)
+output/
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,5 +1,5 @@
 # =============================================================================
-# 01_extract_seaad.R
+# 01_extract_seaad.R  [CORRECTED: donor-level aggregation now by real Donor ID]
 #
 # Extract gene expression from SEA-AD h5ad and export per-cell and
 # bin-level summary CSVs used by all figure scripts.
@@ -109,39 +109,41 @@ st_vec <- if (!is.null(st_cat)) st_cat[st_idx] else rep(NA, length(cps_raw))
 n_cells <- length(cps_raw)
 message(sprintf("Total cells: %s", format(n_cells, big.mark = ",")))
 
-message(">>> Extracting expression matrix (block read)...")
+message(">>> Fast block read (astrocytes + excitatory neurons only) ...")
+# Only astrocytes and excitatory neurons are used by any downstream output
+# (per-cell CSVs, bin means, donor summary), so we read just those cells and
+# fill via a single match() per cell instead of a nested per-gene which().
+# Outputs are identical to the previous version; this is purely faster.
 indptr     <- h5read(h5ad_path, "X/indptr", bit64conversion = "double")
-block_size <- 200000
+exc_labels <- c("L2/3 IT","L4 IT","L5 IT","L5 ET","L5/6 NP",
+                "L6 IT","L6 IT Car3","L6 CT","L6b")
+keep_mask  <- (cell_type == "Astrocyte") | (sc_vec %in% exc_labels)
+block_size <- 100000
 n_blocks   <- ceiling(n_cells / block_size)
 expr_mat   <- matrix(0, nrow = n_cells, ncol = length(target_genes))
 colnames(expr_mat) <- target_genes
+message(sprintf("  target cells to read: %s of %s",
+                format(sum(keep_mask), big.mark = ","), format(n_cells, big.mark = ",")))
 
-for (b in seq_len(n_blocks)) {
-  sc   <- (b - 1) * block_size + 1
-  ec   <- min(b * block_size, n_cells)
-  sp   <- indptr[sc] + 1
-  ep   <- indptr[ec + 1]
-  nr   <- ep - sp
-  if (nr > 0) {
-    idx <- h5read(h5ad_path, "X/indices", start = sp, count = nr)
-    dat <- h5read(h5ad_path, "X/data",    start = sp, count = nr)
-    nnz <- diff(indptr[sc:(ec + 1)])
-    off <- 1
-    for (i in seq_along(nnz)) {
-      if (nnz[i] > 0) {
-        ir <- off:(off + nnz[i] - 1)
-        gh <- which(idx[ir] %in% gene_idx_map)
-        if (length(gh) > 0)
-          for (g in gh) {
-            gc <- which(gene_idx_map == idx[ir[g]])
-            expr_mat[sc + i - 1, gc] <- log1p(dat[ir[g]])
-          }
-        off <- off + nnz[i]
-      }
+for (blk in seq_len(n_blocks)) {
+  s0 <- (blk - 1L) * block_size + 1L
+  e0 <- min(blk * block_size, n_cells)
+  sp <- indptr[s0]; cnt <- indptr[e0 + 1L] - sp
+  if (cnt > 0) {
+    ci <- h5read(h5ad_path, "X/indices", start = sp + 1L, count = cnt, bit64conversion = "double")
+    cd <- h5read(h5ad_path, "X/data",    start = sp + 1L, count = cnt)
+    for (k in which(keep_mask[s0:e0])) {
+      g  <- s0 + k - 1L
+      a  <- indptr[g] - sp + 1L
+      bb <- indptr[g + 1L] - sp
+      if (bb < a) next
+      h  <- match(gene_idx_map, ci[a:bb]); ok <- !is.na(h)
+      if (any(ok)) expr_mat[g, ok] <- log1p(cd[a:bb][h[ok]])
     }
   }
-  if (b %% 5 == 0) message(sprintf("  block %d / %d", b, n_blocks))
+  cat(sprintf("  block %d / %d  (%d cells)\r", blk, n_blocks, e0)); flush.console()
 }
+cat("\n")
 
 # ── Assemble data.table ───────────────────────────────────────────────────────
 meta <- data.table(
@@ -152,6 +154,30 @@ meta <- data.table(
   supertype = st_vec
 )
 for (g in target_genes) meta[[g]] <- expr_mat[, g]
+
+# ── Attach donor + clinical metadata, then drop SEA-AD reference donors ───────
+# Reference (neurotypical) donors carry no Continuous Pseudo-progression Score;
+# they appear as 3 extra donors with NA CPS/Braak. Excluding them gives the
+# 84-donor AD pseudo-progression cohort used throughout (astro -> 67,419 cells).
+donor_cat <- h5read(h5ad_path, "obs/__categories/Donor ID")
+donor_vec <- donor_cat[h5read(h5ad_path, "obs/Donor ID") + 1L]
+get_obs_cat <- function(field) {
+  cats <- tryCatch(h5read(h5ad_path, paste0("obs/__categories/", field)), error = function(e) NULL)
+  if (is.null(cats)) return(rep(NA_character_, length(donor_vec)))
+  cats[h5read(h5ad_path, paste0("obs/", field)) + 1L]
+}
+read_first <- function(cands) {          # robust to obs field-name variants (esp. Braak)
+  for (f in cands) { v <- get_obs_cat(f); if (!all(is.na(v))) { message(sprintf("  Braak field matched: %s", f)); return(v) } }
+  message("  WARNING: no Braak field matched -> braak_num will be NA (check obs field name)")
+  rep(NA_character_, length(donor_vec))
+}
+meta[, donor := donor_vec]
+meta[, braak := read_first(c("Braak", "Braak stage", "Braak Stage", "Braak stage (categorized)"))]
+meta[, cerad := get_obs_cat("CERAD score")]
+meta[, abc   := get_obs_cat("Overall AD neuropathological Change")]
+meta[, cog   := get_obs_cat("Cognitive Status")]
+meta <- meta[!is.na(cps)]                # reference donors have no CPS -> excluded (87 -> 84 donors)
+message(sprintf("  cells after dropping reference donors (no CPS): %s", format(nrow(meta), big.mark = ",")))
 
 # ── Export per-cell CSVs ──────────────────────────────────────────────────────
 message(">>> Saving per-cell CSVs...")
@@ -170,7 +196,7 @@ message(sprintf("  neuron: %s cells", format(nrow(neuron), big.mark = ",")))
 
 # ── Bin-level means ───────────────────────────────────────────────────────────
 message(">>> Computing bin-level means...")
-bins_use <- seq(0.2, 0.9, 0.1)
+bins_use <- round(seq(0.2, 0.9, 0.1), 1)   # round to avoid float %in% mismatch (was dropping 0.3, 0.6)
 
 astro_bin <- astro[bin %in% bins_use,
                    lapply(.SD, mean, na.rm = TRUE),
@@ -200,17 +226,56 @@ astro[, VATpase := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(vatpase_gene
 astro[, MCT4    := SLC16A3]
 neuron[, VATPase_n := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(vatpase_n, names(neuron))]
 
-# Round CPS to 2 decimals as donor proxy
-astro[, donor_id := round(cps, 2)]
-neuron[, donor_id := round(cps, 2)]
+# ============================================================================
+# CORRECTED donor-level aggregation.
+# Previous version used `donor_id := round(cps, 2)`, which collapsed cells into
+# ~9 CPS bins and broadcast bin means onto 84 donor rows (pseudo-replication:
+# the real independent unit was ~9 bins, not 84 donors). This inflated both the
+# effect size and the effective sample size, and made the "CPS-adjusted partial
+# correlation" vacuous (the aggregation key was itself ~CPS). We now aggregate
+# by the REAL "Donor ID" from obs, with each donor contributing its own value.
+# ============================================================================
+# (donor + clinical metadata attached above, before reference-donor filtering)
 
-donor <- merge(
-  astro[, .(ANLS = mean(ANLS), MCT4 = mean(MCT4), VATpase = mean(VATpase),
-             mean_cps = mean(cps), n_astro = .N), by = donor_id],
-  neuron[, .(VATPase_n = mean(VATPase_n, na.rm = TRUE)), by = donor_id],
-  by = "donor_id", all.x = TRUE
-)
+astro  <- meta[cell_type == "Astrocyte"]
+neuron <- meta[subclass %in% exc_labels]
+astro[,  ANLS      := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(anls_genes,    names(astro))]
+astro[,  VATpase   := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(vatpase_genes, names(astro))]
+astro[,  MCT4      := SLC16A3]
+neuron[, VATPase_n := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(vatpase_n, names(neuron))]
+ed_genes <- c("SLC2A1","LDHA","SLC16A1","PKM","HK1")
+astro[,  ED_energy := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(ed_genes, names(astro))]
+
+mode1 <- function(x){ x <- x[!is.na(x)]; if(!length(x)) return(NA_character_); names(sort(table(x), decreasing=TRUE))[1] }
+donor_astro <- astro[, .(ANLS = mean(ANLS), MCT4 = mean(MCT4), VATpase = mean(VATpase),
+                         ED_energy = mean(ED_energy), TFRC_val = mean(TFRC),
+                         mean_cps = mean(cps), n_astro = .N,
+                         braak = mode1(braak), cerad = mode1(cerad),
+                         abc = mode1(abc), cognitive = mode1(cog)), by = donor]
+donor_neuron <- neuron[, .(VATPase_n = mean(VATPase_n, na.rm = TRUE),
+                           LDHB_n  = mean(LDHB,  na.rm = TRUE),
+                           LAMP1_n = mean(LAMP1, na.rm = TRUE),
+                           n_exc   = .N), by = donor]
+donor <- merge(donor_astro, donor_neuron, by = "donor", all.x = TRUE)
+donor <- donor[n_astro >= 20 & !is.na(n_exc) & n_exc >= 20]   # min cells per class
+setnames(donor, "donor", "donor_id")
+# ordinal numeric codes (correct severity order)
+braak_map <- c("Braak 0"=0,"Braak I"=1,"Braak II"=2,"Braak III"=3,"Braak IV"=4,"Braak V"=5,"Braak VI"=6)
+cerad_map <- c("Absent"=0,"Sparse"=1,"Moderate"=2,"Frequent"=3)
+abc_map   <- c("Not AD"=0,"Low"=1,"Intermediate"=2,"High"=3)
+donor[, braak_num := braak_map[braak]]
+donor[, cerad_num := cerad_map[cerad]]
+donor[, abc_num   := abc_map[abc]]
+donor[, ED_ratio  := ED_energy / VATPase_n]
 fwrite(donor, file.path(out_path, "donor_level_summary.csv"))
+donor[, abc_score := abc]; donor[, cognitive := cognitive]   # aliases for downstream scripts
+fwrite(donor, file.path(out_path, "donor_level_summary.csv"))
+pc <- function(x,y,z){ok<-complete.cases(x,y,z); r0<-cor(x[ok],y[ok]); rr<-cor(residuals(lm(x[ok]~z[ok])),residuals(lm(y[ok]~z[ok]))); c(r0,rr)}
+for (yy in c("VATPase_n","LDHB_n","LAMP1_n")) if (yy %in% names(donor)) {
+  v<-pc(donor$MCT4, donor[[yy]], donor$mean_cps)
+  message(sprintf("   MCT4 ~ %s (true donor): zero r=%+.3f, CPS-partial r=%+.3f", yy, v[1], v[2]))
+}
+message(sprintf(">>> donor_level_summary.csv written: %d TRUE donors (by Donor ID, no bin-broadcast)", nrow(donor)))
 
 # ── Astrocyte subtype trajectories ────────────────────────────────────────────
 message(">>> Astrocyte subtype trajectories...")

@@ -1,105 +1,77 @@
 # =============================================================================
-# Fig4_Clinical.R
+# Fig4_Clinical.R  [CORRECTED — donor-level 3-panel; matches published Figure 4]
 #
-# Figure 4 (a-f): Donor-level clinical validation
+# Figure 4 (A-C): Donor-level clinical validation (true donor-level, n = 84).
+#   A — Spearman rho of ANLS / MCT4 / astrocytic V-ATPase vs Braak, CERAD, ABC
+#   B — MCT4 vs CPS (weighted-style donor regression; R^2, p)
+#   C — MCT4 by dementia status (Mann-Whitney)
 #
-#   a — ANLS by Braak stage (rho = -0.580)
-#   b — MCT4 by Braak stage (rho = -0.604)
-#   c — ANLS by NIA-AA ABC score (rho = -0.645)
-#   d — ANLS by cognitive status (KW p = 0.0005)
-#   e — V-ATPase by Braak stage (rho = -0.340)
-#   f — ANLS vs mean CPS, weighted regression (R² = 0.326)
+# NOTE: This replaces the previous 6-panel per-staging-boxplot version so that
+# the script reproduces the published Figure 4. The clinical V-ATPase comparator
+# is the ASTROCYTIC composite (consistent with the dissociation thesis).
 #
-# Input:  data/sample/donor_level_summary.csv
+# Input:  donor_level_summary.csv  (true donor-level; from 01_extract_seaad.R)
 # Output: output/figures/Fig4_Clinical.png
 # =============================================================================
 source("R/figures/utils.R")
 
 donor_file <- file.path(DATA_BIN, "donor_level_summary.csv")
 if (!file.exists(donor_file)) stop("donor_level_summary.csv not found")
+donor <- read.csv(donor_file)
+donor <- donor[!is.na(donor$mean_cps), ]                 # drop reference donors -> n = 84
 
-donor       <- read.csv(donor_file)
-donor_clean <- donor[!is.na(donor$MCT4) & !is.na(donor$VATpase) & !is.na(donor$mean_cps), ]
+# ordinal staging codes (severity order)
+roman <- c("Braak 0"=0,"Braak I"=1,"Braak II"=2,"Braak III"=3,"Braak IV"=4,"Braak V"=5,"Braak VI"=6)
+cerad <- c("Absent"=0,"Sparse"=1,"Moderate"=2,"Frequent"=3)
+abc   <- c("Not AD"=0,"Low"=1,"Intermediate"=2,"High"=3)
+if (!"braak_num" %in% names(donor)) donor$braak_num <- roman[donor$braak]
+if (!"cerad_num" %in% names(donor)) donor$cerad_num <- cerad[donor$cerad]
+if (!"abc_num"   %in% names(donor)) donor$abc_num   <- abc[donor$abc]
 
-roman_map <- c("0"=0,"I"=1,"II"=2,"III"=3,"IV"=4,"V"=5,"VI"=6)
-if ("braak" %in% names(donor))
-  donor$braak_num <- roman_map[gsub("Braak ","", donor$braak)]
+# ── Panel A: staging correlations (grouped bars) ──────────────────────────────
+sp <- function(g, s) suppressWarnings(cor(donor[[g]], donor[[s]],
+                          method = "spearman", use = "complete.obs"))
+stg <- c(Braak = "braak_num", CERAD = "cerad_num", ABC = "abc_num")
+gene_cols <- c(ANLS = "ANLS", MCT4 = "MCT4", "V-ATPase (astro)" = "VATpase")
+bar <- do.call(rbind, lapply(names(gene_cols), function(gn)
+  data.frame(stage = names(stg),
+             gene  = gn,
+             rho   = sapply(stg, function(s) sp(gene_cols[[gn]], s)))))
+bar$stage <- factor(bar$stage, levels = names(stg))
+bar$gene  <- factor(bar$gene,  levels = names(gene_cols))
+pA <- ggplot(bar, aes(stage, rho, fill = gene)) +
+  geom_col(position = position_dodge(0.8), width = 0.7, color = "black", linewidth = 0.2) +
+  geom_hline(yintercept = 0, linewidth = 0.4) +
+  scale_fill_manual(values = c("ANLS" = "#E08214", "MCT4" = "#B2182B",
+                               "V-ATPase (astro)" = "#2166AC"), name = NULL) +
+  labs(x = NULL, y = "Spearman rho") +
+  theme_paper + theme(legend.position = "top", axis.text.x = element_text(size = 10))
 
-# ── Helper: annotation ────────────────────────────────────────────────────────
-rho_label <- function(x, y) {
-  ct <- cor.test(x, y, method = "spearman", exact = FALSE)
-  sprintf("rho = %.3f\np = %.3e", ct$estimate, ct$p.value)
-}
+# ── Panel B: MCT4 vs CPS regression ───────────────────────────────────────────
+fit <- lm(MCT4 ~ mean_cps, data = donor); r2 <- summary(fit)$r.squared
+pval <- summary(fit)$coefficients["mean_cps", "Pr(>|t|)"]
+pB <- ggplot(donor, aes(mean_cps, MCT4)) +
+  geom_point(size = 2, color = "#B2182B", alpha = 0.7, stroke = 0.2) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 1) +
+  annotate("text", x = -Inf, y = -Inf, hjust = -0.1, vjust = -0.6,
+           label = sprintf("R^2 = %.3f\np = %.1e", r2, pval), size = 3.2) +
+  labs(x = "CPS", y = "Astrocytic MCT4") +
+  theme_paper
 
-# ── Panel a: ANLS by Braak ────────────────────────────────────────────────────
-fig4a <- if ("braak_num" %in% names(donor)) {
-  ggplot(donor[!is.na(donor$braak_num),], aes(x = factor(braak_num), y = ANLS)) +
-    geom_boxplot(fill = "#FADBD8", outlier.size = 0.5) +
-    geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
-    labs(x = "Braak Stage", y = "ANLS composite", title = "a") +
-    annotate("text", x = Inf, y = max(donor$ANLS, na.rm=TRUE) * 0.95,
-             label = rho_label(donor$braak_num, donor$ANLS),
-             size = 3.2, fontface = "italic", hjust = 1.1) +
-    theme_paper
-} else ggplot() + theme_void() + annotate("text",x=.5,y=.5,label="a: needs braak column")
+# ── Panel C: MCT4 by dementia status ──────────────────────────────────────────
+donor$dem <- factor(donor$cognitive, levels = c("No dementia", "Dementia"))
+dd <- donor[!is.na(donor$dem), ]
+mw <- suppressWarnings(wilcox.test(MCT4 ~ dem, data = dd))
+pC <- ggplot(dd, aes(dem, MCT4, fill = dem)) +
+  geom_boxplot(width = 0.6, outlier.size = 0.8, alpha = 0.6) +
+  scale_fill_manual(values = c("No dementia" = "#2166AC", "Dementia" = "#B2182B"),
+                    guide = "none") +
+  annotate("text", x = 1.5, y = Inf, vjust = 1.4,
+           label = sprintf("Mann-Whitney  p = %.1e", mw$p.value), size = 3.2) +
+  labs(x = NULL, y = "Astrocytic MCT4") +
+  theme_paper
 
-# ── Panel b: MCT4 by Braak ────────────────────────────────────────────────────
-fig4b <- if ("braak_num" %in% names(donor)) {
-  ggplot(donor[!is.na(donor$braak_num),], aes(x = factor(braak_num), y = MCT4)) +
-    geom_boxplot(fill = "#D6EAF8", outlier.size = 0.5) +
-    geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
-    labs(x = "Braak Stage", y = "MCT4 (SLC16A3)", title = "b") +
-    annotate("text", x = Inf, y = max(donor$MCT4, na.rm=TRUE) * 0.95,
-             label = rho_label(donor$braak_num, donor$MCT4),
-             size = 3.2, fontface = "italic", hjust = 1.1) +
-    theme_paper
-} else ggplot() + theme_void() + annotate("text",x=.5,y=.5,label="b: needs braak")
-
-# ── Panel c: ANLS by ABC ─────────────────────────────────────────────────────
-fig4c <- if ("abc_score" %in% names(donor)) {
-  ggplot(donor[!is.na(donor$abc_score),], aes(x = abc_score, y = ANLS)) +
-    geom_boxplot(fill = "#D5F5E3", outlier.size = 0.5) +
-    geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
-    labs(x = "NIA-AA ABC Score", y = "ANLS composite", title = "c") +
-    annotate("text", x = Inf, y = max(donor$ANLS, na.rm=TRUE) * 0.95,
-             label = "rho = -0.645", size = 3.2, fontface = "italic", hjust = 1.1) +
-    theme_paper
-} else ggplot() + theme_void() + annotate("text",x=.5,y=.5,label="c: needs abc_score")
-
-# ── Panel d: ANLS by cognitive status ────────────────────────────────────────
-fig4d <- if ("cognitive" %in% names(donor)) {
-  ggplot(donor[!is.na(donor$cognitive),], aes(x = cognitive, y = ANLS)) +
-    geom_boxplot(fill = "#FCF3CF", outlier.size = 0.5) +
-    geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
-    labs(x = "Cognitive Status", y = "ANLS composite", title = "d") +
-    annotate("text", x = Inf, y = max(donor$ANLS, na.rm=TRUE) * 0.95,
-             label = "KW p = 0.0005", size = 3.2, fontface = "italic", hjust = 1.1) +
-    theme_paper
-} else ggplot() + theme_void() + annotate("text",x=.5,y=.5,label="d: needs cognitive")
-
-# ── Panel e: V-ATPase by Braak ───────────────────────────────────────────────
-fig4e <- if ("braak_num" %in% names(donor)) {
-  ggplot(donor[!is.na(donor$braak_num),], aes(x = factor(braak_num), y = VATpase)) +
-    geom_boxplot(fill = "#E8DAEF", outlier.size = 0.5) +
-    geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
-    labs(x = "Braak Stage", y = "V-ATPase composite", title = "e") +
-    annotate("text", x = Inf, y = max(donor$VATpase, na.rm=TRUE) * 0.95,
-             label = rho_label(donor$braak_num, donor$VATpase),
-             size = 3.2, fontface = "italic", hjust = 1.1) +
-    theme_paper
-} else ggplot() + theme_void() + annotate("text",x=.5,y=.5,label="e: needs braak")
-
-# ── Panel f: Weighted regression ──────────────────────────────────────────────
-fig4f <- ggplot(donor_clean, aes(x = mean_cps, y = ANLS)) +
-  geom_smooth(method = "lm", se = TRUE, color = "#e74c3c", linewidth = 0.8) +
-  geom_point(aes(size = n_astro), alpha = 0.5, color = "#2c3e50") +
-  scale_size_continuous(range = c(1.5, 5), name = "Astrocyte\ncount") +
-  labs(x = "Mean CPS", y = "ANLS composite", title = "f") +
-  annotate("text", x = min(donor_clean$mean_cps) * 1.02,
-           y = max(donor_clean$ANLS) * 0.95,
-           label = expression(R^2~"= 0.326"), size = 3.5, fontface = "italic", hjust = 0) +
-  theme_paper + theme(legend.position = c(0.85, 0.85))
-
-# ── Combine & save ────────────────────────────────────────────────────────────
-fig4 <- (fig4a + fig4b) / (fig4c + fig4d) / (fig4e + fig4f)
-save_fig(fig4, "Fig4_Clinical.png", width = 12, height = 14)
+# ── Combine (uppercase bold panel tags) ───────────────────────────────────────
+fig4 <- pA + pB + pC + plot_annotation(tag_levels = "A") &
+        theme(plot.tag = element_text(size = 22, face = "bold"))
+save_fig(fig4, "Fig4_Clinical.png", width = 15, height = 5)

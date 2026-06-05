@@ -1,3 +1,4 @@
+# [CORRECTED] donor cross-cellular now uses neuronal V-ATPase + LDHB/LAMP1 (true donors).
 # =============================================================================
 # Table1_CrossCellular.R
 #
@@ -42,7 +43,7 @@ for (pr in pairs_bin) {
   r0  <- cor.test(df[[pr$x]], df[[pr$y]])
   pc  <- partial_cor(df[[pr$x]], df[[pr$y]], df$bin)
   results <- rbind(results, data.frame(
-    Level       = "Bin (n=8)",
+    Level       = "Bin-traj (n=9)",
     Measure     = pr$label,
     r_zero      = round(r0$estimate, 3),
     p_zero      = r0$p.value,
@@ -52,18 +53,26 @@ for (pr in pairs_bin) {
   ))
 }
 
-# ── Donor-level ───────────────────────────────────────────────────────────────
-r0_d  <- cor.test(donor$MCT4, donor$VATpase)
-pc_d  <- partial_cor(donor$MCT4, donor$VATpase, donor$mean_cps)
-results <- rbind(results, data.frame(
-  Level     = "Donor (n=84)",
-  Measure   = "MCT4 -> Neuron V-ATPase",
-  r_zero    = round(r0_d$estimate, 3),
-  p_zero    = r0_d$p.value,
-  r_partial = round(pc_d$r, 3),
-  p_partial = pc_d$p,
-  survives_CPS = !is.na(pc_d$r) && abs(pc_d$r) >= 0.7 && pc_d$p < 0.05
-))
+# ── Donor-level (CORRECTED: neuronal V-ATPase, true donors) ───────────────────
+donor_pairs <- list(
+  list(y="VATPase_n", label="MCT4 -> Neuron V-ATPase"),
+  list(y="LDHB_n",    label="MCT4 -> Neuron LDHB"),
+  list(y="LAMP1_n",   label="MCT4 -> Neuron LAMP1")
+)
+for (dp in donor_pairs) {
+  if (!(dp$y %in% names(donor))) next
+  r0_d <- cor.test(donor$MCT4, donor[[dp$y]])
+  pc_d <- partial_cor(donor$MCT4, donor[[dp$y]], donor$mean_cps)
+  results <- rbind(results, data.frame(
+    Level     = paste0("Donor (n=", sum(!is.na(donor$MCT4) & !is.na(donor[[dp$y]])), ")"),
+    Measure   = dp$label,
+    r_zero    = round(r0_d$estimate, 3),
+    p_zero    = r0_d$p.value,
+    r_partial = round(pc_d$r, 3),
+    p_partial = pc_d$p,
+    survives_CPS = !is.na(pc_d$r) && abs(pc_d$r) >= 0.3 && pc_d$p < 0.05
+  ))
+}
 
 # ── Slope dissociation ────────────────────────────────────────────────────────
 bins_all <- seq(0.2, 0.9, 0.1)

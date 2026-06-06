@@ -1,23 +1,29 @@
 # =============================================================================
 # Table2_CSF_Proteomics.R
 #
-# Table 2: V-ATPase subunit dissociation and diagnostic group comparison
-#          in CSF proteomics (ADNI Emory TMT-MS)
+# Table 2: CSF V-ATPase subunits and diagnostic group comparison
+#          (ADNI Emory TMT-MS), distribution-robust.
 #
-# Part A: Subunit Axis Characterization
-#   - V1A (neuronal-Tau axis) vs V1E1 (microglial-iron axis)
-#   - Detection rates, DX group differences
-#   - Correlations: MAPT, GFAP, TREM2, TFRC
-#   - Partial r with LAMP2 and CTSB after Tau control
-#   - Inter-subunit correlation (V1A ↔ V1E1)
+# Part A: Subunit comparison (Spearman rho primary; raw Pearson in parentheses)
+#   - V1A (ATP6V1A) and V1E1 (ATP6V1E1): detection, DX group difference
+#   - Spearman rho with MAPT, TREM2, TFRC; vs immunoassay (Elecsys) Tau
+#   - Partial rho with LAMP2 / CTSB after Tau control (rank-based)
+#   - Inter-subunit Spearman rho (V1A <-> V1E1)
+#   - Interpretation: no robust subunit-specific axis
 #
-# Part B: Diagnostic group changes (ANCOVA, age/sex adjusted)
-#   - APP, LCN2, TFRC, MAPT, V1A
-#   - KW p, ANCOVA p, eta², robustness
+# Part B: Diagnostic group changes (ANCOVA, age/sex adjusted; Type I SS)
+#   - APP, LCN2, TFRC, MAPT, V1A: KW p, ANCOVA DX p, eta^2, robustness
+#
+# NOTE (revision): Part A previously characterised a V1A "neuronal-Tau axis" and
+# a V1E1 "microglial-iron axis" from untransformed Pearson correlations. Under
+# rank-based analysis those subunit-specific axes are not reproduced, so Part A
+# is now reported as an exploratory subunit comparison with Spearman as the
+# primary statistic and raw Pearson shown only for reference. See CHANGES.md.
 #
 # Input:  Emory TMT-MS CSF proteomics + DXSUM.rda + ADSL.rda
-#         (requires ADNI data access: https://adni.loni.usc.edu)
-# Output: output/tables/Table2_CSF_Proteomics.csv (Part A + Part B)
+#         (optional) Roche Elecsys immunoassay, SomaScan matrix
+# Output: output/tables/Table2_PartA_Subunits.csv
+#         output/tables/Table2_PartB_DiagnosticGroups.csv
 # =============================================================================
 source("R/figures/utils.R")
 dir.create("output/tables", recursive = TRUE, showWarnings = FALSE)
@@ -25,11 +31,14 @@ dir.create("output/tables", recursive = TRUE, showWarnings = FALSE)
 # ── Set your local paths here ─────────────────────────────────────────────────
 EMORY_PATH     <- "D:/work/emory_results/"
 ADNIMERGE_PATH <- "D:/work/ADNIMERGE2/ADNIMERGE2/data/"
+ADNI_AUX_PATH  <- "D:/work/adni_aux/"   # Elecsys + SomaScan (optional)
 # ─────────────────────────────────────────────────────────────────────────────
 
-em <- load_adni_proteomics(EMORY_PATH, ADNIMERGE_PATH)
+em   <- load_adni_proteomics(EMORY_PATH, ADNIMERGE_PATH)
+elec <- tryCatch(load_elecsys_tau(ADNI_AUX_PATH), error = function(e) NULL)
+if (!is.null(elec)) em <- merge(em, elec, by = "RID", all.x = TRUE)
+has_elec <- !is.null(elec) && "ElecsysTau" %in% names(em)
 
-# ── Protein column mapping ────────────────────────────────────────────────────
 P <- list(
   V1A  = "ATP6V1A_P38606",  V1E1 = "ATP6V1E1_P36543",
   MAPT = "MAPT_P10636",     GFAP = "GFAP_P14136",
@@ -39,136 +48,90 @@ P <- list(
 )
 P <- P[sapply(P, function(x) x %in% names(em))]
 
-# ── PART A: Subunit axis characterization ────────────────────────────────────
-cat("\n=== Table 2 Part A: Subunit Axis Characterization ===\n")
+fmt <- function(rho, raw = NULL) {
+  if (is.null(raw)) sprintf("%+.2f", rho) else sprintf("%+.2f (%+.2f)", rho, raw)
+}
 
-subunits <- c("V1A", "V1E1")
-targets  <- c("MAPT","GFAP","TREM2","TFRC")
-
+# ── PART A: Subunit comparison (Spearman primary) ─────────────────────────────
+cat("\n=== Table 2 Part A: Subunit comparison (Spearman rho primary; raw Pearson in parens) ===\n")
+subs    <- c("V1A","V1E1")
+targets <- c("MAPT","TREM2","TFRC")
 partA <- data.frame()
 
-for (su in subunits) {
+for (su in subs) {
   if (!su %in% names(P)) next
   n_detect <- sum(!is.na(em[[P[[su]]]]))
-  pct_detect <- round(n_detect / nrow(em) * 100)
+  kw <- kruskal.test(em[[P[[su]]]] ~ em$DX)$p.value
 
-  # KW test vs DX
-  kw <- kruskal.test(em[[P[[su]]]] ~ em$DX)
-
-  # Zero-order correlations
-  cor_rows <- do.call(rbind, lapply(targets[targets %in% names(P)], function(tg) {
-    ct <- cor.test(em[[P[[su]]]], em[[P[[tg]]]], use = "complete.obs")
-    data.frame(
-      Subunit    = su,
-      Feature    = paste0(tg, " correlation"),
-      Value      = sprintf("r = %+.3f%s",
-                           ct$estimate,
-                           ifelse(ct$p.value < 0.001, "***",
-                                  ifelse(ct$p.value < 0.01, "**",
-                                         ifelse(ct$p.value < 0.05, "*", " (n.s.)"))))
-    )
-  }))
-
-  # Partial r with LAMP2, CTSB | MAPT
-  lyso_rows <- do.call(rbind, lapply(c("LAMP2","CTSB")[c("LAMP2","CTSB") %in% names(P)],
-    function(tg) {
-      pr <- partial_cor(em[[P[[su]]]], em[[P[[tg]]]], em[[P$MAPT]])
-      data.frame(
-        Subunit = su,
-        Feature = paste0(tg, " partial r (|MAPT)"),
-        Value   = sprintf("%+.3f%s", pr$r,
-                          ifelse(is.na(pr$p), "",
-                                 ifelse(pr$p < 0.001, "***",
-                                        ifelse(pr$p < 0.01, "**",
-                                               ifelse(pr$p < 0.05, "*", " (n.s.)")))))
-      )
-  }))
-
-  header <- data.frame(
+  rows <- data.frame(
     Subunit = su,
     Feature = c("Detection rate", "Diagnostic group (DX) difference"),
-    Value   = c(sprintf("%d/%d (%d%%)", n_detect, nrow(em), pct_detect),
-                sprintf("KW p = %.3f", kw$p.value))
-  )
+    Value   = c(sprintf("%d/%d (%d%%)", n_detect, nrow(em), round(100*n_detect/nrow(em))),
+                sprintf("KW p = %.3f", kw)))
 
-  partA <- rbind(partA, header, cor_rows, lyso_rows)
+  # Spearman rho (raw Pearson in parens) for MAPT / TREM2 / TFRC
+  for (tg in targets[targets %in% names(P)]) {
+    rho <- spearman_r(em[[P[[su]]]], em[[P[[tg]]]])$rho
+    raw <- pearson_r (em[[P[[su]]]], em[[P[[tg]]]])$r
+    rows <- rbind(rows, data.frame(Subunit = su,
+      Feature = sprintf("%s — Spearman \u03c1 (raw)", tg), Value = fmt(rho, raw)))
+  }
+  # vs immunoassay (Elecsys) Tau
+  if (has_elec) {
+    rho_e <- spearman_r(em[[P[[su]]]], em$ElecsysTau)$rho
+    rows <- rbind(rows, data.frame(Subunit = su,
+      Feature = "vs immunoassay (Elecsys) Tau", Value = sprintf("\u03c1 = %+.2f", rho_e)))
+  }
+  # partial rho | MAPT for LAMP2, CTSB
+  for (tg in c("LAMP2","CTSB")) {
+    if (!tg %in% names(P)) next
+    pr <- spearman_partial(em[[P[[su]]]], em[[P[[tg]]]], em[, P$MAPT, drop = FALSE])$r
+    rows <- rbind(rows, data.frame(Subunit = su,
+      Feature = sprintf("%s partial \u03c1 (| MAPT)", tg), Value = sprintf("%+.2f", pr)))
+  }
+  partA <- rbind(partA, rows)
 }
 
-# Inter-subunit correlation
+# Inter-subunit Spearman (raw Pearson in parens)
 if (all(c("V1A","V1E1") %in% names(P))) {
-  n_both <- sum(!is.na(em[[P$V1A]]) & !is.na(em[[P$V1E1]]))
-  ct_su  <- cor.test(em[[P$V1A]], em[[P$V1E1]], use = "complete.obs")
-  partA  <- rbind(partA, data.frame(
-    Subunit = "V1A ↔ V1E1",
-    Feature = "Inter-subunit correlation",
-    Value   = sprintf("r = %+.3f (%s, n=%d)",
-                      ct_su$estimate,
-                      ifelse(ct_su$p.value < 0.05, "p < 0.05", "n.s."),
-                      n_both)
-  ))
+  rho_s <- spearman_r(em[[P$V1A]], em[[P$V1E1]])$rho
+  raw_s <- pearson_r (em[[P$V1A]], em[[P$V1E1]])$r
+  partA <- rbind(partA, data.frame(
+    Subunit = "V1A <-> V1E1", Feature = "Inter-subunit Spearman \u03c1 (raw)",
+    Value = fmt(rho_s, raw_s)))
 }
+partA <- rbind(partA, data.frame(
+  Subunit = "Interpretation", Feature = "Subunit-specific axis",
+  Value = "No robust subunit-specific axis (Pearson differences not preserved under rank analysis)"))
 
 print(partA, row.names = FALSE)
 
-# ── PART B: Diagnostic group comparison (ANCOVA) ─────────────────────────────
-cat("\n=== Table 2 Part B: Diagnostic Group Changes (ANCOVA) ===\n")
-
+# ── PART B: Diagnostic group changes (ANCOVA, Type I SS; DX entered first) ─────
+cat("\n=== Table 2 Part B: Diagnostic Group Changes (ANCOVA, age/sex adjusted) ===\n")
+sex_col <- if ("SEX" %in% names(em)) "SEX" else "PTGENDER"
 proteins_B <- c("APP","LCN2","TFRC","MAPT","V1A")
 partB <- do.call(rbind, lapply(proteins_B[proteins_B %in% names(P)], function(prot) {
-
   vals <- em[[P[[prot]]]]
-  ok   <- !is.na(vals) & !is.na(em$DX)
+  ok   <- !is.na(vals) & !is.na(em$DX) & !is.na(em$AGE) & !is.na(em[[sex_col]])
   sub  <- em[ok, ]
-
-  # Kruskal-Wallis
-  kw <- kruskal.test(vals[ok] ~ em$DX[ok])
-
-  # ANCOVA with age + sex
-  has_age <- "AGE" %in% names(sub)
-  has_sex <- "SEX" %in% names(sub) || "PTGENDER" %in% names(sub)
-  sex_col <- if ("SEX" %in% names(sub)) "SEX" else "PTGENDER"
-
-  if (has_age && has_sex) {
-    formula_str <- paste0(P[[prot]], " ~ DX + AGE + ", sex_col)
-    fit  <- tryCatch(lm(as.formula(formula_str), data = sub), error = function(e) NULL)
-    if (!is.null(fit)) {
-      aov_res <- anova(fit)
-      dx_p    <- aov_res["DX", "Pr(>F)"]
-      # Partial eta-squared
-      ss_dx   <- aov_res["DX", "Sum Sq"]
-      ss_total <- sum(aov_res[,"Sum Sq"])
-      eta2    <- ss_dx / ss_total
-    } else {
-      dx_p <- NA; eta2 <- NA
-    }
-  } else {
-    fit     <- lm(as.formula(paste0(P[[prot]], " ~ DX")), data = sub)
-    aov_res <- anova(fit)
-    dx_p    <- aov_res["DX","Pr(>F)"]
-    eta2    <- aov_res["DX","Sum Sq"] / sum(aov_res[,"Sum Sq"])
-  }
-
-  robust <- if (is.na(dx_p)) "NA"
-  else if (dx_p < 0.05 && kw$p.value < 0.05) "YES"
-  else if (dx_p < 0.05 && kw$p.value >= 0.05) "Gained (ANCOVA)"
-  else if (dx_p >= 0.05 && kw$p.value < 0.05) "Lost (ANCOVA)"
-  else "n.s."
-
-  data.frame(
-    Protein    = prot,
-    KW_p       = formatC(kw$p.value, format="f", digits=3),
-    ANCOVA_DX_p= if(!is.na(dx_p)) formatC(dx_p, format="f", digits=3) else "NA",
-    eta_sq     = if(!is.na(eta2)) round(eta2, 3) else NA,
-    Robust     = robust,
-    stringsAsFactors = FALSE
-  )
+  kw   <- kruskal.test(vals[ok] ~ em$DX[ok])$p.value
+  fit  <- lm(as.formula(sprintf("`%s` ~ DX + AGE + %s", P[[prot]], sex_col)), data = sub)
+  aov_res <- anova(fit)                              # Type I (sequential), DX first
+  dx_p  <- aov_res["DX", "Pr(>F)"]
+  eta2  <- aov_res["DX", "Sum Sq"] / sum(aov_res[, "Sum Sq"])
+  robust <- if (dx_p < 0.05 && kw < 0.05) "YES"
+            else if (dx_p < 0.05 && kw >= 0.05) "Gained"
+            else if (dx_p >= 0.05 && kw < 0.05) "Lost"
+            else "n.s."
+  data.frame(Protein = prot,
+             KW_p        = formatC(kw,   format = "f", digits = 3),
+             ANCOVA_DX_p = formatC(dx_p, format = "f", digits = 3),
+             eta_sq      = round(eta2, 3),
+             Robust      = robust, stringsAsFactors = FALSE)
 }))
-
 print(partB, row.names = FALSE)
 
-# ── Save ──────────────────────────────────────────────────────────────────────
-write.csv(partA, "output/tables/Table2_PartA_SubunitAxis.csv",       row.names=FALSE)
-write.csv(partB, "output/tables/Table2_PartB_DiagnosticGroups.csv",  row.names=FALSE)
-cat("\nSaved:\n")
-cat("  output/tables/Table2_PartA_SubunitAxis.csv\n")
-cat("  output/tables/Table2_PartB_DiagnosticGroups.csv\n")
+write.csv(partA, "output/tables/Table2_PartA_Subunits.csv",          row.names = FALSE)
+write.csv(partB, "output/tables/Table2_PartB_DiagnosticGroups.csv",  row.names = FALSE)
+cat("\nSaved:\n  output/tables/Table2_PartA_Subunits.csv\n",
+    "  output/tables/Table2_PartB_DiagnosticGroups.csv\n", sep = "")

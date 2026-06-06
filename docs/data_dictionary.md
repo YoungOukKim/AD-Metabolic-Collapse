@@ -94,17 +94,52 @@ ANLS trajectory by astrocyte supertype (Astro_1 – Astro_6).
 
 ---
 
-## ADNI Emory TMT-MS CSF Proteomics (not included)
+## ADNI CSF datasets (not included; require ADNI access)
 
-Access via: https://adni.loni.usc.edu  
-File: `merged_proteomics_dx.rds` — merged proteomics + clinical diagnosis
+Access via: https://adni.loni.usc.edu
 
-Protein columns follow the `GeneName_UniProtID` convention:
+### Emory TMT-MS CSF proteomics — primary CSF proteomics
+
+File: merged proteomics matrix (e.g. `merged_proteomics_dx.rds` after the
+`utils.R` DXSUM/ADSL merge). n = 1,105 subjects (CN = 379, MCI = 562, DEM = 164),
+3,907 proteins. Below-detection values are encoded as −4 and converted to NA on
+load. Protein columns follow the `GeneName_UniProtID` convention:
+
 - `ATP6V1A_P38606` — V-ATPase V1A subunit
-- `ATP6V1E1_P36543` — V-ATPase V1E1 subunit  
+- `ATP6V1E1_P36543` — V-ATPase V1E1 subunit
 - `MAPT_P10636` — Tau protein
 - `GFAP_P14136` — Glial fibrillary acidic protein
 - `TREM2_Q9NZC2` — Triggering receptor on myeloid cells 2
 - `TFRC_P02786` — Transferrin receptor
 - `NEFL_P07196` — Neurofilament light chain (NfL)
 - `HK1_P19367`, `LDHA_P00338`, `PKM_P14618` — Glycolytic enzymes
+- `APP_P05067`, `LCN2_P80188`, `LAMP2_P13473`, `CTSB_P07858` — additional markers
+
+### Roche Elecsys immunoassay — orthogonal total-Tau validation
+
+File: `UPENNBIOMK_ROCHE_ELECSYS_*.csv`. Loaded by `load_elecsys_tau()`, which
+returns one baseline total-Tau value per subject:
+
+| Column | Description |
+|--------|-------------|
+| `RID` | ADNI subject ID (merge key) |
+| `ElecsysTau` | Roche Elecsys total tau (immunoassay), baseline visit |
+
+Used to anchor CSF protein–Tau associations against a non-mass-spectrometry
+detection chemistry (Fig 5 d/g, Fig 6 b, Table 2 Part A).
+
+### SomaScan 7k — independent aptamer platform
+
+File: SOMAscan7k post-QC protein matrix (ADNI Cruchaga-lab). Loaded by
+`load_somascan()`, which returns the seqID columns:
+
+| Returned column | Default seqID | Protein |
+|-----------------|---------------|---------|
+| `HK1_s`  | `X13131.5` | HK1 (hexokinase-1) |
+| `MAPT_s` | `X5854.60` | MAPT (Tau) |
+| `TFRC_s` | `X6895.1`  | TFRC (transferrin receptor) |
+
+SeqIDs are dataset-version specific — edit the `seq` argument of
+`load_somascan()` if your matrix uses different identifiers. **V-ATPase V1A is
+not present on the SomaScan panel**, so V1A cannot be cross-validated on this
+platform.

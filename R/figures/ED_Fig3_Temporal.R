@@ -3,7 +3,7 @@
 #
 # Extended Data Figure 3 (a-c): Temporal ordering of the metabolic cascade
 #
-#   a — Event timeline: sequential ordering of MCT4, LMR, LCN2, PTGDS events
+#   a — Event timeline: sequential ordering of MCT4, LMR, iron, PTGDS events
 #   b — Normalized trajectory: MCT4 / ANLS / V-ATPase with slope annotation
 #   c — Astrocyte metabolic overload: EAAT2, ATP1A2, PTGDS, MCT4, MCT2 (neuron)
 #
@@ -19,17 +19,20 @@ astro  <- add_composites_astro(astro)
 astro  <- astro[astro$bin >= 0.2,]
 neuron <- neuron[neuron$bin >= 0.2,]
 
+# Note: astrocytic LCN2 mRNA is near-undetected in this snRNA-seq (~0.0001 mean
+# log-norm); the Bin-0.5 event is the iron-gene co-decline (FTH1/FTL 10% onset = Bin 0.5),
+# not LCN2 induction. CSF protein LCN2 (Table 2 ANCOVA) is a separate, valid result.
 # ── Panel a: Event timeline ───────────────────────────────────────────────────
 events <- data.frame(
   event    = c("MCT4 decline onset (10%)","LMR decline onset",
-               "LCN2 first detected","PTGDS / EAAT2 / ATP1A2 peak",
+               "Iron co-decline","PTGDS / EAAT2 / ATP1A2 peak",
                "PTGDS collapse","HMOX1 surge (+67%)"),
   bin      = c(0.3, 0.4, 0.5, 0.6, 0.7, 0.7),
-  category = c("Energy","Lysosomal","Inflammation","Checkpoint","Checkpoint","Stress"),
+  category = c("Energy","Lysosomal","Iron","Checkpoint","Checkpoint","Stress"),
   ypos     = c(6, 5, 4, 3, 2, 1)
 )
-cat_colors <- c(Energy="922B21",Lysosomal="#2980b9",
-                Inflammation="#e74c3c",Checkpoint="#8e44ad",Stress="#e67e22")
+cat_colors <- c(Energy="#922B21",Lysosomal="#2980b9",
+                Iron="#16a085",Checkpoint="#8e44ad",Stress="#e67e22")
 
 ed3a <- ggplot(events, aes(x = bin, y = ypos)) +
   annotate("rect", xmin=0.45, xmax=0.65, ymin=0, ymax=7,

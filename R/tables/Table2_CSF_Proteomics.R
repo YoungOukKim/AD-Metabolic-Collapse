@@ -1,3 +1,4 @@
+suppressMessages(library(car))
 # =============================================================================
 # Table2_CSF_Proteomics.R
 #
@@ -11,7 +12,7 @@
 #   - Inter-subunit Spearman rho (V1A <-> V1E1)
 #   - Interpretation: no robust subunit-specific axis
 #
-# Part B: Diagnostic group changes (ANCOVA, age/sex adjusted; Type I SS)
+# Part B: Diagnostic group changes (ANCOVA, age/sex adjusted; Type II SS)
 #   - APP, LCN2, TFRC, MAPT, V1A: KW p, ANCOVA DX p, eta^2, robustness
 #
 # NOTE (revision): Part A previously characterised a V1A "neuronal-Tau axis" and
@@ -106,7 +107,7 @@ partA <- rbind(partA, data.frame(
 
 print(partA, row.names = FALSE)
 
-# ── PART B: Diagnostic group changes (ANCOVA, Type I SS; DX entered first) ─────
+# ── PART B: Diagnostic group changes (ANCOVA, Type II SS; DX adjusted for AGE, SEX) ─
 cat("\n=== Table 2 Part B: Diagnostic Group Changes (ANCOVA, age/sex adjusted) ===\n")
 sex_col <- if ("SEX" %in% names(em)) "SEX" else "PTGENDER"
 proteins_B <- c("APP","LCN2","TFRC","MAPT","V1A")
@@ -116,7 +117,10 @@ partB <- do.call(rbind, lapply(proteins_B[proteins_B %in% names(P)], function(pr
   sub  <- em[ok, ]
   kw   <- kruskal.test(vals[ok] ~ em$DX[ok])$p.value
   fit  <- lm(as.formula(sprintf("`%s` ~ DX + AGE + %s", P[[prot]], sex_col)), data = sub)
-  aov_res <- anova(fit)                              # Type I (sequential), DX first
+  # Type II SS: DX effect adjusted for AGE and SEX (the genuine covariate-adjusted test).
+  # Type I (sequential, DX entered first) does NOT adjust DX for covariates and inflated
+  # borderline results (e.g. TFRC 0.036, LCN2 0.020); Type II is the method stated in Methods.
+  aov_res <- car::Anova(fit, type = 2)               # Type II SS
   dx_p  <- aov_res["DX", "Pr(>F)"]
   eta2  <- aov_res["DX", "Sum Sq"] / sum(aov_res[, "Sum Sq"])
   robust <- if (dx_p < 0.05 && kw < 0.05) "YES"

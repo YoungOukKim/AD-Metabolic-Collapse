@@ -1,21 +1,15 @@
 # =============================================================================
-# Fig6_Iron_Pathway.R   (replaces the former Fig6_Iron_Suppression.R)
+# Fig6_Iron_Pathway.R
 #
 # Figure 6 (a-b): Iron pathway at the protein level
 #
-#   a — CSF TFRC by diagnostic group: group-level decline after age/sex
-#       adjustment (ANCOVA p = 0.036; -4.7% DEM vs CN)
+#   a — CSF TFRC by diagnostic group: group-level decline (KW p = 0.021)
+#       attenuating to a non-significant trend after age/sex adjustment
+#       (ANCOVA p = 0.068; -4.7% DEM vs CN)
 #   b — TFRC-Tau concordance is NOT consistent across platforms or against
 #       immunoassay Tau: Elecsys-Tau vs TMT-TFRC rho = +0.08;
 #       vs SomaScan-TFRC rho = -0.44  --> individual-level TFRC-Tau coupling
 #       is not claimed.
-#
-# NOTE (revision): the previous version reported a TFRC<->MAPT "suppression
-# effect" in which the correlation strengthened after controlling for V1A
-# (+0.378 -> +0.602). That analysis used untransformed Pearson correlations
-# and an individual-level V1A-Tau structure that did not survive
-# distribution-robust analysis; it is no longer claimed. The iron-Tau claim is
-# limited to the transcriptomic and group-level proteomic evidence. See CHANGES.md.
 #
 # Input (requires ADNI data access — not included in repository):
 #   Emory TMT-MS CSF proteomics + DXSUM.rda + ADSL.rda
@@ -41,11 +35,13 @@ P <- P[sapply(P, function(x) x %in% names(em))]
 if (!"TFRC" %in% names(P)) stop("TFRC column not found in Emory dataset.")
 
 # ── Panel a: TFRC by DX (group-level decline) ─────────────────────────────────
-# ANCOVA on raw TFRC with age + sex, Type I (sequential) SS with DX entered first
+# ANCOVA on raw TFRC, DX effect adjusted for age + sex (Type II SS via car::Anova,
+# matching Table2). Type I with DX entered first would leave DX unadjusted and
+# disagree with the manuscript value (p = 0.068).
 sex_col <- if ("SEX" %in% names(em)) "SEX" else "PTGENDER"
 sub <- em[!is.na(em[[P$TFRC]]) & !is.na(em$AGE) & !is.na(em[[sex_col]]), ]
 fit_tfrc <- lm(as.formula(sprintf("`%s` ~ DX + AGE + %s", P$TFRC, sex_col)), data = sub)
-ancova_p <- anova(fit_tfrc)["DX", "Pr(>F)"]               # Type I, DX first
+ancova_p <- car::Anova(fit_tfrc, type = 2)["DX", "Pr(>F)"]   # Type II SS, age/sex-adjusted
 pct_chg  <- 100 * (median(em[[P$TFRC]][em$DX=="DEM"], na.rm=TRUE) /
                    median(em[[P$TFRC]][em$DX=="CN"],  na.rm=TRUE) - 1)
 tfrc_q <- quantile(em[[P$TFRC]], 0.995, na.rm = TRUE)

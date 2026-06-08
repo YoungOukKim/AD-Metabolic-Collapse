@@ -8,16 +8,6 @@
 
 This repository contains all R code and sample data used to reproduce the figures and tables in the manuscript. The analysis integrates single-nucleus transcriptomics (SEA-AD atlas) with CSF proteomics (ADNI Emory TMT-MS) to define an **'energy-starved lysosome' (ESL)** state in Alzheimer's disease, and positions it as a **complementary metabolic route** alongside the established structural (ApoE4-cholesterol) route to lysosomal acidification failure and PANTHOS (Lee et al., *Nat Neurosci* 2022).
 
-> **Revision note (distribution-robust CSF reanalysis).** The CSF protein-level
-> analyses (Figure 5, Figure 6, Table 2) use distribution-robust statistics. CSF
-> TMT-MS abundances are strongly right-skewed, so all protein–protein
-> associations are computed primarily by **Spearman rank correlation**, partial
-> correlations by residualising the **rank-transformed** variables, and key Tau
-> associations are validated against an **immunoassay (Roche Elecsys)** and an
-> **independent aptamer platform (SomaScan)**. The mechanistic thesis is
-> unchanged and rests on the transcriptomic evidence (MCT4 −43%, V-ATPase
-> preserved, donor-level MCT4→neuronal V-ATPase partial r = +0.466) together with
-> group-level CSF V-ATPase protein preservation. See **[CHANGES.md](CHANGES.md)**.
 
 ---
 
@@ -26,7 +16,6 @@ This repository contains all R code and sample data used to reproduce the figure
 ```
 AD-Metabolic-Collapse/
 ├── README.md
-├── CHANGES.md
 ├── data/sample/                      # Bin-level summary CSVs (included)
 ├── R/
 │   ├── data_extraction/              # SEA-AD extraction + sample-CSV generation
@@ -45,7 +34,6 @@ AD-Metabolic-Collapse/
 ```
 
 `*` requires ADNI data access (see Data section).
-**The former `Fig6_Iron_Suppression.R` is removed and replaced by `Fig6_Iron_Pathway.R`.**
 
 ### Supplemental figures (manuscript numbering)
 
@@ -55,7 +43,7 @@ component panels, which are assembled into the figures below:
 | Supplemental Figure (manuscript) | Content | Source |
 |----------------------------------|---------|--------|
 | **Supplemental Figure 1** — Astrocyte transcriptomic dissociation context | comprehensive gene changes (A), TFRC–ANLS coupling (B), iron trajectories (C), Ragulator (D), pH/EAAT2/ATP1A2 (E) | `ED_Fig1_Comprehensive.R`, `ED_Fig2_Iron_Ragulator.R` |
-| **Supplemental Figure 2** — Temporal ordering and donor-level CPS-independent coupling | event timeline (A), LMR/LCN2 (B), metabolic transition zone (C) | `ED_Fig3_Temporal.R`, `ED_Fig4_Donor_Partial.R` |
+| **Supplemental Figure 2** — Temporal ordering of the metabolic cascade | event timeline (A), LMR composite trajectory (B), metabolic overload / transition zone (C) | `ED_Fig3_Temporal.R` (canonical; reproduces the published figure, A on top, B\|C on bottom) |
 | **Supplemental Figure 3** — Parallel routes to lysosomal acidification failure | conceptual schematic: energetic (ESL, this study) **vs** structural (ApoE4-cholesterol, Lee et al.) routes converging on PANTHOS | **Schematic (BioRender); not R-generated** |
 
 > Supplemental Figure 3 is a conceptual diagram and has no analysis script. The
@@ -136,7 +124,7 @@ ADNI_AUX_PATH  <- "path/to/adni_aux/"           # Elecsys + SomaScan files
   V1A–Tau ladder +0.86→+0.23→+0.25→+0.05→−0.06→+0.03;
   HK1–Tau ladder +0.52→+0.42→+0.42; vs Elecsys Tau HK1 TMT +0.18 / SomaScan +0.31,
   V1A +0.03, SomaScan MAPT −0.17, SomaScan TFRC −0.44;
-  TFRC ANCOVA p = 0.036 (−4.7% DEM vs CN); LCN2 ANCOVA p = 0.020.
+  TFRC ANCOVA p = 0.068 (−4.7% DEM vs CN; non-significant trend); LCN2 KW p = 0.18, ANCOVA p = 0.11 (n.s.).
 
 ## License
 Code: MIT License — Data: subject to SEA-AD and ADNI data use agreements (not redistributable)

@@ -21,11 +21,6 @@
 #   h — V-ATPase subunit comparison (V1A vs V1E1) under rank-based analysis:
 #       no robust subunit-specific axis
 #
-# NOTE (revision): panels c-h use distribution-robust statistics. The previous
-# version reported an untransformed Pearson V1A-Tau correlation and an
-# MCI-stage "peak" that did not survive rank-based analysis or validation
-# against immunoassay Tau, and are no longer claimed. See CHANGES.md.
-#
 # Input (requires ADNI data access — not included in repository):
 #   Emory TMT-MS CSF proteomics + DXSUM.rda + ADSL.rda
 #   Roche Elecsys immunoassay (UPENNBIOMK_ROCHE_ELECSYS_*.csv)

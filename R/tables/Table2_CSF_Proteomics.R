@@ -15,12 +15,6 @@ suppressMessages(library(car))
 # Part B: Diagnostic group changes (ANCOVA, age/sex adjusted; Type II SS)
 #   - APP, LCN2, TFRC, MAPT, V1A: KW p, ANCOVA DX p, eta^2, robustness
 #
-# NOTE (revision): Part A previously characterised a V1A "neuronal-Tau axis" and
-# a V1E1 "microglial-iron axis" from untransformed Pearson correlations. Under
-# rank-based analysis those subunit-specific axes are not reproduced, so Part A
-# is now reported as an exploratory subunit comparison with Spearman as the
-# primary statistic and raw Pearson shown only for reference. See CHANGES.md.
-#
 # Input:  Emory TMT-MS CSF proteomics + DXSUM.rda + ADSL.rda
 #         (optional) Roche Elecsys immunoassay, SomaScan matrix
 # Output: output/tables/Table2_PartA_Subunits.csv
@@ -117,9 +111,8 @@ partB <- do.call(rbind, lapply(proteins_B[proteins_B %in% names(P)], function(pr
   sub  <- em[ok, ]
   kw   <- kruskal.test(vals[ok] ~ em$DX[ok])$p.value
   fit  <- lm(as.formula(sprintf("`%s` ~ DX + AGE + %s", P[[prot]], sex_col)), data = sub)
-  # Type II SS: DX effect adjusted for AGE and SEX (the genuine covariate-adjusted test).
-  # Type I (sequential, DX entered first) does NOT adjust DX for covariates and inflated
-  # borderline results (e.g. TFRC 0.036, LCN2 0.020); Type II is the method stated in Methods.
+  # ANCOVA Type II SS: DX effect adjusted for AGE and SEX (covariate-adjusted test;
+  # method stated in Methods).
   aov_res <- car::Anova(fit, type = 2)               # Type II SS
   dx_p  <- aov_res["DX", "Pr(>F)"]
   eta2  <- aov_res["DX", "Sum Sq"] / sum(aov_res[, "Sum Sq"])

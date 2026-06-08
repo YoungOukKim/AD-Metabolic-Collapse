@@ -13,14 +13,11 @@
 # For Fig5, Fig6 and Table2 (ADNI proteomics), set paths in those scripts.
 #
 # -----------------------------------------------------------------------------
-# REVISION NOTE (distribution-robust reanalysis)
-#   CSF TMT-MS protein abundances are strongly right-skewed; Pearson correlations
-#   on untransformed abundance are dominated by a few high-abundance samples.
-#   All CSF protein-protein associations are therefore computed PRIMARILY by
-#   Spearman rank correlation, partial correlations by residualizing the
-#   RANK-transformed variables on the control set (see spearman_partial), and
-#   key Tau associations are validated against an immunoassay (Roche Elecsys)
-#   and an independent aptamer platform (SomaScan). See CHANGES.md.
+# CSF statistics: CSF TMT-MS protein abundances are right-skewed, so all CSF
+#   protein-protein associations are computed by Spearman rank correlation,
+#   partial correlations by residualizing rank-transformed variables, and key
+#   Tau associations validated against immunoassay (Roche Elecsys) and an
+#   independent aptamer platform (SomaScan).
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -57,6 +54,39 @@ ANLS_GENES    <- c("SLC2A1", "LDHA", "SLC16A1")
 VATPASE_GENES <- c("ATP6V1A","ATP6V1B2","ATP6V0D1","ATP6V0A1",
                    "ATP6V1C1","ATP6V1E1","ATP6V1H","ATP6V0C","ATP6V0E1","ATP6V0B")
 VATPASE_N     <- c("ATP6V1A","ATP6V1B2","ATP6V0A1","ATP6V0C","ATP6V0D1","ATP6V1E1")
+
+# LMR (Lysosomal Metabolic Reserve) — canonical 34-gene module, five functional
+# sets, identical to the five gene categories tabulated in
+# Supporting_Data_Values.xlsx (Astrocyte sheet): acidification (V-ATPase, 10);
+# trafficking + substrate degradation (Lysosomal, 8); autophagy/biogenesis (6);
+# energy-sensing mTOR-Ragulator (9); pH regulation (1).
+LMR_GENES <- c(
+  # acidification (V-ATPase, 10)
+  "ATP6V1A","ATP6V1B2","ATP6V1C1","ATP6V1E1","ATP6V1H",
+  "ATP6V0A1","ATP6V0B","ATP6V0C","ATP6V0D1","ATP6V0E1",
+  # trafficking + substrate degradation (Lysosomal, 8)
+  "LAMP1","LAMP2","CTSB","CTSD","CTSL","LIPA","GBA","HEXA",
+  # autophagy / biogenesis (6)
+  "BECN1","ATG5","ATG7","MAP1LC3B","SQSTM1","ULK1",
+  # energy-sensing (mTOR-Ragulator, 9)
+  "MTOR","RPTOR","TSC1","TSC2","LAMTOR1","LAMTOR2","LAMTOR3","LAMTOR4","LAMTOR5",
+  # pH regulation (1)
+  "SLC9A6"
+)
+stopifnot(length(LMR_GENES) == 34)
+
+# LMR composite = equal-weight mean of the 34 module genes per bin (rowMeans),
+# normalized to Bin 0.2 by the caller via norm_base(). Reproduces the published
+# Supplemental Figure 2B trajectory (trough at Bin 0.5).
+add_lmr <- function(df) {
+  present <- intersect(LMR_GENES, names(df))
+  missing <- setdiff(LMR_GENES, names(df))
+  if (length(missing) > 0)
+    message("add_lmr: ", length(missing), " LMR gene(s) absent from data: ",
+            paste(missing, collapse = ", "))
+  df$LMR <- rowMeans(df[, present, drop = FALSE], na.rm = TRUE)
+  df
+}
 
 add_composites_astro <- function(df) {
   df$ANLS      <- rowMeans(df[, intersect(ANLS_GENES,    names(df)), drop=FALSE], na.rm=TRUE)

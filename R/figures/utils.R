@@ -7,7 +7,7 @@
 # IMPORTANT — path configuration:
 #   All scripts use relative paths from the repository root.
 #   Run scripts with working directory set to the repo root, e.g.:
-#     setwd("D:/path/to/AD-Metabolic-Collapse")
+#     setwd("path/to/AD-Metabolic-Collapse")
 #     source("R/figures/Fig1_Dissociation.R")
 #
 # For Fig5, Fig6 and Table2 (ADNI proteomics), set paths in those scripts.
@@ -106,8 +106,8 @@ add_composites_neuron <- function(df) {
 # ── ADNI Emory TMT-MS loader (Fig5, Fig6, Table2) ─────────────────────────────
 #
 #   em <- load_adni_proteomics(
-#     emory_path     = "D:/work/emory_results/",
-#     adnimerge_path = "D:/work/ADNIMERGE2/ADNIMERGE2/data/")
+#     emory_path     = "path/to/emory_results/",
+#     adnimerge_path = "path/to/ADNIMERGE2/data/")
 #
 # Returns the Emory TMT-MS matrix merged with diagnosis (DXSUM) and demographics
 # (ADSL). n = 1,105 subjects (CN = 379, MCI = 562, DEM = 164).

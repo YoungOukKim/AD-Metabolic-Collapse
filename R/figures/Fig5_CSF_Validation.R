@@ -32,9 +32,9 @@
 source("R/figures/utils.R")
 
 # ── Set your local paths here ─────────────────────────────────────────────────
-EMORY_PATH     <- "D:/work/emory_results/"
-ADNIMERGE_PATH <- "D:/work/ADNIMERGE2/ADNIMERGE2/data/"
-ADNI_AUX_PATH  <- "D:/work/adni_aux/"   # folder with Elecsys + SomaScan files
+EMORY_PATH     <- "path/to/emory_results/"
+ADNIMERGE_PATH <- "path/to/ADNIMERGE2/data/"
+ADNI_AUX_PATH  <- "path/to/adni_aux/"   # folder with Elecsys + SomaScan files
 # ─────────────────────────────────────────────────────────────────────────────
 
 em    <- load_adni_proteomics(EMORY_PATH, ADNIMERGE_PATH)

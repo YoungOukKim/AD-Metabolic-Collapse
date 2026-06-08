@@ -1,6 +1,6 @@
 # AD-Metabolic-Collapse
 
-**Astrocytic lactate shuttle disruption is linked to cross-cellular lysosomal energetic decoupling in Alzheimer's disease**
+**Astrocytic lactate shuttle disruption and the energy-starved lysosome in Alzheimer's disease**
 
 ---
 

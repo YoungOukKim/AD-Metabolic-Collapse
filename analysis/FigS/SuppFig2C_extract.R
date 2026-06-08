@@ -37,9 +37,9 @@ suppressPackageStartupMessages({ library(rhdf5); library(data.table) })
 set.seed(42)
 
 MTG_H5 <- Sys.getenv("H5AD_PATH",
-                     unset = "D:/work/SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad")
+                     unset = "path/to/SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad")
 OUTDIR <- Sys.getenv("OUTDIR",
-                     unset = "D:/work/paper2_package/suppfig2c")
+                     unset = "output/suppfig2c")
 if (!dir.exists(OUTDIR)) dir.create(OUTDIR, recursive = TRUE)
 
 # If the published Astrocyte sheet values are mean LOG-normalized and the h5ad X

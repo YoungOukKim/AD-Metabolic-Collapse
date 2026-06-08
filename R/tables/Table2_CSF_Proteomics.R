@@ -24,9 +24,9 @@ source("R/figures/utils.R")
 dir.create("output/tables", recursive = TRUE, showWarnings = FALSE)
 
 # ── Set your local paths here ─────────────────────────────────────────────────
-EMORY_PATH     <- "D:/work/emory_results/"
-ADNIMERGE_PATH <- "D:/work/ADNIMERGE2/ADNIMERGE2/data/"
-ADNI_AUX_PATH  <- "D:/work/adni_aux/"   # Elecsys + SomaScan (optional)
+EMORY_PATH     <- "path/to/emory_results/"
+ADNIMERGE_PATH <- "path/to/ADNIMERGE2/data/"
+ADNI_AUX_PATH  <- "path/to/adni_aux/"   # Elecsys + SomaScan (optional)
 # ─────────────────────────────────────────────────────────────────────────────
 
 em   <- load_adni_proteomics(EMORY_PATH, ADNIMERGE_PATH)

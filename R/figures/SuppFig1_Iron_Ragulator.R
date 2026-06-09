@@ -1,7 +1,7 @@
 # =============================================================================
-# ED_Fig2_Iron_Ragulator.R
+# SuppFig1_Iron_Ragulator.R
 #
-# Extended Data Figure 2 (a-d): Iron, Ragulator, NHE6/PTGDS dynamics
+# Supplemental Figure 1 (panels B-E): Iron, Ragulator, NHE6/PTGDS dynamics
 #
 #   a — TFRC-ANLS coupling scatter (bin-level, r = +0.666)
 #   b — Iron gene trajectories (TFRC, FTH1, FTL, CP)
@@ -9,7 +9,7 @@
 #   d — NHE6 and PTGDS dynamics (compensatory pH regulation)
 #
 # Input:  data/sample/astro_bin_means.csv
-# Output: output/figures/ED_Fig2_Iron_Ragulator.png
+# Output: output/figures/SuppFig1_Iron_Ragulator.png
 # =============================================================================
 source("R/figures/utils.R")
 
@@ -77,4 +77,4 @@ ed2d <- ggplot(astro, aes(x = bin)) +
   theme_paper + theme(legend.position = "right")
 
 ed_fig2 <- (ed2a + ed2b) / (ed2c + ed2d)
-save_fig(ed_fig2, "ED_Fig2_Iron_Ragulator.png", width = 14, height = 10)
+save_fig(ed_fig2, "SuppFig1_Iron_Ragulator.png", width = 14, height = 10)

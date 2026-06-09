@@ -1,5 +1,5 @@
 # =============================================================================
-# ED_Fig3_Temporal.R  ->  Supplemental Figure 2
+# SuppFig2_Temporal.R  ->  Supplemental Figure 2
 #
 # Temporal ordering of the metabolic cascade (matches the published figure):
 #   A  Event timeline: MCT4 -> LMR -> iron -> PTGDS (HMOX1 event removed,
@@ -11,7 +11,7 @@
 #
 # Layout: A on top (full width), B and C on the bottom row.
 # Paths are RELATIVE to repo root. Run with working dir = repo root:
-#   setwd("path/to/AD-Metabolic-Collapse"); source("R/figures/ED_Fig3_Temporal.R")
+#   setwd("path/to/AD-Metabolic-Collapse"); source("R/figures/SuppFig2_Temporal.R")
 #
 # Input:  data/sample/astro_bin_means.csv , data/sample/neuron_bin_means.csv
 # Output: output/figures/Supplemental_Figure2.png  (300 dpi)

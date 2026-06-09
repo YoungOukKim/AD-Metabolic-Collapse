@@ -25,11 +25,16 @@ AD-Metabolic-Collapse/
 │   │   ├── Fig3_Subtype_Network.R    Fig4_Clinical.R
 │   │   ├── Fig5_CSF_Validation.R     # Fig 5 (a-h): CSF validation (distribution-robust) *
 │   │   ├── Fig6_Iron_Pathway.R       # Fig 6 (a-b): iron — group decline + cross-platform *
-│   │   └── ED_Fig1–4 ...             # panels assembled into Supplemental Figures 1–2 (see below)
+│   │   ├── SuppFig1_Comprehensive.R  SuppFig1_Iron_Ragulator.R   # → Supplemental Figure 1
+│   │   └── SuppFig2_Temporal.R       # → Supplemental Figure 2
 │   └── tables/
 │       ├── Table1_CrossCellular.R
-│       ├── Table2_CSF_Proteomics.R   # Table 2: subunit comparison (Spearman primary) *
-│       └── Supp_Table1–3 ...
+│       ├── Table2_CSF_Proteomics.R          # Table 2: subunit comparison (Spearman primary) *
+│       ├── Supp_Table1_GeneExpression.R     # → Supporting Data Values
+│       ├── Supp_Table2_PartialCor.R         # → Supplemental Table 1 (Part A)
+│       └── Supp_Table3_Sensitivity.R        # → Supplemental Table 1 (Part B)
+├── analysis/
+│   └── FigS/SuppFig2C_extract.R      # source-data extraction for Supplemental Figure 2C
 └── docs/data_dictionary.md
 ```
 
@@ -42,13 +47,22 @@ component panels, which are assembled into the figures below:
 
 | Supplemental Figure (manuscript) | Content | Source |
 |----------------------------------|---------|--------|
-| **Supplemental Figure 1** — Astrocyte transcriptomic dissociation context | comprehensive gene changes (A), TFRC–ANLS coupling (B), iron trajectories (C), Ragulator (D), pH/EAAT2/ATP1A2 (E) | `ED_Fig1_Comprehensive.R`, `ED_Fig2_Iron_Ragulator.R` |
-| **Supplemental Figure 2** — Temporal ordering of the metabolic cascade | event timeline (A), LMR composite trajectory (B), metabolic overload / transition zone (C) | `ED_Fig3_Temporal.R` (canonical; reproduces the published figure, A on top, B\|C on bottom) |
-| **Supplemental Figure 3** — Parallel routes to lysosomal acidification failure | conceptual schematic: energetic (ESL, this study) **vs** structural (ApoE4-cholesterol, Lee et al.) routes converging on PANTHOS | **Schematic (BioRender); not R-generated** |
+| **Supplemental Figure 1** — Astrocyte transcriptomic dissociation context | comprehensive gene changes (A), TFRC–ANLS coupling (B), iron trajectories (C), Ragulator (D), pH/EAAT2/ATP1A2 (E) | `SuppFig1_Comprehensive.R`, `SuppFig1_Iron_Ragulator.R` |
+| **Supplemental Figure 2** — Temporal ordering of the metabolic cascade | event timeline (A), LMR composite trajectory (B), metabolic overload / transition zone (C) | `SuppFig2_Temporal.R` (canonical; reproduces the published figure, A on top, B\|C on bottom) |
+| **Supplemental Figure 3** — Parallel routes to lysosomal acidification failure | conceptual schematic: energetic (ESL, this study) **vs** structural (ApoE4-cholesterol, Lee et al.) routes converging on PANTHOS | **Author-drawn schematic; not R-generated** |
 
-> Supplemental Figure 3 is a conceptual diagram and has no analysis script. The
-> `ED_Fig*` script names are retained for git continuity; they map to
-> Supplemental Figures 1–2 as above.
+> Supplemental Figure 3 is a conceptual diagram, drawn by the authors, and has no
+> analysis script. All figure scripts follow the manuscript's "Supplemental Figure"
+> numbering. The cross-cellular donor-level partial correlation (CPS-adjusted) is
+> shown in main-text **Figure 2 (B–C)** and is produced by `Fig2_CrossCellular.R`.
+
+### Supplemental tables (manuscript numbering)
+
+| Manuscript item | Source script |
+|-----------------|---------------|
+| **Supporting Data Values** (179-gene per-bin expression) | `Supp_Table1_GeneExpression.R` |
+| **Supplemental Table 1 — Part A** (donor-level partial correlations, n = 84) | `Supp_Table2_PartialCor.R` |
+| **Supplemental Table 1 — Part B** (Bin 0.1 sensitivity analysis) | `Supp_Table3_Sensitivity.R` |
 
 ---
 
@@ -94,8 +108,8 @@ setwd("path/to/AD-Metabolic-Collapse")
 # 2) figures 1–4 + supplemental panels (data/sample/ only)
 source("R/figures/Fig1_Dissociation.R"); source("R/figures/Fig2_CrossCellular.R")
 source("R/figures/Fig3_Subtype_Network.R"); source("R/figures/Fig4_Clinical.R")
-source("R/figures/ED_Fig1_Comprehensive.R"); source("R/figures/ED_Fig2_Iron_Ragulator.R")
-source("R/figures/ED_Fig3_Temporal.R"); source("R/figures/ED_Fig4_Donor_Partial.R")
+source("R/figures/SuppFig1_Comprehensive.R"); source("R/figures/SuppFig1_Iron_Ragulator.R")
+source("R/figures/SuppFig2_Temporal.R")
 
 # 3) figures 5–6 (set EMORY_PATH / ADNIMERGE_PATH / ADNI_AUX_PATH at top of each)
 source("R/figures/Fig5_CSF_Validation.R"); source("R/figures/Fig6_Iron_Pathway.R")

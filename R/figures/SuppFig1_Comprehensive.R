@@ -1,13 +1,13 @@
 # =============================================================================
-# ED_Fig1_Comprehensive.R
+# SuppFig1_Comprehensive.R
 #
-# Extended Data Figure 1: Comprehensive gene expression changes
+# Supplemental Figure 1 (panel A): Comprehensive gene expression changes
 #
 # Bar chart of % change (Bins 0.2-0.4 -> 0.6-0.8) for all analyzed genes,
 # grouped by functional category.
 #
 # Input:  data/sample/astro_bin_means.csv
-# Output: output/figures/ED_Fig1_Comprehensive.png
+# Output: output/figures/SuppFig1_Comprehensive.png
 # =============================================================================
 source("R/figures/utils.R")
 
@@ -48,4 +48,4 @@ ed_fig1 <- ggplot(ed1_df, aes(x = Gene, y = pct, fill = Category)) +
   labs(x = NULL, y = "% Change (Bins 0.2\u20130.4 \u2192 0.6\u20130.8)") +
   theme_paper + theme(legend.position = "right")
 
-save_fig(ed_fig1, "ED_Fig1_Comprehensive.png", width = 8, height = 10)
+save_fig(ed_fig1, "SuppFig1_Comprehensive.png", width = 8, height = 10)

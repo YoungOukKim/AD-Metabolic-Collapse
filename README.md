@@ -18,7 +18,9 @@ AD-Metabolic-Collapse/
 ├── README.md
 ├── data/sample/                      # Bin-level summary CSVs (included)
 ├── R/
-│   ├── data_extraction/              # SEA-AD extraction + sample-CSV generation
+│   ├── data_extraction/
+│   │   ├── 01_extract_seaad.R        # raw h5ad → per-cell / donor / bin-level CSVs
+│   │   └── 02_global_expression_sensitivity.R   # genome-wide control for cross-cellular coupling
 │   ├── figures/
 │   │   ├── utils.R                   # Theme, helpers, ADNI/Elecsys/SomaScan loaders
 │   │   ├── Fig1_Dissociation.R       Fig2_CrossCellular.R
@@ -118,6 +120,10 @@ source("R/figures/Fig5_CSF_Validation.R"); source("R/figures/Fig6_Iron_Pathway.R
 source("R/tables/Table1_CrossCellular.R")
 source("R/tables/Supp_Table1_GeneExpression.R"); source("R/tables/Supp_Table2_PartialCor.R")
 source("R/tables/Supp_Table3_Sensitivity.R"); source("R/tables/Table2_CSF_Proteomics.R")
+
+# 5) global-expression sensitivity — requires SEA-AD h5ad (set H5 path at top of script)
+#    re-derives the cross-cellular coupling under [A] CPS / [B] +logUMI / [C] +genome-wide mean
+#    Rscript R/data_extraction/02_global_expression_sensitivity.R
 ```
 
 ## ADNI Path Configuration

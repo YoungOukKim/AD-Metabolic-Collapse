@@ -31,7 +31,7 @@
 #   G3  the restricted set has n = 380
 #
 # HOW TO RUN
-#   setwd("D:/work")
+#   Sys.setenv(AD_WORK = "<folder holding ROSMAP/>")
 #   source("82_rosmap_braak_matched_donors.R")
 #
 #   Needs only: rhdf5, Matrix, data.table  (all already used by this project)
@@ -39,10 +39,13 @@
 #       if (!requireNamespace("BiocManager", quietly=TRUE)) install.packages("BiocManager")
 #       BiocManager::install("rhdf5")
 #
-#   Output:  D:/work/out_82/82_rosmap_braak_matched.csv
-#            D:/work/out_82/rosmap_donor_mct4.csv     (per-donor means, reusable)
-#            D:/work/out_82/82_log.txt
-#   Send the CSV and the log back.
+#   Output:  <AD_WORK>/out_82/82_rosmap_braak_matched.csv
+#            <AD_WORK>/out_82/rosmap_donor_mct4.csv     (per-donor means, reusable)
+#            <AD_WORK>/out_82/82_log.txt
+#
+#   The per-donor file is not redistributable: it is keyed by ROSMAP identifier
+#   and ROSMAP is released under a RADC data use agreement. The three-row result
+#   is committed as output/tables/82_rosmap_braak_matched.csv.
 #
 # set.seed(42).
 # =============================================================================
@@ -53,7 +56,7 @@ suppressPackageStartupMessages({
 set.seed(42)
 
 # ----------------------------------------------------------------- PATHS ----
-WORK <- "D:/work"
+WORK <- Sys.getenv("AD_WORK", unset = ".")   # set AD_WORK, or run from the folder holding ROSMAP/
 ROS  <- file.path(WORK, "ROSMAP", "astrocytes.h5Seurat")
 RCL  <- file.path(WORK, "ROSMAP", "ROSMAP_Green_clinical_merged.csv")
 OUT  <- file.path(WORK, "out_82")

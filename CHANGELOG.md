@@ -10,6 +10,43 @@ to the journal, not to git tags.
 
 ---
 
+AD-Metabolic-Collapse -- repository v22
+=======================================
+
+1. figures/Figure4.{png,tif}                          [replaced]
+   R/figures/Fig4_Redraw.py                           [new]
+
+   Figure 4 was the one display item that had not been regenerated from the
+   corrected extraction. It was still drawn from the version in which log1p had
+   been applied twice, so panel B printed R2 = 0.303 and p = 5.9e-08 inside the
+   plot while its own legend, the body text and Table 1 gave 0.290 and 1.3e-07.
+   A reader comparing the number in the panel with the number in the sentence
+   below it would have found them different.
+
+   Fig4_Redraw.py rebuilds all three panels from data/sample/donor_level_summary.csv
+   and output/revision2/S1_donor_stage_full.csv, and asserts every published
+   value before drawing. The values now printed:
+
+     ANLS              Braak -0.201  CERAD -0.239  ABC -0.307
+     MCT4              Braak -0.339  CERAD -0.380  ABC -0.318
+     V-ATPase (astro)  Braak -0.260  CERAD -0.203  ABC -0.192
+     panel B  R2 0.2896, p 1.3e-07, beta -0.0737
+     panel C  Mann-Whitney p 0.0020, dementia n = 42
+
+   Nothing in the reading changes: every sign and ordering holds and MCT4 is
+   still the strongest and most consistent of the three. One significance band
+   moves, MCT4 against Braak from *** to ** as p crosses 0.001.
+
+2. R/replication/82_rosmap_braak_matched_donors.R      [paths]
+   The script hard-coded D:/work and told the reader to send output files back
+   to us. Both were left over from the run that produced the result and are not
+   meaningful to anyone else. The path now comes from the AD_WORK environment
+   variable and defaults to the working directory, and the note about sending
+   files back is replaced by a statement of why the per-donor file is not
+   redistributable.
+
+---
+
 AD-Metabolic-Collapse -- repository v21
 =======================================
 

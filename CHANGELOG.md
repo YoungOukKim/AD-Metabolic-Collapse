@@ -10,6 +10,31 @@ to the journal, not to git tags.
 
 ---
 
+AD-Metabolic-Collapse -- repository v23
+=======================================
+
+1. figures/README.md                                   [new]
+   README.md                                           [figures note added]
+
+   The figures/ directory holds four files where the paper has ten display
+   items, and nothing said why. The answer is that the directory is the output
+   of the three Python redraw scripts, while the R scripts write to
+   output/figures/, which is empty in a fresh clone because they have not been
+   run. A reader counting files would reasonably conclude that six figures were
+   missing.
+
+   figures/README.md now states which figure comes from which script, and which
+   can be regenerated from the deposited data alone: Figures 2, 4 and 6 from the
+   Python scripts and Figures 1, 3 and Supplemental Figures 1 and 2 from the R
+   scripts, all from deposited CSVs; Figures 5 and 7 need ADNI proteomics, which
+   requires ADNI access; and Supplemental Figure 3 is a schematic whose printed
+   numbers are itemised in the Supporting Data Values workbook.
+
+   Fig4_Redraw.py was also missing from the file listing in README.md and is
+   added.
+
+---
+
 AD-Metabolic-Collapse -- repository v22
 =======================================
 

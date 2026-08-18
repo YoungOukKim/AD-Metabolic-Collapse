@@ -20,6 +20,12 @@ the initial deposit, and the changes are listed under *What changed* below.
 
 ---
 
+Figure files. `figures/` holds the three figures rebuilt in Python during the
+revision plus one carried over; the R scripts write theirs to `output/figures/`,
+which is empty in a fresh clone until they are run. `figures/README.md` states
+which figure comes from which script and which can be regenerated from the
+deposited data alone.
+
 ## What changed in this revision
 
 Three corrections and three additions, all author-initiated.
@@ -105,6 +111,7 @@ AD-Metabolic-Collapse/
 │   │   ├── SuppFig2_Axis_Position.R         Supplemental Figure 2 (onset computed, not hard-coded)
 │   ├── Fig2D_Specificity_Control.R Figure 2 panel D: housekeeping specificity control
 │   ├── Fig2_Redraw.py             Figure 2 as printed (matplotlib; asserts published values)
+│   ├── Fig4_Redraw.py             Figure 4 as printed (matplotlib; asserts published values)
 │   ├── Fig6_Redraw.py             Figure 6 as printed (matplotlib; asserts published values)
 │   └── (see R/replication/ for the external cohort)
 │   └── mediation/

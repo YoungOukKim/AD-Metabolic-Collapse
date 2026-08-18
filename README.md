@@ -556,7 +556,7 @@ provided.
 | The SEA-AD h5ad, the Emory CSF matrix, the Elecsys file, ADNIMERGE2, ROSMAP | Third-party datasets under their own terms; see `data/README.md` |
 | `output/sensitivity/donor_by_gene.rds` | Donor x gene matrices computed from the h5ad. Committing it would redistribute SEA-AD in derived form, and anyone running the code needs the h5ad anyway |
 | `output/tables/rosmap_donor_mct4.csv` | Per-donor astrocytic MCT4 for 430 ROSMAP donors, keyed by ROSMAP identifier. ROSMAP is released under a RADC data use agreement, so per-donor derived values are not redistributable. `R/replication/82_rosmap_braak_matched_donors.R` regenerates it from the source in about a minute, and the three-row result it feeds is committed as `output/tables/82_rosmap_braak_matched.csv` |
-| Per-subject rows of the `Fig5_data` sheet | ADNI individual-level data keyed by RID. The repository copy of the source-data workbook is `Supporting_Data_Values_v7.xlsx`, with that sheet replaced by a pointer; every aggregate sheet is intact |
+| Per-subject rows of the `Fig5_data` sheet | ADNI individual-level data keyed by RID. The repository copy of the source-data workbook is `Supporting_Data_Values_v8.xlsx`, with that sheet replaced by a pointer; every aggregate sheet is intact |
 
 `output/revision2/S1_donor_stage_full.csv` carries the SEA-AD donor identifiers together
 with their neuropathological and demographic annotations. Every field in it is read
@@ -610,7 +610,7 @@ records the recomputation.
 | Cited as | File |
 |---|---|
 | Supplemental Table 1, parts a to g | `output/revision2/Supplemental_Table_1_v10.xlsx` |
-| Supporting Data Values | `output/revision2/Supporting_Data_Values_v7.xlsx` (per-subject ADNI sheet removed; see above) |
+| Supporting Data Values | `output/revision2/Supporting_Data_Values_v8.xlsx` (per-subject ADNI sheet removed; see above) |
 
 Part c of Supplemental Table 1 carries the mediation competition together with the
 5,000-sample bootstrap intervals on the proportion mediated and the one outcome that was

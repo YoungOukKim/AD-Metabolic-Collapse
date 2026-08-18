@@ -10,6 +10,41 @@ to the journal, not to git tags.
 
 ---
 
+AD-Metabolic-Collapse -- repository v24
+=======================================
+
+1. output/revision2/Supporting_Data_Values_v8.xlsx     [replaces v7]
+
+   Two sheets still held material the manuscript had corrected.
+
+   Fig4_data carried the superseded extraction. Recomputing Figure 4 from that
+   sheet returned R2 = 0.303 and p = 5.9e-08, the values that were printed in
+   the figure before it was redrawn, rather than the 0.290 and 1.3e-07 the
+   manuscript reports. The Data availability statement says the workbook holds
+   the source data for every figure, so a reader checking Figure 4 against its
+   own source would have reproduced the superseded numbers. The sheet is
+   rebuilt from data/sample/donor_level_summary.csv and
+   output/revision2/S1_donor_stage_full.csv and now returns 0.2896 and 1.3e-07.
+
+   SuppFig2_data panel A was headed "Event timeline" and listed "MCT4 decline
+   onset (10%) = 0.3", "PTGDS/EAAT2/ATP1A2 compensatory peak" and "PTGDS
+   collapse". Every one of those is a claim the revision withdrew: the words
+   onset, event timeline, compensatory and collapse were removed from the paper
+   under reviewer 1's fifth point, and the manuscript states in as many words
+   that the earlier report of MCT4 onset at Bin 0.3 is corrected to Bin 0.5,
+   with Bin 0.3 belonging to TFRC. A reader who read that sentence and then
+   opened the source data would have found the corrected claim still standing
+   there. The panel is rewritten as positions along the axis, and the note
+   records what the earlier version said. The donor block lower in the same
+   sheet was also the superseded extraction and is replaced.
+
+2. Table 1 of the manuscript, the ABC row
+   The gap between the MCT4 and astrocytic V-ATPase rank correlations read
+   +0.14, computed from the superseded values. On the corrected extraction it
+   is 0.318 - 0.192 = 0.126, so +0.13. The Braak gap is unchanged at +0.08.
+
+---
+
 AD-Metabolic-Collapse -- repository v23
 =======================================
 

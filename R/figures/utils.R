@@ -89,7 +89,7 @@ stopifnot(length(LMR_GENES) == 34)
 
 # LMR composite = equal-weight mean of the 34 module genes per bin (rowMeans),
 # normalized to Bin 0.2 by the caller via norm_base(). Reproduces the published
-# Supplemental Figure 2B trajectory (trough at Bin 0.5).
+# Supplemental Figure 2B trajectory, whose minimum is at Bin 0.4.
 add_lmr <- function(df) {
   present <- intersect(LMR_GENES, names(df))
   missing <- setdiff(LMR_GENES, names(df))

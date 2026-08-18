@@ -10,6 +10,32 @@ to the journal, not to git tags.
 
 ---
 
+AD-Metabolic-Collapse -- repository v25
+=======================================
+
+1. R/figures/SuppFig2_Axis_Position.R                  [shaded band removed]
+
+   Panels A and C carried a shaded band from Bin 0.45 to 0.65, and panel A
+   labelled it "Metabolic transition zone". "Transition window" is one of the
+   phrases withdrawn under reviewer 1's fifth point and appears nowhere in the
+   manuscript, but it was still drawn on the figure. Marking a zone on a
+   cross-sectional axis asserts a stage the data do not establish, which is the
+   objection the reviewer raised.
+
+   Both annotations are removed. Nothing else in the figure changes: the six
+   axis positions in panel A (TFRC 0.3, LMR 0.4, MCT4 0.5, FTH1/FTL 0.5,
+   PTGDS/EAAT2 peak 0.6, PTGDS 0.7), the LMR trajectory in panel B with its
+   minimum at Bin 0.4, and the five series in panel C are unchanged.
+
+   The printed Supplemental Figure 2 is regenerated from this script and the
+   result is deposited as figures/Supplemental_Figure2.{png,tif}. The script's
+   own check passes: the LMR minimum is at Bin 0.4, as the figure and the
+   manuscript both report. Eighteen of the 34 module genes are above the
+   detection floor and enter the composite; the other sixteen are named in the
+   console output when the script runs.
+
+---
+
 AD-Metabolic-Collapse -- repository v24
 =======================================
 

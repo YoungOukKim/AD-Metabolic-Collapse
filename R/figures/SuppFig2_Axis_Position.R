@@ -1,19 +1,19 @@
 # =============================================================================
-# SuppFig2_Temporal.R  ->  Supplemental Figure 2
+# SuppFig2_Axis_Position.R  ->  Supplemental Figure 2
 #
 # Position along the pseudo-progression axis. NOT a temporal ordering: the axis
 # is cross-sectional, and the revision withdrew every within-individual timing
 # claim. The panels describe where each trajectory sits on the axis.
-#   A  Event timeline: MCT4 -> LMR -> iron -> PTGDS (HMOX1 event removed,
-#      consistent with the companion reappraisal that treats HMOX1 as a
-#      detection artifact)
+#   A  Position of each trajectory on the axis: the bin at which 10% of the
+#      total change from Bin 0.2 is reached. HMOX1 is not shown, consistent
+#      with the companion reappraisal that treats it as a detection artifact.
 #   B  Lysosomal Metabolic Reserve (LMR) composite trajectory (single line;
-#      decline precedes the iron-gene change-point by one bin)
+#      its minimum is at Bin 0.4)
 #   C  Astrocyte metabolic overload: EAAT2, ATP1A2, PTGDS, MCT4, MCT2 (neuron)
 #
 # Layout: A on top (full width), B and C on the bottom row.
 # Paths are RELATIVE to repo root. Run with working dir = repo root:
-#   setwd("path/to/AD-Metabolic-Collapse"); source("R/figures/SuppFig2_Temporal.R")
+#   setwd("path/to/AD-Metabolic-Collapse"); source("R/figures/SuppFig2_Axis_Position.R")
 #
 # Input:  data/sample/astro_bin_means.csv , data/sample/neuron_bin_means.csv
 # Output: output/figures/Supplemental_Figure2.png  (300 dpi)
@@ -25,7 +25,9 @@ source("R/figures/utils.R")
 # LMR (Lysosomal Metabolic Reserve)  -  canonical 34-gene module is defined in
 # utils.R (LMR_GENES / add_lmr) as the five functional sets tabulated in
 # Supporting_Data_Values.xlsx. No editing required; the composite (rowMeans,
-# normalized to Bin 0.2) reproduces the published panel B trough at Bin 0.5.
+# normalized to Bin 0.2) reproduces the published panel B, whose minimum is at
+# Bin 0.4. Sixteen of the 34 genes are below the detection floor in this panel
+# and drop out of the mean; that is the published behaviour, not a data fault.
 # -----------------------------------------------------------------------------
 
 astro  <- add_composites_astro(read.csv(file.path(DATA_BIN, "astro_bin_means.csv")))
@@ -38,20 +40,25 @@ neuron <- neuron[neuron$bin >= 0.2, ]
 # CSF protein LCN2 (Table 2 ANCOVA) is a separate, valid result.
 
 # -- A: Event timeline (HMOX1 removed) -----------------------------------------
+# Positions along the axis, not events in time. Every label that asserted an
+# ordering or a compensatory phase was withdrawn in the revision: "onset",
+# "compensatory peak" and "collapse" are gone, MCT4 is Bin 0.5 rather than the
+# Bin 0.3 reported earlier, and Bin 0.3 belongs to TFRC.
 events <- data.frame(
-  event    = c("MCT4 onset","LMR onset","Iron co-decline",
-               "Compensatory peak","PTGDS collapse"),
-  bin      = c(0.3, 0.4, 0.5, 0.6, 0.7),
-  category = c("Energy","Lysosomal","Iron","Checkpoint","Checkpoint"),
-  blab     = c("Bin 0.3 (-10%)","Bin 0.4","Bin 0.5","Bin 0.6","Bin 0.7"),
-  ypos     = c(5, 4, 3, 2, 1)
+  event    = c("TFRC","LMR","MCT4","FTH1 / FTL",
+               "PTGDS / EAAT2 peak","PTGDS"),
+  bin      = c(0.3, 0.4, 0.5, 0.5, 0.6, 0.7),
+  category = c("Iron","Lysosomal","Energy","Iron","Checkpoint","Checkpoint"),
+  blab     = c("Bin 0.3","Bin 0.4","Bin 0.5","Bin 0.5","Bin 0.6","Bin 0.7"),
+  ypos     = c(6, 5, 4, 3, 2, 1)
 )
 cat_colors <- c(Energy="#922B21",Lysosomal="#2980b9",Iron="#16a085",Checkpoint="#8e44ad")
 
+# The shaded band and the "metabolic transition zone" label that used to sit
+# here are removed. "Transition window" was withdrawn in the revision under
+# reviewer 1 point 5: the axis is cross-sectional and marking a zone on it
+# asserts a stage that the data do not establish.
 p_a <- ggplot(events, aes(x = bin, y = ypos)) +
-  annotate("rect", xmin=0.45, xmax=0.65, ymin=0, ymax=6, fill="#FEF9E7", alpha=0.6) +
-  annotate("text", x=0.55, y=5.7, label="Metabolic\ntransition zone",
-           size=3, fontface="italic", color="grey40") +
   geom_segment(aes(x=0.2, xend=bin-0.01, y=ypos, yend=ypos, color=category),
                linewidth=1.5, alpha=0.4) +
   geom_point(aes(color=category), size=5) +
@@ -67,15 +74,16 @@ p_a <- ggplot(events, aes(x = bin, y = ypos)) +
 astro  <- add_lmr(astro)
 lmr_df <- data.frame(bin = astro$bin, LMR = norm_base(astro$LMR, astro$bin))
 
-# Built-in reproduction check: the published panel B dips at Bin 0.5 (LMR decline
-# leads the iron co-decline by one bin). Prints the trough bin and PASS/FAIL; if
-# it FAILs, verify the input CSV rather than editing this check.
+# Built-in reproduction check: the published panel B has its minimum at Bin 0.4.
+# An earlier version of this check expected Bin 0.5 and therefore failed against
+# the deposited data; the expectation, not the data, was wrong. Prints the bin
+# and PASS/FAIL; if it FAILs, verify the input CSV rather than editing this check.
 .lmr_o <- lmr_df[order(lmr_df$bin), ]
 .trough <- .lmr_o$bin[which.min(.lmr_o$LMR)]
-cat(sprintf("[LMR check] trough (dip) bin = %s  (published expectation: 0.5)  -> %s\n",
-            format(.trough), if (isTRUE(all.equal(.trough, 0.5))) "PASS" else "FAIL"))
-if (!isTRUE(all.equal(.trough, 0.5)))
-  warning("LMR trajectory does not dip at Bin 0.5; check data/sample/astro_bin_means.csv.",
+cat(sprintf("[LMR check] minimum bin = %s  (published expectation: 0.4)  -> %s\n",
+            format(.trough), if (isTRUE(all.equal(.trough, 0.4))) "PASS" else "FAIL"))
+if (!isTRUE(all.equal(.trough, 0.4)))
+  warning("LMR trajectory minimum is not at Bin 0.4; check data/sample/astro_bin_means.csv.",
           call. = FALSE)
 
 p_b <- ggplot(lmr_df, aes(x=bin, y=LMR)) +
@@ -84,9 +92,9 @@ p_b <- ggplot(lmr_df, aes(x=bin, y=LMR)) +
   geom_line(color="#2980b9", linewidth=1) + geom_point(color="#2980b9", size=2.5) +
   geom_vline(xintercept=0.4, linetype="dashed", color="#2980b9", alpha=0.8) +
   geom_vline(xintercept=0.5, linetype="dashed", color="#16a085", alpha=0.8) +
-  annotate("text", x=0.4, y=max(lmr_df$LMR), label="LMR onset\n(Bin 0.4)",
+  annotate("text", x=0.4, y=max(lmr_df$LMR), label="LMR\n(Bin 0.4)",
            color="#2980b9", size=2.8, vjust=0) +
-  annotate("text", x=0.5, y=max(lmr_df$LMR), label="Iron co-decline\n(Bin 0.5)",
+  annotate("text", x=0.5, y=max(lmr_df$LMR), label="Iron\n(Bin 0.5)",
            color="#16a085", size=2.8, vjust=0) +
   scale_x_continuous(breaks=seq(0.2,0.9,0.1)) +
   labs(x="Pseudo-progression Bin", y="Normalized (Bin 0.2 = 1.0)", title="B") +
@@ -108,7 +116,6 @@ ol_colors <- c("EAAT2 (SLC1A2)"="#E67E22","ATP1A2 (Na/K pump)"="#D35400","PTGDS"
                "MCT4 (SLC16A3)"="#922B21","MCT2 neuron (SLC16A7)"="#2980B9")
 
 p_c <- ggplot(ol_long, aes(x=bin, y=norm_expr, color=Gene)) +
-  annotate("rect", xmin=0.45, xmax=0.65, ymin=-Inf, ymax=Inf, fill="#FEF9E7", alpha=0.4) +
   geom_hline(yintercept=1, linetype="dotted", color="grey50") +
   geom_line(linewidth=1) + geom_point(size=2.5) +
   scale_color_manual(values=ol_colors) +

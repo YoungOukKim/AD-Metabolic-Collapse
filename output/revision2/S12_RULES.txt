@@ -1,0 +1,100 @@
+S12_RULES   pre-registered verdict rules
+written : 2026-08-14 14:55:40
+build   : P2_revision2_S12_all.R  2026-08-14  s2 (one h5ad pass; S12-P/H/A/D/N/M)
+
+PROVENANCE, stated exactly, because these blocks were not all written at the
+same time and only some of them are blind:
+  Rules A, B, C, E, F and G, and the panels they act on, were fixed in the
+  handoff of 2026-08-14 section 11 BEFORE any of the values below were
+  computed. They are reproduced here unchanged.
+  The S12-P values themselves were then computed from the already existing
+  S3_detection_by_celltype.csv, so by the time THIS file was written they were
+  known. The rule is pre-registered; the run is not blind. Both are true and
+  the reply must not imply otherwise.
+  S12-A, S12-D, S12-N and S12-M read quantities that have not been examined.
+  GJA1's direction (+7.6 per cent in astrocytes) was already known when the
+  channel panel was written. It is marked DIRECTION KNOWN in the output and
+  carries no weight. PANX1, PANX2, GJB6, CALHM1, BEST1 and LRRC8A were not
+  examined before that panel was fixed.
+  The competing-mediator set for S12-M was chosen AFTER the S12-P percentiles
+  were seen. The choice is adversarial - the genes selected are the ones most
+  likely to defeat our own claim - but it is not pre-registered and must not be
+  called so.
+
+A  cell-type decomposition of SLC16A3
+  A-1 astrocytic decline holds AND microglia do not decline -> astrocytic axis stands
+  A-2 both decline -> we state first that the decline is not astrocyte-restricted
+      and widen the claim to glial lactate export capacity
+  A-3 microglia only -> the astrocytic narrative in the manuscript is withdrawn
+  A-4 microglial SLC16A3 below the null floor -> report NOT TESTABLE, A-1 forbidden
+
+B  ambient background
+  B-1 MCT4's matched-null percentile is not separable from that of the ambient
+      controls -> the astrocyte-specificity claim is withdrawn
+  B-2 separable from all of them -> ambient bleed-through is excluded at this layer
+  B-3 separable from some and not others -> report which, name the ones it is not
+      separable from, and restrict the claim accordingly
+
+C  internal specificity inside astrocytes
+  C-1 glycolysis and identity genes do not decline while SLC16A3 does ->
+      'production and identity held, export gate specifically lost' is allowed
+  C-2 any of them declines in the same direction AND of the same order of
+      magnitude -> that sentence is forbidden
+  C-3 any of them sits inside the null tail at a smaller magnitude -> the sentence
+      is allowed only with that gene named in the same paragraph
+
+E  control transporters
+  E-1 neuronal SLC16A7 preserved -> the receiving side is intact, may be stated
+  E-2 neuronal SLC16A7 declines -> the receiving-side argument is withdrawn
+
+F  MCT-independent channel route
+  F-1 PANX1 / GJB6 decline and meet MCT4's joint condition -> total-export
+      compensation is unsupported at the transcript layer
+  F-2 they do not decline -> we say so first and narrow the claim to
+      MCT4-mediated export capacity
+  F-3 below the floor -> NOT MEASURABLE with the name given, neither claim allowed
+  F-common: transcript abundance is not open probability. This limit applies to
+      the channel route and to MCT alike, and is written on both sides.
+
+G  specificity contrast against the iron pathway, gene level
+  G-1 CP or any iron gene reaches MCT4's matched-null percentile ->
+      the gene-level specificity claim is withdrawn and we write first that the
+      detection-matched null does not separate iron handling from lactate export
+  G-2 the iron genes are clearly less extreme -> the percentile may be used to
+      separate them, with the raw per cent change stated alongside
+  Operational reading of 'same order of magnitude': a ratio of ten or less to
+  MCT4's own percentile. Written down here rather than chosen to suit a result.
+
+N  panel-definition reconciliation
+  the manuscript and the deposited repository define the astrocytic ANLS
+  composite as SLC2A1 + LDHA + SLC16A1 with MCT4 analysed separately.
+  P2_revision2_all.R r6 used a different set under the same name, and that set
+  contained the gene the screen was meant to test. The screen is re-run with the
+  manuscript definition and MCT4 is given its own row.
+  N-1 the lactate composite declines under BOTH conventions -> a module-level
+      decline may be reported
+  N-2 it declines under one convention only -> both are printed and no
+      module-level decline is claimed
+  N-3 it does not decline while MCT4 alone does -> that is reported as the
+      manuscript's own position and NOT as a module-level decline
+
+M  mediation competition (the layer the manuscript says carries the weight)
+  M-1 a competing mediator equals or exceeds MCT4's position in its OWN matched
+      null for neuronal V-ATPase -> the mediation layer does not separate them
+      either. The paper is reframed: a coordinated astrocytic metabolic decline
+      of which MCT4 is one component, not MCT4 as the identified bottleneck.
+      'Bottleneck' and 'rate-limiting' stay out of the manuscript.
+  M-2 MCT4 exceeds and no competitor does -> specificity survives at the
+      mediation layer ONLY, and the reply states that the gene-level null does
+      not separate them and that the whole separation rests on this one test
+  M-3 MCT4 does not exceed -> the mediation claim is withdrawn
+  M-common: the forward / reverse asymmetry is computed for every competitor,
+      not only for MCT4. An asymmetry reported for one gene and not tested for
+      the others is not evidence.
+  M-gate: if the rebuilt donor matrices do not reproduce the three published
+      mediated fractions (96.4 / 123.3 / 117.1) the competitor loop does not run.
+
+H  sparse-cell guard (house rule 0-41)
+  a chi-square whose statistic is more than half generated by cells with an
+  expected count below 5 is not reported. Fisher's exact test and a merged-cell
+  chi-square are printed beside it, and the reply quotes the guarded value.

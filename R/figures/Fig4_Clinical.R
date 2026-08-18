@@ -1,10 +1,10 @@
 # =============================================================================
-# Fig4_Clinical.R  [CORRECTED — donor-level 3-panel; matches published Figure 4]
+# Fig4_Clinical.R  [CORRECTED  -  donor-level 3-panel; matches published Figure 4]
 #
-# Figure 4 (A-C): Donor-level clinical validation (true donor-level, n = 84).
-#   A — Spearman rho of ANLS / MCT4 / astrocytic V-ATPase vs Braak, CERAD, ABC
-#   B — MCT4 vs CPS (weighted-style donor regression; R^2, p)
-#   C — MCT4 by dementia status (Mann-Whitney)
+# Figure 4 (A-C): Donor-level clinical association (true donor-level, n = 84).
+#   A  -  Spearman rho of ANLS / MCT4 / astrocytic V-ATPase vs Braak, CERAD, ABC
+#   B  -  MCT4 vs CPS (weighted-style donor regression; R^2, p)
+#   C  -  MCT4 by dementia status (Mann-Whitney)
 #
 # NOTE: This replaces the previous 6-panel per-staging-boxplot version so that
 # the script reproduces the published Figure 4. The clinical V-ATPase comparator
@@ -28,7 +28,7 @@ if (!"braak_num" %in% names(donor)) donor$braak_num <- roman[donor$braak]
 if (!"cerad_num" %in% names(donor)) donor$cerad_num <- cerad[donor$cerad]
 if (!"abc_num"   %in% names(donor)) donor$abc_num   <- abc[donor$abc]
 
-# ── Panel A: staging correlations (grouped bars) ──────────────────────────────
+# -- Panel A: staging correlations (grouped bars) ------------------------------
 sp <- function(g, s) suppressWarnings(cor(donor[[g]], donor[[s]],
                           method = "spearman", use = "complete.obs"))
 stg <- c(Braak = "braak_num", CERAD = "cerad_num", ABC = "abc_num")
@@ -45,9 +45,9 @@ pA <- ggplot(bar, aes(stage, rho, fill = gene)) +
   scale_fill_manual(values = c("ANLS" = "#E08214", "MCT4" = "#B2182B",
                                "V-ATPase (astro)" = "#2166AC"), name = NULL) +
   labs(x = NULL, y = "Spearman rho") +
-  theme_paper + theme(legend.position = "top", axis.text.x = element_text(size = 10))
+  theme_paper + theme(legend.position = "top", axis.text.x = element_text(size = 14))
 
-# ── Panel B: MCT4 vs CPS regression ───────────────────────────────────────────
+# -- Panel B: MCT4 vs CPS regression -------------------------------------------
 fit <- lm(MCT4 ~ mean_cps, data = donor); r2 <- summary(fit)$r.squared
 pval <- summary(fit)$coefficients["mean_cps", "Pr(>|t|)"]
 pB <- ggplot(donor, aes(mean_cps, MCT4)) +
@@ -58,7 +58,7 @@ pB <- ggplot(donor, aes(mean_cps, MCT4)) +
   labs(x = "CPS", y = "Astrocytic MCT4") +
   theme_paper
 
-# ── Panel C: MCT4 by dementia status ──────────────────────────────────────────
+# -- Panel C: MCT4 by dementia status ------------------------------------------
 donor$dem <- factor(donor$cognitive, levels = c("No dementia", "Dementia"))
 dd <- donor[!is.na(donor$dem), ]
 mw <- suppressWarnings(wilcox.test(MCT4 ~ dem, data = dd))
@@ -71,7 +71,10 @@ pC <- ggplot(dd, aes(dem, MCT4, fill = dem)) +
   labs(x = NULL, y = "Astrocytic MCT4") +
   theme_paper
 
-# ── Combine (uppercase bold panel tags) ───────────────────────────────────────
-fig4 <- pA + pB + pC + plot_annotation(tag_levels = "A") &
-        theme(plot.tag = element_text(size = 22, face = "bold"))
+# -- Combine (uppercase bold panel tags) ---------------------------------------
+pA <- pA + panel_tag("A")
+pB <- pB + panel_tag("B")
+pC <- pC + panel_tag("C")
+
+fig4 <- pA + pB + pC
 save_fig(fig4, "Fig4_Clinical.png", width = 15, height = 5)

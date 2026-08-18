@@ -1,0 +1,14 @@
+file,rows,cols,contents
+S12_panels_from_S3.csv,68,12,"ambient, internal, channel and iron panels against the detection-matched null"
+S12_astro_ranked_by_percentile.csv,34,13,"every S12 astrocytic gene ordered by its matched-null percentile, with the ratio to MCT4"
+S7_leverage_composition_guarded.csv,4,7,the same trimmed-5-per-cent composition tests under the sparse-cell guard (house rule 0-41)
+S12_compartment_labels.csv,4,3,"which Subclass labels entered each compartment, and how many nuclei"
+S12_panel_four_compartments.csv,212,5,"S12 panel detection and change in astro, microglia, oligodendrocyte and excitatory neurons"
+S12_donor_level.csv,84,8,"donor-level CPS, cell counts, transcriptome-wide means, MCT4 and VATP_n6"
+S12_A_SLC16A3_by_compartment.csv,4,9,SLC16A3 in four compartments with a matched null computed inside each
+S12_D_microglial_glycolysis.csv,7,5,microglial uptake and glycolysis panel
+S12_ambient_symmetry.csv,13,9,astrocytic against microglial change for the ambient reference genes and the myeloid markers
+S12_N_pathway_screen_manuscript_definition.csv,17,16,"the sixteen-pathway screen re-run with the manuscript's ANLS definition, both conventions"
+S12_M_reproduction_gate.csv,3,4,the three published mediated fractions recomputed from the rebuilt donor matrices
+S12_M_mediation_competition.csv,18,13,"MCT4 against competing astrocytic mediators, each inside its own detection- and effect-matched null"
+S12_M_null_membership.csv,1545,3,which genes entered each competitor's matched null

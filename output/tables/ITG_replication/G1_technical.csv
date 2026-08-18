@@ -1,0 +1,5 @@
+metric,paper,reader,method,pass
+protein_coding_genes,18283,19240,symbol heuristic,TRUE
+genes_after_count_filter,11148,11887,"",TRUE
+nuclei,70984,72820,"",TRUE
+genes_per_nucleus,2500,3140,"",TRUE

@@ -1,0 +1,63 @@
+"control","set","label","gene","r","p"
+"A","signal","MCT4 - Neuron V-ATPase",NA,0.4745,5.13e-06
+"A","signal","MCT4 - Neuron LAMP1",NA,0.5011,1.21e-06
+"A","signal","MCT4 - Neuron LDHB",NA,0.418,7.62e-05
+"A","housekeeping","MCT4 x HK(neuron)","ACTB",0.3612,0.000736
+"A","housekeeping","MCT4 x HK(neuron)","B2M",0.1625,0.14
+"A","housekeeping","MCT4 x HK(neuron)","GAPDH",0.316,0.00341
+"A","housekeeping","MCT4 x HK(neuron)","GUSB",0.3729,0.000476
+"A","housekeeping","MCT4 x HK(neuron)","HPRT1",-0.0556,0.615
+"A","housekeeping","MCT4 x HK(neuron)","PGK1",0.4098,0.000108
+"A","housekeeping","MCT4 x HK(neuron)","POLR2A",0.1878,0.0871
+"A","housekeeping","MCT4 x HK(neuron)","PPIA",0.4353,3.5e-05
+"A","housekeeping","MCT4 x HK(neuron)","RPL13A",0.4441,2.32e-05
+"A","housekeeping","MCT4 x HK(neuron)","RPLP0",0.5502,5.9e-08
+"A","housekeeping","MCT4 x HK(neuron)","SDHA",0.3338,0.00192
+"A","housekeeping","MCT4 x HK(neuron)","TBP",0.3656,0.000628
+"A","housekeeping","MCT4 x HK(neuron)","UBC",0.3548,0.000928
+"A","housekeeping","MCT4 x HK(neuron)","YWHAZ",0.2403,0.0277
+"A","housekeeping","HK(astro) x V-ATPase","ACTB",0.4492,1.82e-05
+"A","housekeeping","HK(astro) x V-ATPase","B2M",0.381,0.00035
+"A","housekeeping","HK(astro) x V-ATPase","GAPDH",0.5415,1.05e-07
+"A","housekeeping","HK(astro) x V-ATPase","GUSB",0.2101,0.0551
+"A","housekeeping","HK(astro) x V-ATPase","HPRT1",0.0887,0.423
+"A","housekeeping","HK(astro) x V-ATPase","PGK1",0.3448,0.00132
+"A","housekeeping","HK(astro) x V-ATPase","POLR2A",0.1204,0.275
+"A","housekeeping","HK(astro) x V-ATPase","PPIA",0.6514,1.96e-11
+"A","housekeeping","HK(astro) x V-ATPase","RPL13A",0.4674,7.37e-06
+"A","housekeeping","HK(astro) x V-ATPase","RPLP0",0.4807,3.69e-06
+"A","housekeeping","HK(astro) x V-ATPase","SDHA",0.1189,0.281
+"A","housekeeping","HK(astro) x V-ATPase","TBP",0.1397,0.205
+"A","housekeeping","HK(astro) x V-ATPase","UBC",0.4868,2.67e-06
+"A","housekeeping","HK(astro) x V-ATPase","YWHAZ",0.2044,0.0621
+"C1","signal","MCT4 - Neuron V-ATPase",NA,0.2324,0.0334
+"C1","signal","MCT4 - Neuron LAMP1",NA,0.3095,0.00417
+"C1","signal","MCT4 - Neuron LDHB",NA,0.1613,0.143
+"C1","housekeeping","MCT4 x HK(neuron)","ACTB",0.1308,0.236
+"C1","housekeeping","MCT4 x HK(neuron)","B2M",0.0568,0.608
+"C1","housekeeping","MCT4 x HK(neuron)","GAPDH",0.2448,0.0248
+"C1","housekeeping","MCT4 x HK(neuron)","GUSB",0.1458,0.186
+"C1","housekeeping","MCT4 x HK(neuron)","HPRT1",-0.0359,0.746
+"C1","housekeeping","MCT4 x HK(neuron)","PGK1",0.1855,0.0912
+"C1","housekeeping","MCT4 x HK(neuron)","POLR2A",0.0734,0.507
+"C1","housekeeping","MCT4 x HK(neuron)","PPIA",0.1765,0.108
+"C1","housekeeping","MCT4 x HK(neuron)","RPL13A",0.1779,0.105
+"C1","housekeeping","MCT4 x HK(neuron)","RPLP0",0.3546,0.000934
+"C1","housekeeping","MCT4 x HK(neuron)","SDHA",-0.0965,0.383
+"C1","housekeeping","MCT4 x HK(neuron)","TBP",0.0374,0.736
+"C1","housekeeping","MCT4 x HK(neuron)","UBC",0.2457,0.0243
+"C1","housekeeping","MCT4 x HK(neuron)","YWHAZ",-0.0265,0.811
+"C1","housekeeping","HK(astro) x V-ATPase","ACTB",0.2424,0.0263
+"C1","housekeeping","HK(astro) x V-ATPase","B2M",0.1705,0.121
+"C1","housekeeping","HK(astro) x V-ATPase","GAPDH",0.4215,6.52e-05
+"C1","housekeeping","HK(astro) x V-ATPase","GUSB",0.1235,0.263
+"C1","housekeeping","HK(astro) x V-ATPase","HPRT1",-0.0257,0.817
+"C1","housekeeping","HK(astro) x V-ATPase","PGK1",0.3097,0.00414
+"C1","housekeeping","HK(astro) x V-ATPase","POLR2A",0.263,0.0157
+"C1","housekeeping","HK(astro) x V-ATPase","PPIA",0.5948,2.43e-09
+"C1","housekeeping","HK(astro) x V-ATPase","RPL13A",0.1881,0.0865
+"C1","housekeeping","HK(astro) x V-ATPase","RPLP0",0.2444,0.0251
+"C1","housekeeping","HK(astro) x V-ATPase","SDHA",0.0515,0.642
+"C1","housekeeping","HK(astro) x V-ATPase","TBP",0.0879,0.427
+"C1","housekeeping","HK(astro) x V-ATPase","UBC",0.2402,0.0277
+"C1","housekeeping","HK(astro) x V-ATPase","YWHAZ",0.15,0.173

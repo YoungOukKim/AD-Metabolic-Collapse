@@ -1,0 +1,10 @@
+item,value
+Purpose,Audit record. Table 3 of the manuscript was recomputed from the deposited per-subject CSF sheet to confirm every value.
+Source,"Supporting_Data_Values, sheet Fig5_data, 1,105 subjects. Model Y ~ C(DX) + AGE + C(SEX), OLS on untransformed abundance, Type II sums of squares."
+TFRC,"KW 0.0213, ANCOVA 0.0679, eta2 0.0049 -> manuscript 0.021 / 0.068 / 0.005. Match."
+MAPT,"KW 0.0028, ANCOVA 0.1482, eta2 0.0035 -> manuscript 0.003 / 0.15 / 0.004. Match."
+V1A,"KW 0.9988, ANCOVA 0.6816, eta2 0.0009 -> Table 3 0.999 / 0.68 / 0.001. Match."
+V1E1,KW 0.3080 -> manuscript 0.308. Match.
+Correction 1,The Results and Discussion had quoted the V1A ANCOVA as 0.647 and the V1E1 ANCOVA as 0.314. Both are Type I sums of squares; Methods specify Type II. Corrected to 0.682 and 0.405. Neither is significant under either convention.
+Correction 2,"Empirical p values in the mediation competition were computed as k / n while the original deposited mediation used (k + 1) / (n + 1). The convention is unified to (k + 1) / (n + 1) throughout, which is the value reported in the paper. Transferrin receptor moves from 0.0494 to 0.0530 and ferritin light chain from 0.0268 to 0.0301. The correction is NOT used to reverse a verdict: it was adopted after the values were known, and of the eighteen mediator-outcome tests it moves exactly one across 0.05, in the direction that favours this study's own claim. The pre-registered criterion is the position of the observed value in its own matched null, and transferrin receptor's mediated fraction of 36.2% lies above that null's 95th percentile of 35.7%. Transferrin receptor is therefore recorded as exceeding its null, as S12_VERDICTS.txt, S12_M_mediation_competition.csv and Supplemental Table 1c all record it, and rule M-1 fires on two competitors rather than one. An earlier version of this audit record said the opposite; that statement was written before the criterion was reconciled and is corrected here rather than deleted."
+Not verifiable from this sheet,"APP (KW 0.004) and LCN2 (KW 0.181) are not columns of Fig5_data; they require the full 3,907-protein matrix, which is not redistributable."

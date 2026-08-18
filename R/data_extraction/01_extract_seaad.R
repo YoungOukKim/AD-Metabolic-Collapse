@@ -5,16 +5,20 @@
 # bin-level summary CSVs used by all figure scripts.
 #
 # Input:  SEA-AD h5ad file (requires data access agreement)
-#         → https://portal.brain-map.org
+#         -> https://portal.brain-map.org
 #
 # Output (written to data/processed/):
-#   astro_comprehensive.csv        — per-cell astrocyte expression
-#   neuron_comprehensive.csv       — per-cell excitatory neuron expression
-#   donor_level_summary.csv        — donor-level (n=84) ANLS/V-ATPase/MCT4
-#   astro_subtype_trajectories.csv — per-supertype ANLS bin trajectories
-#   astro_bin_means.csv            — bin-level means (used by figure scripts)
-#   neuron_bin_means.csv           — bin-level means
+#   astro_comprehensive.csv         -  per-cell astrocyte expression
+#   neuron_comprehensive.csv        -  per-cell excitatory neuron expression
+#   donor_level_summary.csv         -  donor-level (n=84) ANLS/V-ATPase/MCT4
+#   astro_subtype_trajectories.csv  -  per-supertype ANLS bin trajectories
+#   astro_bin_means.csv             -  bin-level means (used by figure scripts)
+#   neuron_bin_means.csv            -  bin-level means
 # =============================================================================
+
+# Paths are RELATIVE to the repository root. Set the working directory there,
+# or override with the environment variables SEAAD_H5AD / ROSMAP_ASTRO /
+# ROSMAP_CLIN / P2_OUT_DIR. Raw data are not redistributable; see README.md.
 
 suppressPackageStartupMessages({
   library(rhdf5)
@@ -24,12 +28,12 @@ suppressPackageStartupMessages({
 
 set.seed(42)
 
-# ── Paths (edit these) ────────────────────────────────────────────────────────
+# -- Paths (edit these) --------------------------------------------------------
 h5ad_path <- "path/to/SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad"
 out_path  <- "data/processed/"
 dir.create(out_path, recursive = TRUE, showWarnings = FALSE)
 
-# ── Cell type classification ──────────────────────────────────────────────────
+# -- Cell type classification --------------------------------------------------
 classify_cell <- function(label) {
   label <- as.character(label)
   if (grepl("^Astro", label, ignore.case = TRUE)) return("Astrocyte")
@@ -41,13 +45,13 @@ classify_cell <- function(label) {
   return("Other")
 }
 
-# ── Target gene list ──────────────────────────────────────────────────────────
+# -- Target gene list ----------------------------------------------------------
 target_genes <- unique(c(
   # ANLS / Energy substrate
   "SLC2A1",  # GLUT1
   "SLC2A3",  # GLUT3
   "SLC16A1", # MCT1
-  "SLC16A3", # MCT4 ← primary ANLS hub
+  "SLC16A3", # MCT4 <- primary ANLS hub
   "SLC16A7", # MCT2 (neuronal importer)
   "LDHA", "LDHB", "HK1", "HK2", "PKM",
   "PFKFB3", "GPI", "ENO1", "ENO2", "GAPDH", "PDK1",
@@ -84,7 +88,7 @@ target_genes <- unique(c(
   "MAPT"
 ))
 
-# ── Extract from h5ad ─────────────────────────────────────────────────────────
+# -- Extract from h5ad ---------------------------------------------------------
 message(">>> Reading gene index...")
 gene_names_all <- h5read(h5ad_path, "var/_index")
 gene_idx_map   <- match(target_genes, gene_names_all) - 1L
@@ -115,6 +119,18 @@ message(">>> Fast block read (astrocytes + excitatory neurons only) ...")
 # fill via a single match() per cell instead of a nested per-gene which().
 # Outputs are identical to the previous version; this is purely faster.
 indptr     <- h5read(h5ad_path, "X/indptr", bit64conversion = "double")
+
+# -- Storage-convention guard (added 2026-07) ----------------------------------
+# SEA-AD stores X already normalised (CP10k + log1p). An earlier version of this
+# script applied log1p unconditionally at the per-cell fill below, which logs an
+# already-logged matrix. 02_global_expression_sensitivity.R tests before logging;
+# this script now does the same, so both extraction paths use one convention.
+.samp     <- h5read(h5ad_path, "X/data", start = 1,
+                    count = min(2e5, indptr[length(indptr)]))
+is_counts <- all(abs(.samp - round(.samp)) < 1e-8)
+message(sprintf("  X storage: %s",
+                if (is_counts) "raw counts -> CP10k + log1p applied"
+                else           "already normalised -> used as stored"))
 exc_labels <- c("L2/3 IT","L4 IT","L5 IT","L5 ET","L5/6 NP",
                 "L6 IT","L6 IT Car3","L6 CT","L6b")
 keep_mask  <- (cell_type == "Astrocyte") | (sc_vec %in% exc_labels)
@@ -138,14 +154,18 @@ for (blk in seq_len(n_blocks)) {
       bb <- indptr[g + 1L] - sp
       if (bb < a) next
       h  <- match(gene_idx_map, ci[a:bb]); ok <- !is.na(h)
-      if (any(ok)) expr_mat[g, ok] <- log1p(cd[a:bb][h[ok]])
+      if (any(ok)) {
+        vals <- cd[a:bb][h[ok]]
+        expr_mat[g, ok] <- if (is_counts)
+          log1p(vals / max(sum(cd[a:bb]), 1) * 1e4) else vals
+      }
     }
   }
   cat(sprintf("  block %d / %d  (%d cells)\r", blk, n_blocks, e0)); flush.console()
 }
 cat("\n")
 
-# ── Assemble data.table ───────────────────────────────────────────────────────
+# -- Assemble data.table -------------------------------------------------------
 meta <- data.table(
   cps       = cps_raw,
   bin       = cps_bin,
@@ -155,7 +175,7 @@ meta <- data.table(
 )
 for (g in target_genes) meta[[g]] <- expr_mat[, g]
 
-# ── Attach donor + clinical metadata, then drop SEA-AD reference donors ───────
+# -- Attach donor + clinical metadata, then drop SEA-AD reference donors -------
 # Reference (neurotypical) donors carry no Continuous Pseudo-progression Score;
 # they appear as 3 extra donors with NA CPS/Braak. Excluding them gives the
 # 84-donor AD pseudo-progression cohort used throughout (astro -> 67,419 cells).
@@ -179,7 +199,7 @@ meta[, cog   := get_obs_cat("Cognitive Status")]
 meta <- meta[!is.na(cps)]                # reference donors have no CPS -> excluded (87 -> 84 donors)
 message(sprintf("  cells after dropping reference donors (no CPS): %s", format(nrow(meta), big.mark = ",")))
 
-# ── Export per-cell CSVs ──────────────────────────────────────────────────────
+# -- Export per-cell CSVs ------------------------------------------------------
 message(">>> Saving per-cell CSVs...")
 
 # Astrocytes
@@ -194,7 +214,7 @@ neuron <- meta[subclass %in% exc_labels]
 fwrite(neuron, file.path(out_path, "neuron_comprehensive.csv"))
 message(sprintf("  neuron: %s cells", format(nrow(neuron), big.mark = ",")))
 
-# ── Bin-level means ───────────────────────────────────────────────────────────
+# -- Bin-level means -----------------------------------------------------------
 message(">>> Computing bin-level means...")
 bins_use <- round(seq(0.2, 0.9, 0.1), 1)   # round to avoid float %in% mismatch (was dropping 0.3, 0.6)
 
@@ -208,7 +228,7 @@ neuron_bin <- neuron[bin %in% bins_use,
                      by = bin, .SDcols = target_genes][order(bin)]
 fwrite(neuron_bin, file.path(out_path, "neuron_bin_means.csv"))
 
-# ── Donor-level summary ───────────────────────────────────────────────────────
+# -- Donor-level summary -------------------------------------------------------
 message(">>> Donor-level summary...")
 anls_genes    <- c("SLC2A1", "LDHA", "SLC16A1")
 vatpase_genes <- c("ATP6V1A","ATP6V1B2","ATP6V0D1","ATP6V0A1",
@@ -216,7 +236,7 @@ vatpase_genes <- c("ATP6V1A","ATP6V1B2","ATP6V0D1","ATP6V0A1",
 vatpase_n     <- c("ATP6V1A","ATP6V1B2","ATP6V0A1","ATP6V0C","ATP6V0D1","ATP6V1E1")
 
 # Add donor metadata from h5ad if available
-# (Braak, ABC score, cognitive status — stored in obs annotations)
+# (Braak, ABC score, cognitive status  -  stored in obs annotations)
 donor_meta_cols <- c("Braak stage (categorized)", "Overall AD neuropathological Change",
                      "Cognitive Status", "Age at Death", "Sex")
 obs_cols <- tryCatch(h5ls(h5ad_path, "/obs")$name, error = function(e) character(0))
@@ -277,7 +297,7 @@ for (yy in c("VATPase_n","LDHB_n","LAMP1_n")) if (yy %in% names(donor)) {
 }
 message(sprintf(">>> donor_level_summary.csv written: %d TRUE donors (by Donor ID, no bin-broadcast)", nrow(donor)))
 
-# ── Astrocyte subtype trajectories ────────────────────────────────────────────
+# -- Astrocyte subtype trajectories --------------------------------------------
 message(">>> Astrocyte subtype trajectories...")
 if (all(!is.na(astro$supertype))) {
   astro[, ANLS := rowMeans(.SD, na.rm = TRUE), .SDcols = intersect(anls_genes, names(astro))]

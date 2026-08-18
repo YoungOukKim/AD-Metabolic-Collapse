@@ -1,0 +1,69 @@
+block,gene,celltype,det_bin,pct_change,n_null,n_at_or_below,pctl,band_median,reportable,in_null_tail,verdict,ratio_to_MCT4_astro
+REFERENCE,SLC16A3,astro,0.06022,-43.2,2027,9,0.00444,-4.11,False,True,below the house reporting floor - null only,1.0
+REFERENCE,SLC16A3,exc,0.09079,-36.38,2066,119,0.057599,-7.8,False,False,below the house reporting floor - null only,12.97
+S12-B ambient background,P2RY12,astro,0.13417,-38.33,2409,22,0.009132,-2.03,True,True,measurable,2.06
+S12-B ambient background,P2RY12,exc,0.13514,-33.32,2208,149,0.067482,-7.11,True,False,measurable,15.2
+S12-B ambient background,MOG,astro,0.0206,-2.93,1758,1019,0.579636,-6.48,False,False,below the house reporting floor - null only,130.55
+S12-B ambient background,MOG,exc,0.03764,-6.81,2032,1106,0.544291,-8.15,False,False,below the house reporting floor - null only,122.59
+S12-B ambient background,C1QA,astro,0.00461,-41.69,1886,70,0.037116,-6.9,False,True,NOT MEASURABLE (below the null floor),8.36
+S12-B ambient background,C1QA,exc,0.00596,2.55,1899,1431,0.753555,-8.65,False,False,NOT MEASURABLE (below the null floor),169.72
+S12-B ambient background,CX3CR1,astro,0.00533,50.72,1915,1873,0.978068,-7.07,False,False,NOT MEASURABLE (below the null floor),220.28
+S12-B ambient background,CX3CR1,exc,0.00663,7.56,1888,1593,0.84375,-8.35,False,False,NOT MEASURABLE (below the null floor),190.03
+S12-B ambient background,SNAP25,astro,0.43037,7.6,2172,1901,0.87523,1.28,True,False,measurable,197.12
+S12-B ambient background,SNAP25,exc,0.99721,-0.1,2722,1644,0.603968,-0.9,True,False,measurable,136.03
+S12-B ambient background,TMEM119,astro,0.00146,-21.75,1765,503,0.284986,-5.17,False,False,NOT MEASURABLE (below the null floor),64.19
+S12-B ambient background,TMEM119,exc,0.00207,43.72,1497,1484,0.991316,-8.49,False,False,NOT MEASURABLE (below the null floor),223.27
+S12-B ambient background,CSF1R,astro,0.02877,36.16,1904,1873,0.983718,-6.7,False,False,below the house reporting floor - null only,221.56
+S12-B ambient background,CSF1R,exc,0.01915,4.83,2007,1682,0.838067,-8.48,False,False,NOT MEASURABLE (below the null floor),188.75
+S12-B ambient background,PLP1,astro,0.14566,-3.25,2442,1057,0.432842,-1.9,True,False,measurable,97.49
+S12-B ambient background,PLP1,exc,0.25076,-6.81,2493,1097,0.440032,-5.67,True,False,measurable,99.1
+S12-B ambient background,MBP,astro,0.12412,2.39,2355,1674,0.710828,-2.32,True,False,measurable,160.09
+S12-B ambient background,MBP,exc,0.80135,-0.99,4338,2400,0.55325,-1.44,True,False,measurable,124.6
+S12-C astrocyte internal,ALDOA,astro,0.03842,-11.1,1948,687,0.352669,-5.87,False,False,below the house reporting floor - null only,79.43
+S12-C astrocyte internal,ALDOA,exc,0.06409,-19.01,1958,463,0.236466,-7.63,False,False,below the house reporting floor - null only,53.26
+S12-C astrocyte internal,PKM,astro,0.54813,-9.09,1951,101,0.051768,1.6,True,False,measurable,11.66
+S12-C astrocyte internal,PKM,exc,0.81736,-7.49,4205,188,0.044709,-1.39,True,True,measurable,10.07
+S12-C astrocyte internal,LDHA,astro,0.123,-20.83,2342,209,0.08924,-2.26,True,False,measurable,20.1
+S12-C astrocyte internal,LDHA,exc,0.34405,-15.36,2847,263,0.092378,-4.98,True,False,measurable,20.81
+S12-C astrocyte internal,PFKFB3,astro,0.77918,-5.2,1517,80,0.052736,2.15,True,False,measurable,11.88
+S12-C astrocyte internal,PFKFB3,exc,0.74893,-7.14,4008,327,0.081587,-1.94,True,False,measurable,18.38
+S12-C astrocyte internal,AQP4,astro,0.91493,-5.26,1026,38,0.037037,2.18,True,True,measurable,8.34
+S12-C astrocyte internal,AQP4,exc,0.1515,-1.99,2203,1545,0.701316,-6.58,True,False,measurable,157.95
+S12-C astrocyte internal,SLC1A3,astro,0.99146,-0.04,763,190,0.249017,2.05,True,False,measurable,56.08
+S12-C astrocyte internal,SLC1A3,exc,0.12104,10.76,2169,2077,0.957584,-7.36,True,False,measurable,215.67
+S12-C astrocyte internal,GJA1,astro,0.84241,7.59,1311,1183,0.902365,2.06,True,False,measurable,203.23
+S12-C astrocyte internal,GJA1,exc,0.03233,31.75,2108,2089,0.990987,-8.39,False,False,below the house reporting floor - null only,223.19
+S12-C astrocyte internal,SLC1A2,astro,0.99036,5.09,768,623,0.811198,2.05,True,False,measurable,182.7
+S12-C astrocyte internal,SLC1A2,exc,0.65658,-8.11,3754,384,0.102291,-2.72,True,False,measurable,23.04
+S12-E control transporters,SLC16A1,astro,0.08123,-11.13,2167,527,0.243193,-3.18,False,False,below the house reporting floor - null only,54.77
+S12-E control transporters,SLC16A1,exc,0.2401,-16.46,2441,293,0.120033,-5.67,True,False,measurable,27.03
+S12-E control transporters,SLC16A3,astro,0.06022,-43.2,2027,9,0.00444,-4.11,False,True,below the house reporting floor - null only,1.0
+S12-E control transporters,SLC16A3,exc,0.09079,-36.38,2066,119,0.057599,-7.8,False,False,below the house reporting floor - null only,12.97
+S12-E control transporters,SLC16A7,astro,0.09289,-12.13,2242,470,0.209634,-2.91,False,False,below the house reporting floor - null only,47.21
+S12-E control transporters,SLC16A7,exc,0.90047,2.27,3490,3043,0.87192,-1.21,True,False,measurable,196.38
+S12-E control transporters,SLC16A8,astro,0.00199,-21.83,1779,541,0.304103,-7.61,False,False,NOT MEASURABLE (below the null floor),68.49
+S12-E control transporters,SLC16A8,exc,0.01525,-30.09,2002,266,0.132867,-8.9,False,False,NOT MEASURABLE (below the null floor),29.92
+S12-F channel route,PANX1,astro,0.02981,0.03,1900,1283,0.675263,-6.73,False,False,below the house reporting floor - null only,152.08
+S12-F channel route,PANX1,exc,0.11859,-14.98,2151,530,0.246397,-7.44,True,False,measurable,55.49
+S12-F channel route,PANX2,astro,0.06267,-16.44,2029,356,0.175456,-3.89,False,False,below the house reporting floor - null only,39.52
+S12-F channel route,PANX2,exc,0.19126,-16.85,2306,320,0.138768,-6.03,True,False,measurable,31.25
+S12-F channel route,GJA1,astro,0.84241,7.59,1311,1183,0.902365,2.06,True,False,measurable,203.23
+S12-F channel route,GJA1,exc,0.03233,31.75,2108,2089,0.990987,-8.39,False,False,below the house reporting floor - null only,223.19
+S12-F channel route,GJB6,astro,0.31731,11.68,2501,2366,0.946022,0.1,True,False,measurable,213.07
+S12-F channel route,GJB6,exc,0.00559,21.65,1914,1818,0.949843,-8.32,False,False,NOT MEASURABLE (below the null floor),213.93
+S12-F channel route,CALHM1,astro,0.00049,13.59,1300,823,0.633077,-5.67,False,False,NOT MEASURABLE (below the null floor),142.58
+S12-F channel route,CALHM1,exc,0.03056,-15.74,2117,691,0.326405,-8.31,False,False,below the house reporting floor - null only,73.51
+S12-F channel route,BEST1,astro,0.12217,6.11,2344,1957,0.834898,-2.3,True,False,measurable,188.04
+S12-F channel route,BEST1,exc,0.02704,-3.12,2066,1350,0.653437,-8.34,False,False,below the house reporting floor - null only,147.17
+S12-F channel route,LRRC8A,astro,0.52395,7.38,2003,1723,0.86021,1.62,True,False,measurable,193.74
+S12-F channel route,LRRC8A,exc,0.36279,-0.5,2905,2196,0.755938,-4.82,True,False,measurable,170.25
+S12-G specificity contrast,CP,astro,0.13261,-44.68,2378,5,0.002103,-2.06,True,True,measurable,0.47
+S12-G specificity contrast,CP,exc,0.042,-38.07,1982,103,0.051968,-8.0,False,False,below the house reporting floor - null only,11.7
+S12-G specificity contrast,FTH1,astro,0.73596,-19.21,1598,2,0.001252,2.14,True,True,measurable,0.28
+S12-G specificity contrast,FTH1,exc,0.77017,-14.63,4072,24,0.005894,-1.77,True,True,measurable,1.33
+S12-G specificity contrast,FTL,astro,0.60598,-15.78,1877,24,0.012786,1.8,True,True,measurable,2.88
+S12-G specificity contrast,FTL,exc,0.53687,-11.98,3442,228,0.066241,-3.44,True,False,measurable,14.92
+S12-G specificity contrast,TFRC,astro,0.30283,-11.48,2555,239,0.093542,-0.01,True,False,measurable,21.07
+S12-G specificity contrast,TFRC,exc,0.46461,-7.81,3292,755,0.229344,-4.0,True,False,measurable,51.65
+S12-G specificity contrast,SLC40A1,astro,0.03829,-3.0,1951,1146,0.587391,-5.9,False,False,below the house reporting floor - null only,132.29
+S12-G specificity contrast,SLC40A1,exc,0.00504,3.02,1850,1388,0.75027,-8.04,False,False,NOT MEASURABLE (below the null floor),168.98

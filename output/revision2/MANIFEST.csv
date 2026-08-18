@@ -1,0 +1,17 @@
+file,rows,cols,contents
+S1_donor_stage_full.csv,84,23,"donor-level staging and clinical metadata, from obs"
+S2_verify_july_outputs.csv,17,6,July P2 outputs against the published values
+S2_artifact_consistency.csv,1,3,consistency between the artifacts used downstream
+S3_detection_by_celltype.csv,36601,15,"genome-wide detection and change, both cell types (reused)"
+S3_bin_means_panel.csv,,,"panel bin means, both cell types (reused)"
+S4_acidbase_axis.csv,18,11,"carbonic anhydrases, MCT chaperones, exchangers, MCTs"
+S5_mito_genes.csv,47,8,per-gene detection and change for the mitochondrial panel
+S5_mito_composites.csv,23,10,"complex-level composites, astrocyte and neuron"
+S6_pathway_screen.csv,16,13,sixteen candidate pathways under one identical rule
+S7_deposit_vs_source.csv,3,6,deposited Supporting Data against the source Emory matrix
+S7_n_reconciliation.csv,3,7,the same correlation at three cohort definitions
+S7_subgroups.csv,4,13,"whole cohort and late-stage subgroups, both Tau platforms"
+S7_leverage_composition.csv,8,5,who is in the trimmed 5 per cent of V1A
+S8_strata.csv,36,7,stratum means on every staging axis
+S9_curve_features.csv,15,11,"quadratic vertex, discrete argmax and segmented breakpoint"
+CONVENTIONS.csv,11,4,"which house convention each choice follows, and where it departs"

@@ -1,10 +1,10 @@
 # =============================================================================
-# utils.R — Shared helpers for all figure scripts
+# utils.R  -  Shared helpers for all figure scripts
 #
 # Source this at the top of each figure script:
 #   source("R/figures/utils.R")
 #
-# IMPORTANT — path configuration:
+# IMPORTANT  -  path configuration:
 #   All scripts use relative paths from the repository root.
 #   Run scripts with working directory set to the repo root, e.g.:
 #     setwd("path/to/AD-Metabolic-Collapse")
@@ -28,19 +28,31 @@ suppressPackageStartupMessages({
   library(scales)
 })
 
-# ── Paths (relative to repo root) ─────────────────────────────────────────────
+# -- Paths (relative to repo root) ---------------------------------------------
 DATA_BIN <- "data/sample/"
 FIG_OUT  <- "output/figures/"
 dir.create(FIG_OUT, recursive = TRUE, showWarnings = FALSE)
 
-# ── Theme ─────────────────────────────────────────────────────────────────────
-theme_paper <- theme_bw(base_size = 11) +
+# -- Theme ---------------------------------------------------------------------
+## ---- panel labelling -------------------------------------------------------
+## Every figure in this repository labels its panels the same way: an uppercase
+## letter set as the plot title and rendered by PANEL_TITLE. Two other
+## mechanisms were in use before -- lowercase titles, and patchwork tag_levels --
+## which place the letter at different offsets, so panels tagged one way did not
+## line up with panels tagged the other. Use panel_tag() and nothing else.
+PANEL_TAG_SIZE <- 30
+PANEL_TITLE <- theme(plot.title = element_text(face = "bold", size = PANEL_TAG_SIZE,
+                                               hjust = 0, margin = margin(b = 4)))
+panel_tag <- function(letter) list(labs(title = letter), PANEL_TITLE)
+
+theme_paper <- theme_bw(base_size = 15) +
   theme(
-    plot.title       = element_text(face = "bold", size = 18, hjust = 0),
-    axis.title       = element_text(size = 11),
-    axis.text        = element_text(size = 9),
-    legend.text      = element_text(size = 8),
-    legend.title     = element_text(size = 9, face = "bold"),
+    plot.title       = element_text(face = "bold", size = PANEL_TAG_SIZE, hjust = 0,
+                                    margin = margin(b = 4)),
+    axis.title       = element_text(size = 15),
+    axis.text        = element_text(size = 13),
+    legend.text      = element_text(size = 12),
+    legend.title     = element_text(size = 13, face = "bold"),
     legend.position  = "bottom",
     panel.grid.minor = element_blank(),
     strip.background = element_rect(fill = "#EBF5FB"),
@@ -49,13 +61,13 @@ theme_paper <- theme_bw(base_size = 11) +
 
 dx_colors <- c("CN" = "#2e8b57", "MCI" = "#e08e0b", "DEM" = "#c0392b")
 
-# ── Gene composite definitions ────────────────────────────────────────────────
+# -- Gene composite definitions ------------------------------------------------
 ANLS_GENES    <- c("SLC2A1", "LDHA", "SLC16A1")
 VATPASE_GENES <- c("ATP6V1A","ATP6V1B2","ATP6V0D1","ATP6V0A1",
                    "ATP6V1C1","ATP6V1E1","ATP6V1H","ATP6V0C","ATP6V0E1","ATP6V0B")
 VATPASE_N     <- c("ATP6V1A","ATP6V1B2","ATP6V0A1","ATP6V0C","ATP6V0D1","ATP6V1E1")
 
-# LMR (Lysosomal Metabolic Reserve) — canonical 34-gene module, five functional
+# LMR (Lysosomal Metabolic Reserve)  -  canonical 34-gene module, five functional
 # sets, identical to the five gene categories tabulated in
 # Supporting_Data_Values.xlsx (Astrocyte sheet): acidification (V-ATPase, 10);
 # trafficking + substrate degradation (Lysosomal, 8); autophagy/biogenesis (6);
@@ -103,7 +115,7 @@ add_composites_neuron <- function(df) {
   df
 }
 
-# ── ADNI Emory TMT-MS loader (Fig5, Fig6, Table2) ─────────────────────────────
+# -- ADNI Emory TMT-MS loader (Fig5, Fig6, Table2) -----------------------------
 #
 #   em <- load_adni_proteomics(
 #     emory_path     = "path/to/emory_results/",
@@ -142,7 +154,7 @@ load_adni_proteomics <- function(emory_path, adnimerge_path) {
 
   dxsum_file <- file.path(adnimerge_path, "DXSUM.rda")
   if (!file.exists(dxsum_file)) stop("DXSUM.rda not found: ", dxsum_file)
-  load(dxsum_file)   # → DXSUM
+  load(dxsum_file)   # -> DXSUM
 
   if ("DXCHANGE" %in% names(DXSUM)) {
     dx_map <- c("1"="CN","2"="MCI","3"="MCI","4"="MCI",
@@ -158,7 +170,7 @@ load_adni_proteomics <- function(emory_path, adnimerge_path) {
 
   adsl_file <- file.path(adnimerge_path, "ADSL.rda")
   if (!file.exists(adsl_file)) stop("ADSL.rda not found: ", adsl_file)
-  load(adsl_file)    # → ADSL
+  load(adsl_file)    # -> ADSL
   keep_cols <- intersect(c("RID","AGE","PTGENDER","PTEDUCAT"), names(ADSL))
   ADSL_sub  <- ADSL[!duplicated(ADSL$RID), keep_cols]
 
@@ -180,9 +192,9 @@ load_adni_proteomics <- function(emory_path, adnimerge_path) {
   merged
 }
 
-# ── Roche Elecsys immunoassay loader (orthogonal Tau validation) ──────────────
+# -- Roche Elecsys immunoassay loader (orthogonal Tau validation) --------------
 #
-# Returns data.frame(RID, ElecsysTau) — baseline total-tau per subject.
+# Returns data.frame(RID, ElecsysTau)  -  baseline total-tau per subject.
 # File: UPENNBIOMK_ROCHE_ELECSYS_*.csv (ADNI study data).
 load_elecsys_tau <- function(adni_path, tau_col = "TAU", visit = "bl") {
   f <- list.files(adni_path,
@@ -201,7 +213,7 @@ load_elecsys_tau <- function(adni_path, tau_col = "TAU", visit = "bl") {
   data.frame(RID = d$RID, ElecsysTau = d[[tau_col]])
 }
 
-# ── SomaScan aptamer loader (independent proteomic platform) ──────────────────
+# -- SomaScan aptamer loader (independent proteomic platform) ------------------
 #
 # Returns data.frame(RID, HK1_s, MAPT_s, TFRC_s). SeqIDs are dataset-specific;
 # defaults match the ADNI Cruchaga-lab SOMAscan7k post-QC matrix.
@@ -226,7 +238,7 @@ load_somascan <- function(adni_path,
   out[!duplicated(out$RID), ]
 }
 
-# ── Statistics helpers ────────────────────────────────────────────────────────
+# -- Statistics helpers --------------------------------------------------------
 # Zero-order Spearman (primary) with raw Pearson available as sensitivity.
 spearman_r <- function(x, y) {
   ok <- complete.cases(x, y)
@@ -241,7 +253,7 @@ pearson_r <- function(x, y) {
   list(r = unname(ct$estimate), p = ct$p.value, n = sum(ok))
 }
 
-# Spearman PARTIAL correlation — rank-transform x, y and every covariate, then
+# Spearman PARTIAL correlation  -  rank-transform x, y and every covariate, then
 # residualize the ranked x and y on the ranked control set by OLS and correlate
 # the residuals (Pearson of residuals). This is the primary partial method used
 # throughout the CSF analysis.
@@ -258,7 +270,7 @@ spearman_partial <- function(x, y, controls) {
 }
 
 # Legacy Pearson partial helpers (retained for backward compatibility only;
-# NOT used for the primary CSF analysis — use spearman_partial instead).
+# NOT used for the primary CSF analysis  -  use spearman_partial instead).
 partial_cor <- function(x, y, z) {
   ok <- complete.cases(x, y, z)
   if (sum(ok) < 10) return(list(r=NA, p=NA, rx=NA, ry=NA))
@@ -293,7 +305,7 @@ sig_star <- function(p) {
   if (p < 0.001) "***" else if (p < 0.01) "**" else if (p < 0.05) "*" else "n.s."
 }
 
-# ── Save helper ───────────────────────────────────────────────────────────────
+# -- Save helper ---------------------------------------------------------------
 save_fig <- function(plot, filename, width=14, height=10) {
   path <- file.path(FIG_OUT, filename)
   ggsave(path, plot, width=width, height=height, dpi=300, bg="white")

@@ -1,7 +1,9 @@
 # =============================================================================
 # SuppFig2_Temporal.R  ->  Supplemental Figure 2
 #
-# Temporal ordering of the metabolic cascade (matches the published figure):
+# Position along the pseudo-progression axis. NOT a temporal ordering: the axis
+# is cross-sectional, and the revision withdrew every within-individual timing
+# claim. The panels describe where each trajectory sits on the axis.
 #   A  Event timeline: MCT4 -> LMR -> iron -> PTGDS (HMOX1 event removed,
 #      consistent with the companion reappraisal that treats HMOX1 as a
 #      detection artifact)
@@ -20,7 +22,7 @@
 source("R/figures/utils.R")
 
 # -----------------------------------------------------------------------------
-# LMR (Lysosomal Metabolic Reserve) — canonical 34-gene module is defined in
+# LMR (Lysosomal Metabolic Reserve)  -  canonical 34-gene module is defined in
 # utils.R (LMR_GENES / add_lmr) as the five functional sets tabulated in
 # Supporting_Data_Values.xlsx. No editing required; the composite (rowMeans,
 # normalized to Bin 0.2) reproduces the published panel B trough at Bin 0.5.
@@ -35,7 +37,7 @@ neuron <- neuron[neuron$bin >= 0.2, ]
 # event is the iron-gene co-decline (FTH1/FTL 10% onset), not LCN2 induction.
 # CSF protein LCN2 (Table 2 ANCOVA) is a separate, valid result.
 
-# ── A: Event timeline (HMOX1 removed) ─────────────────────────────────────────
+# -- A: Event timeline (HMOX1 removed) -----------------------------------------
 events <- data.frame(
   event    = c("MCT4 onset","LMR onset","Iron co-decline",
                "Compensatory peak","PTGDS collapse"),
@@ -53,15 +55,15 @@ p_a <- ggplot(events, aes(x = bin, y = ypos)) +
   geom_segment(aes(x=0.2, xend=bin-0.01, y=ypos, yend=ypos, color=category),
                linewidth=1.5, alpha=0.4) +
   geom_point(aes(color=category), size=5) +
-  geom_text(aes(label=blab), hjust=-0.15, size=3.5, fontface="bold") +
+  geom_text(aes(label=blab), hjust=-0.15, size=4.9, fontface="bold") +
   scale_color_manual(values=cat_colors) +
   scale_x_continuous(limits=c(0.2, 0.86), breaks=seq(0.2, 0.8, 0.1)) +
   scale_y_continuous(breaks=events$ypos, labels=events$event, limits=c(0.5, 6.2)) +
   labs(x="Pseudo-progression Bin", y=NULL, title="A", color=NULL) +
-  theme_paper + theme(axis.text.y=element_text(size=10),
+  theme_paper + theme(axis.text.y=element_text(size=14),
                       panel.grid.major.y=element_line(color="grey90"))
 
-# ── B: LMR composite trajectory ───────────────────────────────────────────────
+# -- B: LMR composite trajectory -----------------------------------------------
 astro  <- add_lmr(astro)
 lmr_df <- data.frame(bin = astro$bin, LMR = norm_base(astro$LMR, astro$bin))
 
@@ -90,7 +92,7 @@ p_b <- ggplot(lmr_df, aes(x=bin, y=LMR)) +
   labs(x="Pseudo-progression Bin", y="Normalized (Bin 0.2 = 1.0)", title="B") +
   theme_paper
 
-# ── C: Metabolic overload ─────────────────────────────────────────────────────
+# -- C: Metabolic overload -----------------------------------------------------
 ol_a <- intersect(c("SLC1A2","ATP1A2","PTGDS","SLC16A3"), names(astro))
 ol_n <- intersect(c("SLC16A7"), names(neuron))
 ol   <- merge(astro[, c("bin", ol_a)], neuron[, c("bin", ol_n)], by="bin", all=TRUE)
@@ -112,9 +114,9 @@ p_c <- ggplot(ol_long, aes(x=bin, y=norm_expr, color=Gene)) +
   scale_color_manual(values=ol_colors) +
   scale_x_continuous(breaks=seq(0.2,0.9,0.1)) +
   labs(x="Pseudo-progression Bin", y="Normalized (Bin 0.2 = 1.0)", title="C", color=NULL) +
-  theme_paper + theme(legend.position="right", legend.text=element_text(size=8))
+  theme_paper + theme(legend.position="right", legend.text=element_text(size=12))
 
-# ── Assemble: A on top, B | C on the bottom ───────────────────────────────────
+# -- Assemble: A on top, B | C on the bottom -----------------------------------
 supp_fig2 <- p_a / (p_b | p_c) + patchwork::plot_layout(heights=c(1, 1))
 
 ggsave(file.path(FIG_OUT, "Supplemental_Figure2.png"), supp_fig2,

@@ -1,0 +1,18 @@
+file,check,observed,expected,tol,verdict
+celltype_MCT4.csv,astrocytic MCT4 mean,0.0462,0.0462,0.001,match
+celltype_MCT4.csv,astrocytic MCT4 detection,0.0612,0.0612,0.001,match
+celltype_MCT4.csv,astrocyte nuclei,67419,67419,0,match
+celltype_MCT4.csv,excitatory nuclei,671689,671689,0,match
+detection_null.csv,MCT4 percentile in the matched null,0.39,0.39,0.05,match
+detection_null.csv,genes in the matched band,2042,2042,0,match
+hk_specificity_gap.csv,housekeeping specificity gap,0.133,0.133,0.01,match
+hk_specificity_gap.csv,largest housekeeping |r| (PPIA),0.651,0.651,0.01,match
+mct4_bin_trajectory.csv,MCT4 bin 0.2,0.05502,0.05502,5e-04,match
+mct4_bin_trajectory.csv,MCT4 bin 0.4,0.07211,0.07211,5e-04,match
+mct4_bin_trajectory.csv,MCT4 bin 0.5,0.04034,0.04034,5e-04,match
+couplings.csv,"donor-level coupling, CPS-adjusted",0.474,0.474,0.01,match
+couplings.csv,"same, genome-wide controlled",0.232,0.232,0.01,match
+ambient_control.csv,astrocytic MCT4 change,-43.2,-43.2,0.5,match
+ambient_control.csv,microglial MCT4 change,-14.4,-14.4,0.5,match
+G1_reproduction.csv,"G1 delta, MCT4",0,0,0.05,match
+G1_reproduction.csv,MCT1 change,-11.1,-11.1,0.3,match

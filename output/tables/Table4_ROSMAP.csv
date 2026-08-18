@@ -1,0 +1,6 @@
+Cohort,Region,Progression axis,Donors,β (astrocytic MCT4),p
+SEA-AD MTG,MTG,CPS,84,-0.0737,1.3e-07
+SEA-AD MTG,MTG,Braak,84,-0.0061,0.0419
+ROSMAP DLPFC,DLPFC,pseudotime,380,0.0214,9.59e-08
+ROSMAP DLPFC,DLPFC,Braak,430,-0.0007,0.46
+ROSMAP DLPFC,DLPFC,Braak (pseudotime donors),380,-0.0008,0.4315

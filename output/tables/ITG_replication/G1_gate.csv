@@ -1,0 +1,3 @@
+gate,n_genes,s1,s2,s3,s4,peak,fall,pass
+"paper Methods, corrected",51,-0.007,-0.0211,0.2054,-0.1782,TRUE,TRUE,TRUE
+first version (MT2A in),12,5e-04,-0.1451,0.3004,-0.1558,TRUE,TRUE,TRUE

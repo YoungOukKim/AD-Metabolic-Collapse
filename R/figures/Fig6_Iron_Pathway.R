@@ -3,15 +3,15 @@
 #
 # Figure 6 (a-b): Iron pathway at the protein level
 #
-#   a — CSF TFRC by diagnostic group: group-level decline (KW p = 0.021)
+#   a  -  CSF TFRC by diagnostic group: group-level decline (KW p = 0.021)
 #       attenuating to a non-significant trend after age/sex adjustment
 #       (ANCOVA p = 0.068; -4.7% DEM vs CN)
-#   b — TFRC-Tau concordance is NOT consistent across platforms or against
+#   b  -  TFRC-Tau concordance is NOT consistent across platforms or against
 #       immunoassay Tau: Elecsys-Tau vs TMT-TFRC rho = +0.08;
 #       vs SomaScan-TFRC rho = -0.44  --> individual-level TFRC-Tau coupling
 #       is not claimed.
 #
-# Input (requires ADNI data access — not included in repository):
+# Input (requires ADNI data access  -  not included in repository):
 #   Emory TMT-MS CSF proteomics + DXSUM.rda + ADSL.rda
 #   Roche Elecsys immunoassay (UPENNBIOMK_ROCHE_ELECSYS_*.csv)
 #   SomaScan 7k post-QC matrix (independent aptamer platform)
@@ -20,11 +20,11 @@
 # =============================================================================
 source("R/figures/utils.R")
 
-# ── Set your local paths here ─────────────────────────────────────────────────
+# -- Set your local paths here -------------------------------------------------
 EMORY_PATH     <- "path/to/emory_results/"
 ADNIMERGE_PATH <- "path/to/ADNIMERGE2/data/"
 ADNI_AUX_PATH  <- "path/to/adni_aux/"   # folder with Elecsys + SomaScan files
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 em   <- load_adni_proteomics(EMORY_PATH, ADNIMERGE_PATH)
 elec <- tryCatch(load_elecsys_tau(ADNI_AUX_PATH), error = function(e){message(e$message); NULL})
@@ -34,7 +34,7 @@ P <- list(TFRC = "TFRC_P02786", MAPT = "MAPT_P10636")
 P <- P[sapply(P, function(x) x %in% names(em))]
 if (!"TFRC" %in% names(P)) stop("TFRC column not found in Emory dataset.")
 
-# ── Panel a: TFRC by DX (group-level decline) ─────────────────────────────────
+# -- Panel a: TFRC by DX (group-level decline) ---------------------------------
 # ANCOVA on raw TFRC, DX effect adjusted for age + sex (Type II SS via car::Anova,
 # matching Table2). Type I with DX entered first would leave DX unadjusted and
 # disagree with the manuscript value (p = 0.068).
@@ -53,10 +53,10 @@ fig6a <- ggplot(em[!is.na(em[[P$TFRC]]),], aes(x = DX, y = .data[[P$TFRC]], fill
   annotate("text", x = 2.55, y = tfrc_q * 0.98,
            label = sprintf("ANCOVA p = %.3f\n%+.1f%% DEM vs CN", ancova_p, pct_chg),
            size = 3.3, fontface = "italic") +
-  labs(x = "Diagnosis", y = "TFRC (transferrin receptor)", title = "a") +
+  labs(x = "Diagnosis", y = "TFRC (transferrin receptor)", title = "A") +
   theme_paper + theme(legend.position = "none")
 
-# ── Panel b: TFRC-Tau concordance across platforms (vs immunoassay Tau) ────────
+# -- Panel b: TFRC-Tau concordance across platforms (vs immunoassay Tau) --------
 r_tmt <- NA; r_soma <- NA
 if (!is.null(elec)) {
   em2   <- merge(em, elec, by = "RID", all.x = TRUE)
@@ -78,7 +78,7 @@ fig6b <- ggplot(bdat, aes(x = comp, y = r, fill = platform)) +
             vjust = ifelse(bdat$r >= 0, -0.4, 1.3), size = 4, fontface = "bold", na.rm = TRUE) +
   scale_fill_manual(values = c("TMT-MS" = "#2c6fbf", "SomaScan" = "#d68910"), guide = "none") +
   ylim(-0.55, 0.25) +
-  labs(x = NULL, y = "\u03c1 (TFRC vs immunoassay Tau)", title = "b") +
+  labs(x = NULL, y = "\u03c1 (TFRC vs immunoassay Tau)", title = "B") +
   theme_paper
 
 cat(sprintf("TFRC group ANCOVA p = %.3f (%+.1f%% DEM vs CN)\n", ancova_p, pct_chg))

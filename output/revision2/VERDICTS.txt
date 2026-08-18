@@ -1,0 +1,83 @@
+RUN 2026-08-14 11:40:23  P2_revision2_all.R  2026-08-14  r6 (reuses a verified S3 pass; z composites)
+
+S1 donor metadata from obs
+G0 PASS | donors 84 | Reference nuclei excluded 137303
+braak : 0=2 2=4 3=6 4=23 5=34 6=15
+thal  : 0=9 1=5 2=7 3=12 4=30 5=21
+cerad : 0=16 1=12 2=26 3=30
+adnc  : 0=9 1=12 2=21 3=42
+
+S2 reproduction and artifact consistency
+matched 17 of 17 published values
+every check matched
+C1 donor_by_gene.rds vs donor_merged_base.csv, astrocytic MCT4 -> identical
+
+S3 one h5ad pass
+REUSED an existing pass; the h5ad was not read again.
+astrocytic SLC16A3 det_all 0.0612 (published 0.0612) | change -43.2% (published -43.2%)
+G1 reproduction gate : PASS (on the cached table)
+NOTE astrocytic MCT4 detection 0.0602 is BELOW the house reporting floor of 0.10.
+     oligo_MCT_detection_check.R reports a trajectory alone only at >= 0.10.
+     Here the claim rests on a detection-matched null instead, and that
+     difference must be stated in the reply rather than left implicit.
+
+S4 acid-base network (Reviewer 1, point 2)
+positive control SLC16A3 : change -43.2%, matched-null percentile 0.0044, p 3.6e-07
+not measurable : CA4, CA14, CA9, EMB
+acid-base genes behaving like MCT4 : (none)
+BSG (CD147), the chaperone through which CA IV acts, detection 0.539, change +8.6%
+MCT1 (SLC16A1) change -11.1%, p 0.0021, percentile 0.243 - a real decline,
+     so the manuscript word 'preserved' for MCT1 must be replaced by the number.
+
+S5 mitochondria (Reviewer 2, point 2)
+not measurable in either cell type : (none)
+biogenesis regulators, astrocyte : no significant CPS association
+ETC astro -6.5% | ETC neuron -9.5% | MCT4 -43.2%
+Print the biogenesis regulators with their detection rates whether or not they
+are measurable: a transcription factor below the floor is an answer, not a gap.
+
+S6 alternative pathway screen (Reviewer 2, points 1 and 3)
+pathways 16 | Holm alpha 0.05 | ANLS coupling r > 0.40 | composites are z per gene
+POSITIVE CONTROL lactate export (ANLS hub) -> declines, as required  (slope -1.2005, Holm p 0.009059)
+positive control fired - negatives in this table are interpretable
+  (raw-rowMeans composite for the same panel: slope -0.0823, p 0.08994 - kept for audit;
+   a raw mean of this panel is 81 per cent PFKFB3 and dilutes MCT4 away)
+NEGATIVE CONTROL neuronal identity -> no decline at the family-adjusted alpha
+negative control behaved as required
+co-declining : Lactate export (ANLS hub)
+explored, no decline : Iron handling, Glucose uptake and glycogen, Ketone body handling, Water and K+ buffering, Neuronal identity (control), Glutamate uptake and recycling, Na/K-ATPase, Fatty acid oxidation, Astrocyte reactivity, Mitochondrial ETC (astro), Neuronal V-ATPase, Neuronal lysosome, Mitochondrial ETC (neuron), Neuronal protein synthesis, Integrated stress response
+not testable : 
+Name the 'explored, no decline' and 'not testable' pathways in the Results.
+Iron appears here as one entry under the same rule as every other entry.
+
+S7 CSF on the full inputs (Reviewer 2, points 4 and 5)
+n reconciliation : rows as read, repeat visits kept n=1170 V1A +0.249 | one baseline row per subject n=1106 V1A +0.248 | baseline row, with a diagnosis n=1105 V1A +0.246
+deposit vs source : ATP6V1A_P38606 equal in 866 of 866 | MAPT_P10636 equal in 1105 of 1105 | HK1_P19367 equal in 1105 of 1105
+trimmed 5% differs from the rest on : CDR
+late-stage subset CDR >= 1 (n=88): V1A-Tau TMT +0.170, against immunoassay Tau +0.157 (p 0.145)
+The subgroup restriction RAISES the TMT coefficient. The claim stays withdrawn
+because the immunoassay anchor is the criterion, not the subgroup size.
+HK1 against immunoassay Tau in the same subset: +0.185 (p 0.086, n 87) - if this is
+     not significant it is a power limit of the subgroup, not a failure of HK1.
+
+S8 staging axes (Reviewer 1, points 4 and 5)
+adnc   (primary) MCT4 early 0.06032 mid 0.05190 late 0.03621 | early->late -40.0% | control +2.1% | gate met
+thal   (sensitivity) MCT4 early 0.04997 mid 0.06223 late 0.03913 | early->late -21.7% | control +2.0% | gate met
+cerad  (sensitivity) MCT4 early 0.06527 mid 0.04679 late 0.03517 | early->late -46.1% | control +2.9% | gate met
+braak  (pre-specified, gate not met) MCT4 early 0.05482 mid 0.05564 late 0.03949 | early->late -28.0% | control +0.4% | gate NOT met
+MCT4 falls on every axis; the neuronal-identity control moves the other way.
+These axes are neuropathological gradings, not the pseudo-progression score,
+so this does not depend on the construction Reviewer 1 point 5 objects to.
+No compensatory-phase claim is made here: the shape test is S9.
+
+S9 curve features (Reviewer 1, point 3)
+cps    quad +0.04907 (p 0.5122) | vertex 1.309 inside=FALSE | argmax 0.22 | breakpoint 0.172 -> not supported   [same feature as Paper 1's PTGDS vertex at CPS 0.47]
+adnc   quad -0.00668 (p 0.0944) | vertex 1.090 inside=TRUE | argmax 1.00 | breakpoint 1.030 -> not supported
+thal   quad -0.00159 (p 0.3071) | vertex 1.259 inside=TRUE | argmax 2.00 | breakpoint 1.993 -> not supported
+cerad  quad +0.00108 (p 0.7627) | vertex 6.128 inside=FALSE | argmax 0.00 | breakpoint 2.112 -> not supported
+braak  quad -0.00375 (p 0.0103) | vertex 2.871 inside=TRUE | argmax 2.00 | breakpoint 2.331 -> NON-MONOTONE SUPPORTED
+Features are named as in AD-Boundary-Audit/PTGDS_vertex_check.R: the quadratic
+vertex, the discrete argmax and the segmented breakpoint are three different
+things and different values are not a contradiction.
+An 'early above late plus early not yet falling' rule is NOT a test for a rise:
+a monotone decline satisfies it. Any such label from an earlier run is withdrawn.

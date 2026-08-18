@@ -1,0 +1,2 @@
+gene,detection,n_pool,n_matched,band_lo,band_hi,pct_change,percentile,band_median
+SLC16A3,0.0612,16086,2042,0.046,0.076,-43.2,0.39,-4.1

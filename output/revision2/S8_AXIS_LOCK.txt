@@ -1,0 +1,31 @@
+S8_AXIS_LOCK   staging axis designation
+written : 2026-08-14 10:04:05
+build   : P2_revision2_all.R  2026-08-14  r2 (runs on source)
+
+RULE, fixed before any donor metadata were read: MIN_DONORS = 8 in BOTH
+the earliest and the latest stratum. This is a DESIGN GATE ON DONOR COUNT.
+It is not a power calculation: power needs an effect size and a variance, and
+none had been examined when this was written.
+
+DONOR COUNTS (metadata only, no outcome variable read):
+  adnc   Overall AD neuropathological Change (NIA-AA) early Not AD + Low = 21 | mid = 21 | late High = 42 -> gate met
+  thal   Thal amyloid phase                           early Thal 0-1 = 14 | mid = 19 | late Thal 4-5 = 51 -> gate met
+  cerad  CERAD neuritic plaque density                early Absent = 16 | mid = 38 | late Frequent = 30 -> gate met
+  braak  Braak tau stage                              early Braak 0-II = 6 | mid = 29 | late Braak V-VI = 49 -> gate NOT met
+
+DESIGNATION:
+  primary                     : adnc
+  sensitivity                 : thal, cerad
+  pre-specified, gate not met : braak
+
+PROVENANCE, stated exactly:
+  Braak was the axis written into this step when it was specified, and
+  MIN_DONORS was fixed at that time. Thal, CERAD and ADNC were NOT a
+  pre-registered candidate set; they were found in the donor metadata when
+  obs was first read. The designation was made after reading donor counts and
+  before any outcome value was examined. The reply must not describe the
+  candidate set as pre-registered.
+
+Braak is retained and analysed. Its result is reported as uninterpretable for
+lack of donors at the earliest stratum, not as a negative finding: an
+underpowered null is not evidence of dissociation.

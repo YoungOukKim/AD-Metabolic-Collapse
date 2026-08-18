@@ -1,0 +1,60 @@
+S12_VERDICTS P2_revision2_S12_all.R  2026-08-14  s2 (one h5ad pass; S12-P/H/A/D/N/M)
+run : 2026-08-14 16:26:07 | seed 42 globally, 20260713 inside S12-M
+
+S12-P panels against the detection-matched null (astrocytes)
+REFERENCE SLC16A3 : -43.2%, percentile 0.00444 of 2027, band median -4.1%
+B ambient  : P2RY12 0.00913 (2.1x); C1QA 0.03712 (8.4x); TMEM119 0.28499 (64.2x); PLP1 0.43284 (97.5x); MOG 0.57964 (130.5x); MBP 0.71083 (160.1x); SNAP25 0.87523 (197.1x); CX3CR1 0.97807 (220.3x); CSF1R 0.98372 (221.6x)
+             within one order of magnitude of MCT4 -> P2RY12, C1QA
+             B-3 : separable from some controls and not from others. Name the ones it is not separable from.
+G iron     : FTH1 0.00125 (0.3x); CP 0.00210 (0.5x); FTL 0.01279 (2.9x); TFRC 0.09354 (21.1x); SLC40A1 0.58739 (132.3x)
+             at or BELOW MCT4's own percentile -> CP, FTH1
+             G-1 FIRES : the detection-matched null does not separate iron handling from lactate export. The gene-level specificity claim is withdrawn.
+C internal : declining genes inside the null tail -> AQP4
+             C-3 : the export-gate sentence is allowed only with these genes named in the same paragraph
+F channel  : MCT-independent genes in the declining tail -> (none)
+             F-2 FIRES : narrow the claim to MCT4-mediated export capacity, and say so first
+GJA1 carries no weight here: its direction was known before the panel was written.
+Transcript abundance is not open probability. That limit is written on the
+channel side and on the MCT side alike.
+
+S12-H sparse-cell guard (Reviewer 2, point 5)
+tests whose chi-square is generated mostly by cells with expectation below 5 : CDR, APOE genotype
+For those the unguarded p is NOT reported. The reply quotes the merged-cell
+chi-square and Fisher's exact test printed in the same row.
+The deposited S7_leverage_composition.csv is left in place and this file sits
+beside it, so the correction is visible rather than silent.
+
+one h5ad pass
+elapsed 90.0 min | G0 PASS | 84 donors, 36601 genes
+astrocytic SLC16A3 det_bin 0.0602 (published 0.0602) | change -43.2% (published -43.2%)
+G1 on the new pass : PASS
+deposited artefacts reproduced to rds_MCT4 0, base_VATP 5.55e-16, base_gm_a 6.11e-16
+
+S12-A cell-type decomposition (Reviewer 1, point 2)
+G3 microglial reproduction gate (July -14.4%) : PASS (observed -14.4%)
+astro n=67419 det_bin 0.0602 change -43.2% percentile 0.00444 | micro n=38905 det_bin 0.2587 change -14.4% percentile 0.04316 | oligo n=105681 det_bin 0.0282 change -20.1% percentile 0.13194 | exc n=671689 det_bin 0.0908 change -36.4% percentile 0.05760
+A-2 : both decline - state first that the decline is not astrocyte-restricted
+Detection rates are not comparable across studies with different enrichment
+and sequencing depth. Wachter 2024 reports SLC16A3 in 17 to 31 per cent of
+FACS-enriched myeloid nuclei; that number belongs beside this one in the reply.
+
+S12-N panel-definition reconciliation (Reviewer 2, points 1 and 3)
+The manuscript, the deposited repository and P2_revision2_all.R r6 do NOT use
+the same ANLS composite. The manuscript and the repository use SLC2A1 + LDHA
++ SLC16A1 with MCT4 separate; r6 used SLC16A3 + LDHA + HK2 + PFKFB3, which
+puts the tested gene inside its own composite. This screen uses the
+manuscript definition and reports MCT4 as its own row.
+ANLS composite (manuscript) : -13.1% | z Holm 0.05302 | raw Holm 0.2426 | largest raw member 44.6%
+MCT4 alone                  : -43.2% | z Holm 5.719e-06 | raw Holm 5.719e-06
+Iron handling               : -18.8% | z Holm 0.1919 | raw Holm 0.01219 | largest raw member 49.6%
+N-3 : the composite does not decline while MCT4 alone does. That is the manuscript's own position and is NOT reported as a module-level decline.
+Both conventions are printed for every row. Neither is presented as neutral.
+
+S12-M mediation competition (the load-bearing layer)
+G4 script-50 anchors : PASS
+M-gate PASSED: the rebuilt matrices reproduce 96.4 / 123.3 / 117.1 per cent.
+MCT4 : 123.3% mediated, null median 62.8%, percentile 99.5, empirical p 0.0045
+competitors that ALSO exceed their own matched null : FTL, TFRC
+-> M-1 FIRES. The mediation layer does not separate MCT4 from these genes. Reframe as a coordinated astrocytic metabolic decline of which MCT4 is one component. 'Bottleneck' and 'rate-limiting' stay out of the manuscript.
+The reverse direction is in the table for every competitor, not only for MCT4.
+Competitor set chosen after the gene-level percentiles were seen: adversarial, not pre-registered.

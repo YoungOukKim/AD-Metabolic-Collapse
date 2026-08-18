@@ -1,10 +1,10 @@
 # =============================================================================
-# Fig2_CrossCellular.R  [CORRECTED — donor-level; matches published Figure 2]
+# Fig2_CrossCellular.R  [CORRECTED  -  donor-level; matches published Figure 2]
 #
 # Figure 2 (A-C): Cross-cellular metabolic coupling at the DONOR level (n = 84).
-#   A — Astrocytic MCT4 vs neuronal V-ATPase (zero-order, colored by CPS)
-#   B — Zero-order vs CPS-adjusted partial correlations, five cross-cellular pairs
-#   C — CPS-adjusted partial-correlation residual scatter (MCT4 vs neuronal V-ATPase)
+#   A  -  Astrocytic MCT4 vs neuronal V-ATPase (zero-order, colored by CPS)
+#   B  -  Zero-order vs CPS-adjusted partial correlations, five cross-cellular pairs
+#   C  -  CPS-adjusted partial-correlation residual scatter (MCT4 vs neuronal V-ATPase)
 #
 # NOTE: This replaces the previous bin-level (n = 9) version. Bin-level trajectory
 # correlations were progression-confounded pseudo-replicates and are not used.
@@ -26,7 +26,7 @@ partial_cor <- function(x, y, z) {
   list(r = unname(ct$estimate), p = ct$p.value, rx = rx, ry = ry)
 }
 
-# ── Panel A: zero-order scatter ───────────────────────────────────────────────
+# -- Panel A: zero-order scatter -----------------------------------------------
 r0 <- cor(donor$MCT4, donor$VATPase_n, use = "complete.obs")
 pA <- ggplot(donor, aes(MCT4, VATPase_n, color = mean_cps)) +
   geom_point(size = 2, stroke = 0.2) +
@@ -38,7 +38,7 @@ pA <- ggplot(donor, aes(MCT4, VATPase_n, color = mean_cps)) +
        y = "Neuronal V-ATPase (per-donor mean)") +
   theme_paper + theme(legend.position = "right")
 
-# ── Panel B: zero-order vs CPS-adjusted partial, five pairs ───────────────────
+# -- Panel B: zero-order vs CPS-adjusted partial, five pairs -------------------
 pairs <- list(c("MCT4","LAMP1_n"), c("MCT4","VATPase_n"), c("ANLS","MCT4"),
               c("MCT4","LDHB_n"),  c("ANLS","VATPase_n"))
 labs5 <- c("MCT4~LAMP1","MCT4~V-ATPase","ANLS~MCT4","MCT4~LDHB","ANLS~V-ATPase")
@@ -54,9 +54,9 @@ pB <- ggplot(bardf, aes(pair, r, fill = type)) +
   coord_cartesian(ylim = c(0, 0.7)) +
   labs(x = NULL, y = "Pearson r") +
   theme_paper + theme(legend.position = "top",
-                      axis.text.x = element_text(size = 8))
+                      axis.text.x = element_text(size = 12))
 
-# ── Panel C: CPS-adjusted residual scatter ────────────────────────────────────
+# -- Panel C: CPS-adjusted residual scatter ------------------------------------
 pcr <- partial_cor(donor$MCT4, donor$VATPase_n, donor$mean_cps)
 resdf <- data.frame(rx = pcr$rx, ry = pcr$ry)
 pC <- ggplot(resdf, aes(rx, ry)) +
@@ -68,7 +68,10 @@ pC <- ggplot(resdf, aes(rx, ry)) +
        y = "Neuronal V-ATPase residual (CPS-adjusted)") +
   theme_paper
 
-# ── Combine (uppercase bold panel tags, matching the rest of the paper) ───────
-fig2 <- pA + pB + pC + plot_annotation(tag_levels = "A") &
-        theme(plot.tag = element_text(size = 22, face = "bold"))
+# -- Combine (uppercase bold panel tags, matching the rest of the paper) -------
+pA <- pA + panel_tag("A")
+pB <- pB + panel_tag("B")
+pC <- pC + panel_tag("C")
+
+fig2 <- pA + pB + pC
 save_fig(fig2, "Fig2_CrossCellular.png", width = 15, height = 5)

@@ -3,9 +3,9 @@
 #
 # Figure 3 (a-c): Subtype consistency and network architecture
 #
-#   a — ANLS trajectory by astrocyte supertype (6 subtypes)
-#   b — Subtype proportion shift across pseudo-progression
-#   c — Network degree centrality (top hubs)
+#   a  -  ANLS trajectory by astrocyte supertype (6 subtypes)
+#   b  -  Subtype proportion shift across pseudo-progression
+#   c  -  Network degree centrality (top hubs)
 #
 # Input:  data/sample/astro_subtype_trajectories.csv
 # Output: output/figures/Fig3_Subtype_Network.png
@@ -17,15 +17,15 @@ sub_file <- file.path(DATA_BIN, "astro_subtype_trajectories.csv")
 if (file.exists(sub_file)) {
   sub_df <- read.csv(sub_file)
 
-  # ── Panel a: ANLS by subtype ──────────────────────────────────────────────
+  # -- Panel a: ANLS by subtype ----------------------------------------------
   fig3a <- ggplot(sub_df, aes(x = bin, y = ANLS, color = subtype)) +
     geom_line(linewidth = 1) + geom_point(size = 2) +
     scale_x_continuous(breaks = seq(0.1, 0.9, 0.1)) +
     labs(x = "Pseudo-progression Bin", y = "ANLS composite",
-         title = "a", color = "Subtype") +
+         title = "A", color = "Subtype") +
     theme_paper + theme(legend.position = "right")
 
-  # ── Panel b: Proportion shift ─────────────────────────────────────────────
+  # -- Panel b: Proportion shift ---------------------------------------------
   prop_df <- sub_df |>
     dplyr::group_by(bin) |>
     dplyr::mutate(total = sum(n_cells), proportion = n_cells / total) |>
@@ -35,16 +35,16 @@ if (file.exists(sub_file)) {
     geom_area(alpha = 0.8, color = "white", linewidth = 0.3) +
     scale_x_continuous(breaks = seq(0.1, 0.9, 0.1)) +
     labs(x = "Pseudo-progression Bin", y = "Proportion",
-         title = "b", fill = "Subtype") +
+         title = "B", fill = "Subtype") +
     theme_paper + theme(legend.position = "right")
 } else {
-  message("astro_subtype_trajectories.csv not found — using placeholder panels")
+  message("astro_subtype_trajectories.csv not found  -  using placeholder panels")
   fig3a <- fig3b <- ggplot() + theme_void() +
     annotate("text", x=.5, y=.5,
              label = "Run 01_extract_seaad.R to generate\nastro_subtype_trajectories.csv")
 }
 
-# ── Panel c: Network degree ───────────────────────────────────────────────────
+# -- Panel c: Network degree ---------------------------------------------------
 # Pre-computed from correlation network (|r| > 0.7, 28 genes, 128 edges)
 net_df <- data.frame(
   Gene     = c("TFRC","VDAC1","GLUT1","MCT1","LDHA","FTH1","PKM",
@@ -66,9 +66,9 @@ fig3c <- ggplot(net_df, aes(x = Gene, y = degree, fill = Category)) +
                                "Lyso"     = "#95a5a6",
                                "V-ATPase" = "#3498db",
                                "pH"       = "#95a5a6")) +
-  labs(x = NULL, y = "Network degree (|r| > 0.7)", title = "c") +
+  labs(x = NULL, y = "Network degree (|r| > 0.7)", title = "C") +
   theme_paper + theme(legend.position = "right")
 
-# ── Combine & save ────────────────────────────────────────────────────────────
+# -- Combine & save ------------------------------------------------------------
 fig3 <- (fig3a + fig3b) / fig3c
 save_fig(fig3, "Fig3_Subtype_Network.png", width = 14, height = 10)

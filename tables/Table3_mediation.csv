@@ -1,0 +1,10 @@
+Direction,Outcome,Mediator,n,beta_CPS,p,beta_CPS_adj,p_adj,pct_mediated,null_median,null_p95,percentile,p_empirical
+MCT4 as mediator,Neuronal activity genes,Astrocytic MCT4,84,-0.0311,0.0251,-0.0011,0.941,96.4,1.1,55.9,100.0,0.00448
+MCT4 as mediator,"Neuronal V-ATPase (6 subunits, P2)",Astrocytic MCT4,84,-0.069,0.0289,0.0161,0.623,123.3,62.8,97.6,99.5,0.00897
+MCT4 as mediator,Neuronal LAMP1,Astrocytic MCT4,84,-0.0339,0.0154,0.0058,0.684,117.1,79.8,111.7,97.7,0.0269
+Reverse direction,Astrocytic MCT4,"Neuronal V-ATPase (6, P2)",84,-0.0737,1.3e-07,-0.0603,1.58e-06,18.3,,,,
+Reverse direction,Astrocytic MCT4,Neuronal LAMP1,84,-0.0737,1.3e-07,-0.0579,2.88e-06,21.4,,,,
+Reverse direction,Astrocytic MCT4,Neuronal activity genes,84,-0.0737,1.3e-07,-0.0627,2.02e-06,15.0,,,,
+Reverse direction,Astrocytic MCT4,Astrocytic mito ETC,84,-0.0737,1.3e-07,-0.0638,5.87e-06,13.4,,,,
+Reverse direction,Astrocytic MCT4,Astrocytic Na+/K+-ATPase,84,-0.0737,1.3e-07,-0.0714,3.13e-07,3.2,,,,
+Reverse direction,Astrocytic MCT4,Astrocytic glutamate uptake,84,-0.0737,1.3e-07,-0.0737,1.58e-07,0.0,,,,

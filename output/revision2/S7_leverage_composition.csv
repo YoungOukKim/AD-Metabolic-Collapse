@@ -1,0 +1,9 @@
+variable,test,p,direction,detail
+diagnosis,chi-square,0.672353487607557,,CN 18/379; DEM 6/164; MCI 30/562
+CDR,chi-square,5.41755272262866e-05,mean 0.37 vs 0.37 (top 5% HIGHER),0 18/381; 0.5 34/636; 1 1/87; 2 1/1
+APOE e4 count,chi-square,0.535851338468764,mean 0.65 vs 0.54 (top 5% HIGHER),0 26/609; 1 21/385; 2 7/111
+APOE genotype,chi-square,0.557943794554993,,2/3 2/82; 2/4 0/16; 3/3 24/527; 3/4 21/369; 4/4 7/111
+CDR (numeric),Welch t,0.963719759484731,top 5% HIGHER,0.3704 vs 0.3682
+APOE e4 dose,Welch t,0.293805414742814,top 5% HIGHER,0.6481 vs 0.5442
+APOE4 peptide (Emory),Welch t,0.22986604244654,top 5% lower,2.864e+06 vs 3.492e+06
+APOE2 peptide (Emory),Welch t,0.735471320141587,top 5% lower,1.265e+05 vs 1.431e+05

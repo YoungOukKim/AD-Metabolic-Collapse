@@ -1,0 +1,37 @@
+axis,role,series,stratum,n_donors,mean,gate_met
+adnc,primary,astrocytic MCT4,early,21,0.0603205041188991,TRUE
+adnc,primary,astrocytic MCT4,mid,21,0.0519000684139988,TRUE
+adnc,primary,astrocytic MCT4,late,42,0.0362093157489616,TRUE
+adnc,primary,neuronal V-ATPase (6),early,21,0.49891676444822,TRUE
+adnc,primary,neuronal V-ATPase (6),mid,21,0.487870410978044,TRUE
+adnc,primary,neuronal V-ATPase (6),late,42,0.468545346512645,TRUE
+adnc,primary,CONTROL neuronal identity,early,21,2.02900546394859,TRUE
+adnc,primary,CONTROL neuronal identity,mid,21,2.02395674427498,TRUE
+adnc,primary,CONTROL neuronal identity,late,42,2.07111843129215,TRUE
+thal,sensitivity,astrocytic MCT4,early,14,0.0499687968780064,TRUE
+thal,sensitivity,astrocytic MCT4,mid,19,0.0622333927827041,TRUE
+thal,sensitivity,astrocytic MCT4,late,51,0.0391259934408583,TRUE
+thal,sensitivity,neuronal V-ATPase (6),early,14,0.474127769703494,TRUE
+thal,sensitivity,neuronal V-ATPase (6),mid,19,0.505343365547484,TRUE
+thal,sensitivity,neuronal V-ATPase (6),late,51,0.473767108161402,TRUE
+thal,sensitivity,CONTROL neuronal identity,early,14,2.01890711143626,TRUE
+thal,sensitivity,CONTROL neuronal identity,mid,19,2.04479049354409,TRUE
+thal,sensitivity,CONTROL neuronal identity,late,51,2.05849924606902,TRUE
+cerad,sensitivity,astrocytic MCT4,early,16,0.0652736278385286,TRUE
+cerad,sensitivity,astrocytic MCT4,mid,38,0.0467870070964806,TRUE
+cerad,sensitivity,astrocytic MCT4,late,30,0.0351712989854841,TRUE
+cerad,sensitivity,neuronal V-ATPase (6),early,16,0.4986644011865,TRUE
+cerad,sensitivity,neuronal V-ATPase (6),mid,38,0.477612180872942,TRUE
+cerad,sensitivity,neuronal V-ATPase (6),late,30,0.475784731510895,TRUE
+cerad,sensitivity,CONTROL neuronal identity,early,16,2.03014675754961,TRUE
+cerad,sensitivity,CONTROL neuronal identity,mid,38,2.0250403666548,TRUE
+cerad,sensitivity,CONTROL neuronal identity,late,30,2.08884328110965,TRUE
+braak,"pre-specified, gate not met",astrocytic MCT4,early,6,0.0548194932477592,FALSE
+braak,"pre-specified, gate not met",astrocytic MCT4,mid,29,0.0556388416085651,TRUE
+braak,"pre-specified, gate not met",astrocytic MCT4,late,49,0.0394893860920877,TRUE
+braak,"pre-specified, gate not met",neuronal V-ATPase (6),early,6,0.504553985079254,FALSE
+braak,"pre-specified, gate not met",neuronal V-ATPase (6),mid,29,0.488520241393842,TRUE
+braak,"pre-specified, gate not met",neuronal V-ATPase (6),late,49,0.473612741358891,TRUE
+braak,"pre-specified, gate not met",CONTROL neuronal identity,early,6,2.05401148014207,FALSE
+braak,"pre-specified, gate not met",CONTROL neuronal identity,mid,29,2.02464971432295,TRUE
+braak,"pre-specified, gate not met",CONTROL neuronal identity,late,49,2.06245448756628,TRUE

@@ -1,0 +1,13 @@
+item,value
+LATE-NC prevalence,"56 of 84 donors (66.7%); Stage 1 n=15, Stage 2 n=36, Stage 3 n=5; Not Identified n=27, Unclassifiable n=1"
+LATE stage vs CPS,"Spearman rho = +0.214, p = 0.052 (n = 83)"
+LATE stage vs Braak,"Spearman rho = +0.433, p = 4.4e-05 (n = 83)"
+"MCT4 ~ CPS slope, unadjusted","beta = -0.0732, p = 1.9e-07"
+"MCT4 ~ CPS slope, + LATE stage","beta = -0.0736, p = 3.0e-07 (steepens by 0.5%)"
+MCT4 - neuronal V-ATPase partial r,+0.472 (CPS) -> +0.472 (CPS + LATE stage)
+MCT4 - neuronal LAMP1 partial r,+0.500 -> +0.500
+MCT4 - neuronal LDHB partial r,+0.415 -> +0.419
+"LATE stage own effect, astrocytic MCT4","beta = +0.00054, p = 0.871"
+"LATE stage own effect, neuronal V-ATPase","beta = +0.00106, p = 0.895"
+"LATE stage own effect, neuronal LAMP1","beta = +0.00282, p = 0.430"
+Note,"Ordinal coding Not Identified=0, Stage 1=1, Stage 2=2, Stage 3=3. One donor coded Unclassifiable excluded. Neuropathological calls taken from SEA-AD obs as deposited; not re-adjudicated."

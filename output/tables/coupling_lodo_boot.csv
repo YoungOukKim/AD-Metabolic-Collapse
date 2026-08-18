@@ -1,0 +1,4 @@
+pair,lodo_min_r,lodo_max_p,lodo_all_sig,worst_donor,boot_lo,boot_hi
+VATP_n6,0.19,0.0851,FALSE,H21.33.001,0.033,0.406
+LAMP1_n,0.281,0.0101,TRUE,H21.33.047,0.156,0.455
+LDHB_n,0.098,0.378,FALSE,H21.33.001,-0.069,0.372

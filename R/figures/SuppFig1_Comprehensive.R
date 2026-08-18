@@ -11,6 +11,10 @@
 # =============================================================================
 source("R/figures/utils.R")
 
+## NOTE (panel labels): this figure carries no per-panel letters in the published
+## version. If letters are added, use panel_tag("A") from utils.R so they match
+## every other figure in the paper.
+
 astro <- read.csv(file.path(DATA_BIN, "astro_bin_means.csv"))
 astro <- add_composites_astro(astro)
 

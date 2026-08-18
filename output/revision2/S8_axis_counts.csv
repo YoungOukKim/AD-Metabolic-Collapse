@@ -1,0 +1,5 @@
+axis,role,column,early,mid,late,gate
+adnc,primary,adnc_int,21,21,42,gate met
+thal,sensitivity,thal_int,14,19,51,gate met
+cerad,sensitivity,cerad_int,16,38,30,gate met
+braak,"pre-specified, gate not met",braak,6,29,49,gate NOT met

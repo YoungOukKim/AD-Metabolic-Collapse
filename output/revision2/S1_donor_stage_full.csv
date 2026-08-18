@@ -1,0 +1,85 @@
+donor,braak_label,cps,n_nuclei,braak,Thal,CERAD.score,Overall.AD.neuropathological.Change,Cognitive.Status,APOE.Genotype,Age.at.Death,Sex,PMI,Brain.pH,RIN,Severely.Affected.Donor,Last.MMSE.Score,Highest.Lewy.Body.Disease,LATE,thal_int,cerad_int,adnc_int,dementia
+H19.33.004,Braak IV,0.302312775999892,28939,4,Thal 0,Absent,Not AD,No dementia,3/3,80,Female,8.1333333333333,7.0,8.33,N,25.0,Not Identified (olfactory bulb not assessed),Not Identified,0,0,0,0
+H20.33.001,Braak IV,0.522888827999886,19981,4,Thal 2,Sparse,Low,No dementia,3/3,82,Male,7.7,6.8,8.6,N,28.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,2,1,1,0
+H20.33.002,Braak IV,0.206549371000058,20679,4,Thal 0,Absent,Not AD,No dementia,2/3,90+,Female,4.333333333333333,7.3,7.87,N,33.0,Limbic (Transitional),LATE Stage 2,0,0,0,0
+H20.33.004,Braak V,0.725005698999765,21128,5,Thal 5,Frequent,High,Dementia,3/4,86,Male,8.833333333333334,6.7,7.83,N,25.0,Neocortical (Diffuse),LATE Stage 1,5,3,3,1
+H20.33.005,Braak IV,0.760780881000018,27612,4,Thal 3,Moderate,Intermediate,No dementia,2/3,90+,Female,7.6,6.8,8.4,N,29.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,3,2,2,0
+H20.33.008,Braak V,0.75388783400008,10412,5,Thal 4,Moderate,High,No dementia,3/4,90+,Female,7.0,6.4,8.68,N,29.0,Not Identified (olfactory bulb not assessed),Not Identified,4,2,3,0
+H20.33.011,Braak V,0.81086494299974,17521,5,Thal 5,Moderate,High,Dementia,3/4,90+,Female,6.0,7.0,9.07,N,21.0,Amygdala-predominant,LATE Stage 3,5,2,3,1
+H20.33.012,Braak III,0.237009996999952,17545,3,Thal 1,Absent,Low,No dementia,3/3,90+,Female,7.716666666666667,6.6,8.75,N,29.0,Not Identified (olfactory bulb not assessed),Not Identified,1,0,1,0
+H20.33.013,Braak IV,0.847210161999566,18910,4,Thal 3,Moderate,Intermediate,No dementia,3/3,90+,Male,4.5,7.6,9.08,N,25.0,Not Identified (olfactory bulb not assessed),Not Identified,3,2,2,0
+H20.33.014,Braak IV,0.678277042999981,21775,4,Thal 3,Sparse,Intermediate,No dementia,3/3,82,Female,7.4,6.8,8.67,N,,Olfactory bulb only,Not Identified,3,1,2,0
+H20.33.015,Braak V,0.87896756599962,16886,5,Thal 3,Moderate,Intermediate,Dementia,3/3,88,Male,11.416666666667,6.8,8.57,N,27.0,Not Identified (olfactory bulb not assessed),LATE Stage 3,3,2,2,1
+H20.33.016,Braak IV,0.616531087000102,18529,4,Thal 4,Moderate,Intermediate,Dementia,2/3,90+,Female,7.7333333333333,6.8,8.82,N,25.0,Not Identified (olfactory bulb not assessed),Not Identified,4,2,2,1
+H20.33.017,Braak VI,0.790026227999988,15826,6,Thal 4,Frequent,High,Dementia,3/3,69,Male,5.5,7.2,8.82,N,,Not Identified (olfactory bulb not assessed),Unclassifiable,4,3,3,1
+H20.33.018,Braak VI,0.896073970000055,22384,6,Thal 5,Frequent,High,Dementia,3/4,81,Female,4.5,6.8,9.55,N,21.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,5,3,3,1
+H20.33.019,Braak III,0.728160721000232,18693,3,Thal 4,Sparse,Intermediate,No dementia,3/4,87,Female,11.1,7.0,8.65,N,30.0,Not Identified (olfactory bulb not assessed),Not Identified,4,1,2,0
+H20.33.020,Braak VI,0.928512537000289,18368,6,Thal 5,Frequent,High,Dementia,4/4,81,Male,6.633333333333334,6.8,8.98,N,14.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,5,3,3,1
+H20.33.024,Braak V,0.323638945000016,15598,5,Thal 4,Sparse,Intermediate,No dementia,3/3,90+,Male,3.5,7.2,9.5,N,28.0,Not Identified (olfactory bulb assessed),LATE Stage 2,4,1,2,0
+H20.33.025,Braak V,0.588881871999677,24316,5,Thal 4,Moderate,High,No dementia,3/3,90+,Male,4.5,7.4,9.43,N,22.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,2,3,0
+H20.33.026,Braak VI,0.906842532999933,6770,6,Thal 4,Frequent,High,Dementia,4/4,75,Female,7.0,7.2,9.53,N,,Amygdala-predominant,LATE Stage 2,4,3,3,1
+H20.33.027,Braak IV,0.625950796000202,19608,4,Thal 3,Moderate,Intermediate,No dementia,3/3,90+,Female,9.233333333333333,6.7,8.87,N,23.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,3,2,2,0
+H20.33.028,Braak V,0.814933638999909,9188,5,Thal 4,Moderate,High,Dementia,3/3,90+,Female,7.4,6.6,7.9,Y,22.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,2,3,1
+H20.33.029,Braak V,0.612831698999863,11498,5,Thal 4,Moderate,High,Dementia,3/3,90+,Female,6.1,6.5,9.43,N,23.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,2,3,1
+H20.33.030,Braak V,0.786515277999669,23676,5,Thal 4,Frequent,High,No dementia,3/4,86,Female,6.0,6.7,8.65,N,25.0,Not Identified (olfactory bulb not assessed),Not Identified,4,3,3,0
+H20.33.031,Braak VI,0.777858645000202,12854,6,Thal 4,Frequent,High,Dementia,3/3,87,Female,7.916666666666667,6.4,8.85,N,26.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,3,3,1
+H20.33.032,Braak V,0.818040808000141,14233,5,Thal 5,Moderate,High,No dementia,3/3,90+,Male,6.9166666666667,6.8,9.45,N,27.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,5,2,3,0
+H20.33.033,Braak VI,0.874937976000087,5227,6,Thal 5,Frequent,High,Dementia,3/3,68,Male,6.5,6.8,7.93,Y,25.0,Not Identified (olfactory bulb not assessed),Not Identified,5,3,3,1
+H20.33.034,Braak IV,0.368330162999938,17034,4,Thal 3,Absent,Intermediate,No dementia,2/2,85,Female,10.016666666667,6.8,8.98,N,30.0,Not Identified (olfactory bulb not assessed),Not Identified,3,0,2,0
+H20.33.035,Braak IV,0.204485489000022,8454,4,Thal 0,Absent,Not AD,No dementia,3/3,90+,Female,4.6,6.6,9.04,N,24.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,0,0,0,0
+H20.33.036,Braak V,0.844305126000086,6186,5,Thal 5,Moderate,High,No dementia,2/3,90+,Female,10.6,6.4,8.63,N,29.0,Not Identified (olfactory bulb assessed),LATE Stage 2,5,2,3,0
+H20.33.037,Braak V,0.891215423000091,5778,5,Thal 5,Frequent,High,Dementia,3/3,90+,Female,10.0,6.4,8.63,Y,18.0,Amygdala-predominant,LATE Stage 2,5,3,3,1
+H20.33.038,Braak V,0.748876479000035,3357,5,Thal 4,Frequent,High,Dementia,3/3,90+,Female,6.2,6.0,6.3,Y,23.0,Amygdala-predominant,LATE Stage 2,4,3,3,1
+H20.33.039,Braak V,0.371467200999969,24964,5,Thal 4,Frequent,High,No dementia,3/3,90+,Female,10.3,6.8,9.48,N,26.0,Amygdala-predominant,LATE Stage 2,4,3,3,0
+H20.33.040,Braak IV,0.438826933999999,12257,4,Thal 4,Frequent,Intermediate,Dementia,3/3,90+,Male,5.03,6.4,9.17,N,27.0,Not Identified (olfactory bulb not assessed),Not Identified,4,3,2,1
+H20.33.041,Braak V,0.652943184000073,14824,5,Thal 4,Moderate,High,Dementia,3/3,90+,Female,5.916666666666667,6.8,8.43,N,25.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,2,3,1
+H20.33.043,Braak IV,0.442127887999961,25507,4,Thal 4,Sparse,Intermediate,No dementia,4/4,85,Male,4.5,7.0,9.37,N,26.0,Neocortical (Diffuse),LATE Stage 2,4,1,2,0
+H20.33.044,Braak V,0.355631884000083,15609,5,Thal 0,Absent,Not AD,No dementia,2/3,81,Male,4.7,7.6,9.2,N,24.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,0,0,0,0
+H20.33.045,Braak VI,0.922353883999876,8173,6,Thal 5,Frequent,High,Dementia,4/4,77,Female,3.3,7.3,8.15,N,6.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,5,3,3,1
+H20.33.046,Braak VI,0.868382664999948,13045,6,Thal 5,Frequent,High,Dementia,3/3,90+,Male,8.0,6.2,5.67,Y,18.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,5,3,3,1
+H21.33.001,Braak III,0.149616330999992,15939,3,Thal 2,Absent,Low,Dementia,2/3,80,Male,9.6,7.2,8.1,N,25.0,Not Identified (olfactory bulb not assessed),Not Identified,2,0,1,1
+H21.33.002,Braak VI,0.856821168999912,15761,6,Thal 5,Frequent,High,Dementia,3/4,70,Female,3.2,6.8,9.18,N,,Amygdala-predominant,LATE Stage 2,5,3,3,1
+H21.33.003,Braak 0,0.238033394000012,19481,0,Thal 0,Absent,Not AD,No dementia,3/3,78,Male,10.0,6.4,9.6,N,27.0,Not Identified (olfactory bulb not assessed),Not Identified,0,0,0,0
+H21.33.004,Braak II,0.261644761999925,15653,2,Thal 0,Absent,Not AD,No dementia,2/3,90+,Male,5.0,6.4,9.17,N,27.0,Not Identified (olfactory bulb not assessed),Not Identified,0,0,0,0
+H21.33.005,Braak V,0.575734635000079,15959,5,Thal 3,Moderate,Intermediate,Dementia,3/3,90+,Male,10.2,6.8,7.43,N,30.0,Neocortical (Diffuse),LATE Stage 3,3,2,2,1
+H21.33.006,Braak IV,0.838095749000409,22454,4,Thal 4,Sparse,Intermediate,No dementia,3/4,90+,Male,9.8,6.8,8.63,N,24.0,Brainstem-predominant,Not Identified,4,1,2,0
+H21.33.007,Braak V,0.723363962000209,17056,5,Thal 4,Frequent,High,Dementia,3/3,86,Female,5.6,7.0,8.33,N,26.0,Neocortical (Diffuse),LATE Stage 2,4,3,3,1
+H21.33.008,Braak V,0.790347050000122,19204,5,Thal 4,Frequent,High,Dementia,3/3,90+,Female,5.0,6.7,5.93,N,21.0,Limbic (Transitional),Not Identified,4,3,3,1
+H21.33.009,Braak VI,0.911019290999877,11936,6,Thal 5,Frequent,High,Dementia,4/4,65,Female,6.2,6.4,6.9,Y,11.0,Neocortical (Diffuse),Not Identified,5,3,3,1
+H21.33.010,Braak VI,0.821793344999723,18304,6,Thal 5,Frequent,High,Dementia,3/3,90+,Female,9.6,6.7,7.52,N,27.0,Neocortical (Diffuse),Not Identified,5,3,3,1
+H21.33.011,Braak IV,0.170618520000035,19003,4,Thal 0,Absent,Not AD,No dementia,3/3,83,Female,3.6,6.8,9.3,N,25.0,Neocortical (Diffuse),LATE Stage 2,0,0,0,0
+H21.33.012,Braak IV,0.486296562999996,16766,4,Thal 3,Sparse,Intermediate,Dementia,2/4,90+,Female,5.0,6.4,8.58,N,30.0,Neocortical (Diffuse),LATE Stage 2,3,1,2,1
+H21.33.013,Braak V,0.889562753000056,12259,5,Thal 4,Moderate,High,Dementia,3/4,90+,Female,7.3,6.8,9.07,N,23.0,Amygdala-predominant,LATE Stage 2,4,2,3,1
+H21.33.014,Braak IV,0.754185193000012,13836,4,Thal 4,Sparse,Intermediate,No dementia,2/3,90+,Male,9.5,6.8,9.57,N,28.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,4,1,2,0
+H21.33.015,Braak IV,0.230780761999995,17887,4,Thal 2,Sparse,Low,No dementia,3/3,90+,Male,4.1,6.8,8.83,N,24.0,Limbic (Transitional),LATE Stage 2,2,1,1,0
+H21.33.016,Braak IV,0.336173297000077,12030,4,Thal 1,Absent,Low,Dementia,3/3,90+,Female,5.5,6.4,7.2,N,22.0,Neocortical (Diffuse),LATE Stage 2,1,0,1,1
+H21.33.017,Braak V,0.680216044000112,8336,5,Thal 5,Frequent,High,Dementia,3/3,90+,Female,3.5,6.4,6.97,N,19.0,Limbic (Transitional),Not Identified,5,3,3,1
+H21.33.018,Braak II,0.643946139999863,14068,2,Thal 3,Frequent,Low,Dementia,3/3,89,Female,10.233333333333333,6.4,9.27,N,23.0,Not Identified (olfactory bulb not assessed),Not Identified,3,3,1,1
+H21.33.019,Braak 0,0.517476286000124,24128,0,Thal 1,Sparse,Low,No dementia,2/3,75,Male,10.016666666666667,6.4,9.43,N,28.0,Not Identified (olfactory bulb not assessed),Not Identified,1,1,1,0
+H21.33.020,Braak V,0.911076763999976,1837,5,Thal 4,Frequent,High,Dementia,3/3,82,Male,10.8,6.2,3.43,Y,23.0,Neocortical (Diffuse),LATE Stage 2,4,3,3,1
+H21.33.021,Braak III,0.704996505000005,12228,3,Thal 4,Moderate,Intermediate,Dementia,3/3,90+,Male,6.9,6.9,9.37,N,24.0,Neocortical (Diffuse),Not Identified,4,2,2,1
+H21.33.022,Braak VI,0.739923990000155,20263,6,Thal 2,Moderate,Intermediate,No dementia,3/3,82,Female,4.833333333333333,6.8,8.0,N,30.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,2,2,2,0
+H21.33.023,Braak IV,0.296555034999984,16010,4,Thal 0,Absent,Not AD,No dementia,3/3,90+,Male,7.833333333333333,6.6,9.28,N,24.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,0,0,0,0
+H21.33.025,Braak IV,0.51800473700015,13608,4,Thal 3,Moderate,Intermediate,No dementia,3/3,88,Female,8.6,6.4,8.92,N,29.0,Limbic (Transitional),Not Identified,3,2,2,0
+H21.33.026,Braak V,0.749598880999871,10863,5,Thal 4,Frequent,High,No dementia,3/4,90+,Female,4.1,6.6,8.67,N,30.0,Not Identified (olfactory bulb not assessed),Not Identified,4,3,3,0
+H21.33.027,Braak V,0.68718707200007,26857,5,Thal 5,Moderate,High,Dementia,3/4,90+,Male,6.3,6.4,7.93,N,22.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,5,2,3,1
+H21.33.028,Braak II,0.300177145999925,13226,2,Thal 1,Absent,Low,No dementia,3/3,72,Male,8.3,6.4,6.73,N,29.0,Not Identified (olfactory bulb assessed),Not Identified,1,0,1,0
+H21.33.029,Braak V,0.910112214999805,8748,5,Thal 5,Frequent,High,Dementia,2/4,89,Male,11.033333333333331,6.4,7.2,N,26.0,Amygdala-predominant,LATE Stage 1,5,3,3,1
+H21.33.030,Braak III,0.252442597000024,10817,3,Thal 3,Moderate,Intermediate,No dementia,3/4,89,Male,5.5,6.7,8.67,N,27.0,Brainstem-predominant,LATE Stage 1,3,2,2,0
+H21.33.031,Braak V,0.834626691999837,15130,5,Thal 5,Moderate,High,Dementia,3/4,84,Male,8.9,6.4,8.43,N,27.0,Limbic (Transitional),LATE Stage 2,5,2,3,1
+H21.33.032,Braak IV,0.380411215000076,15876,4,Thal 2,Sparse,Low,No dementia,3/3,90+,Female,5.0,6.4,8.03,N,30.0,Not Identified (olfactory bulb not assessed),LATE Stage 2,2,1,1,0
+H21.33.033,Braak V,0.899911520999938,6464,5,Thal 5,Moderate,High,No dementia,3/4,83,Female,8.2,6.0,5.6,Y,27.0,Amygdala-predominant,LATE Stage 1,5,2,3,0
+H21.33.034,Braak VI,0.869521182999969,3447,6,Thal 5,Frequent,High,Dementia,3/4,90+,Female,10.8,4.5,2.9,Y,18.0,Amygdala-predominant,LATE Stage 2,5,3,3,1
+H21.33.035,Braak V,0.376970225999972,13892,5,Thal 5,Moderate,High,No dementia,3/3,90+,Female,4.8,6.4,8.27,N,27.0,Not Identified (olfactory bulb assessed),LATE Stage 2,5,2,3,0
+H21.33.036,Braak V,0.690040907000149,11677,5,Thal 4,Frequent,High,No dementia,3/3,90+,Female,4.0,6.8,7.03,N,21.0,Not Identified (olfactory bulb assessed),LATE Stage 2,4,3,3,0
+H21.33.037,Braak IV,0.180318627999973,8170,4,Thal 2,Absent,Low,No dementia,2/3,88,Female,6.5,7.0,6.67,N,26.0,Limbic (Transitional),LATE Stage 1,2,0,1,0
+H21.33.038,Braak III,0.182369813999994,7307,3,Thal 1,Absent,Low,No dementia,3/3,84,Female,11.0,6.2,7.27,N,27.0,Not Identified (olfactory bulb assessed),Not Identified,1,0,1,0
+H21.33.039,Braak V,0.729331972000115,9024,5,Thal 4,Moderate,High,Dementia,3/3,88,Female,6.5,6.5,7.2,Y,20.0,Not Identified (olfactory bulb assessed),LATE Stage 3,4,2,3,1
+H21.33.040,Braak V,0.74451788999989,15697,5,Thal 4,Frequent,High,No dementia,3/4,83,Male,5.6,6.7,7.37,N,22.0,Olfactory bulb only,LATE Stage 1,4,3,3,0
+H21.33.041,Braak IV,0.303751417000038,14410,4,Thal 0,Absent,Not AD,No dementia,2/3,90+,Female,7.5,6.4,7.57,N,29.0,Limbic (Transitional),Not Identified,0,0,0,0
+H21.33.042,Braak V,0.850064911999794,14500,5,Thal 5,Moderate,High,Dementia,4/4,90+,Female,8.1,6.4,6.23,N,21.0,Neocortical (Diffuse),LATE Stage 2,5,2,3,1
+H21.33.043,Braak II,0.520346647000164,15005,2,Thal 4,Sparse,Low,Dementia,3/3,90+,Female,4.4,6.6,7.27,N,29.0,Not Identified (olfactory bulb assessed),LATE Stage 1,4,1,1,1
+H21.33.044,Braak VI,0.844797955999969,6269,6,Thal 3,Frequent,Intermediate,Dementia,3/3,88,Female,7.0,6.6,8.63,N,21.0,Not Identified (olfactory bulb not assessed),LATE Stage 1,3,3,2,1
+H21.33.045,Braak VI,0.924064541000007,6839,6,Thal 4,Frequent,High,Dementia,3/4,90+,Female,4.0,7.2,6.55,Y,17.0,Limbic (Transitional),LATE Stage 3,4,3,3,1
+H21.33.046,Braak V,0.765703597000034,5693,5,Thal 4,Moderate,High,Dementia,3/3,90+,Male,7.0,6.4,7.28,N,22.0,Neocortical (Diffuse),LATE Stage 2,4,2,3,1
+H21.33.047,Braak V,0.224783433000053,13647,5,Thal 2,Frequent,Intermediate,No dementia,3/3,90+,Male,4.4,7.2,8.7,N,26.0,Neocortical (Diffuse),LATE Stage 2,2,3,2,0

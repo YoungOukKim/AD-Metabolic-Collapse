@@ -1,0 +1,2 @@
+target,n_donors,rho,ci_lo,ci_hi,p,boot_lo,boot_hi,detection,null_percentile,seaad_rho,g1_pass,verdict
+SLC16A3,31,-0.2588,-0.5663,0.1119,0.167,-0.5513,0.0464,0.058,8.16,-0.502,TRUE,"DIRECTION CONSISTENT, UNDERPOWERED -- NOT a failure to replicate"

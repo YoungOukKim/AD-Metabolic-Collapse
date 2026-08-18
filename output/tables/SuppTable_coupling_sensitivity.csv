@@ -1,0 +1,4 @@
+subset,n,partial_r_CPSadj,p_CPSadj,partial_r_CPS_gmean,p_CPS_gmean
+all donors,84,0.474,5.13e-06,0.281,0.00954
+CPS >= 0.2 (early donors dropped),80,0.461,1.65e-05,0.261,0.0193
+CPS >= 0.3,71,0.479,2.34e-05,0.271,0.0222

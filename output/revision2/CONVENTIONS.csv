@@ -1,0 +1,12 @@
+item,house_source,value_used,note
+seed,P2_run_all.R / AD-Boundary-Audit engine,42,""
+CPS bins,77_detection_matched_null_standalone.R (P2),"round(cps, 1); bin 0.1 excluded from bin-level work",P1-fixed oligo_MCT_detection_check.R uses cut(right=FALSE) instead - a genuine inconsistency between the repositories
+early / late,77_detection_matched_null_standalone.R (P2),unweighted mean of bins 0.2-0.4 and 0.6-0.8,NOT the pooled cell mean; using the pooled mean gives -46.5% instead of -43.2%
+trajectory,oligo_MCT_detection_check.R,"z per gene across cells, then bin mean",multi-gene composites in S5 and S6 are z per gene across donors; a raw mean of the ANLS panel is 81% PFKFB3 and hides MCT4. S8/S9 keep the published raw VATP_n6 definition
+detection floor (report alone),oligo_MCT_detection_check.R,0.10,"astrocytic MCT4 is 0.061, BELOW this floor - flagged in S3 and S4"
+detection floor (matched null),P2 04/77 detection-matched null,0.02,used only to decide whether a matched-null percentile is computed
+block size,oligo_MCT_detection_check.R,100000,""
+h5 backend,P3 celltype_audit_from_raw.R,rhdf5,hdf5r not required
+partial correlation,AD-Metabolic-Collapse 00_utils.R,"pc(), verbatim",""
+curve features,AD-Boundary-Audit PTGDS_vertex_check.R,vertex / argmax / segmented breakpoint,""
+output location,oligo_MCT_detection_check.R,"OUTDIR, absolute",set with Sys.getenv('P2R2_OUT')

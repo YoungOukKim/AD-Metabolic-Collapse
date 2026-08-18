@@ -1,0 +1,5 @@
+compartment,labels,n_cells
+astro,Astrocyte,67419
+micro,Microglia-PVM,38905
+oligo,Oligodendrocyte,105681
+exc,L2/3 IT | L4 IT | L5 ET | L5 IT | L5/6 NP | L6 CT | L6 IT | L6 IT Car3 | L6b,671689

@@ -1,21 +1,42 @@
-# Raw SEA-AD data (too large and requires data access agreement)
+# Raw SEA-AD data (too large and requires a data access agreement)
 *.h5ad
 *.h5
+*.h5Seurat
+*.h5seurat
 
-# Per-cell CSVs (large — regenerate from 01_extract_seaad.R)
+# Per-cell CSVs (large - regenerate from R/data_extraction/01_extract_seaad.R)
 data/processed/
 
 # ADNI proteomics (requires ADNI data access)
 data/processed/merged_proteomics_dx.rds
 data/emory/
 
-# Output figures (regenerate from R scripts)
-output/
+# ROSMAP derived per-donor values (RADC data use agreement)
+# regenerate with R/replication/82_rosmap_braak_matched_donors.R
+output/tables/rosmap_donor_mct4.csv
+
+# NOTE: 'output/' was ignored in the initial deposit. It is tracked from the
+# revision round onward, because the manuscript's Code availability statement
+# points readers to output/revision2/ for the pre-registered rules
+# (S12_RULES.txt) and the verdicts as recorded at run time (S12_VERDICTS.txt).
+# Individual-level and per-donor files derived from restricted datasets remain
+# excluded; see the table in README.md.
+
+# Large intermediate that would redistribute SEA-AD in derived form
+output/sensitivity/donor_by_gene.rds
 
 # R session files
 .Rhistory
+.Rapp.history
 .RData
+.Ruserdata
 .Rproj.user/
+*.Rproj
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
 
 # OS files
 .DS_Store

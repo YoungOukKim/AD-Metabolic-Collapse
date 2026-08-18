@@ -1,0 +1,2 @@
+check,value,verdict
+"donor_by_gene.rds vs donor_merged_base.csv, astrocytic MCT4","r = 1.000000, max |difference| = 4.16e-16",identical

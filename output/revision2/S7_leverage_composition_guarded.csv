@@ -1,0 +1,5 @@
+variable,chisq_p_unguarded,sparse_cell_share,reportable_under_rule_0_41,fisher_p,chisq_p_after_merging,guarded_value
+CDR,5.417553e-05,0.9804477,False,0.02189891,0.4484825,merged chi-square p = 0.448 ; Fisher p = 0.0219
+APOE e4 count,0.5358513,0.0,True,0.4940753,0.3602615,chi-square p = 0.536
+APOE genotype,0.5579438,0.5959184,False,0.66096695,,Fisher p = 0.661
+diagnosis,0.6723535,0.0,True,0.71531423,,chi-square p = 0.672

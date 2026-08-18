@@ -1,0 +1,4 @@
+cell_type,mean_expr,detection,n_cells
+astro,0.0462,0.0612,67419
+neuron,0.0221,0.0917,671689
+micro,0.2983,0.2634,38905

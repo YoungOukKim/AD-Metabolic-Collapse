@@ -1,0 +1,9 @@
+P2_revision2_S12_all.R  2026-08-14  s2 (one h5ad pass; S12-P/H/A/D/N/M)
+run : 2026-08-14 16:26:07
+h5ad: D:/work/SEAAD_MTG_RNAseq_final-nuclei.2024-02-13.h5ad
+R version 4.5.2 (2025-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1

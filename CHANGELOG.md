@@ -10,6 +10,39 @@ to the journal, not to git tags.
 
 ---
 
+AD-Metabolic-Collapse -- repository v26
+=======================================
+
+1. output/revision2/Supporting_Data_Values_v9.xlsx     [replaces v8]
+
+   Panel B of the SuppFig2_data sheet still held the superseded LMR trajectory.
+   Panel A of that sheet was rebuilt at v24 and the figure itself was redrawn at
+   v25, but the eight values under panel B were not touched, so the workbook and
+   the figure disagreed:
+
+     bin      sheet     recomputed / figure
+     0.3      1.0073    1.0033
+     0.4      0.9876    0.9811
+     0.5      0.9697    0.9843
+     0.7      1.0135    1.0289
+     0.9      0.9941    1.0152
+     minimum  Bin 0.5   Bin 0.4
+
+   The comment above the block read "Trough at Bin 0.5 (LMR decline precedes
+   iron co-decline by one bin)". That sentence contradicts itself: the iron
+   change-point is also at Bin 0.5, so nothing precedes anything by one bin.
+
+   Recomputation from data/sample/astro_bin_means.csv, using the 34-gene module
+   defined in R/figures/utils.R, reproduces the figure to four decimals and puts
+   the minimum at Bin 0.4. The script's own check agrees and passes. The figure,
+   its legend, the manuscript and the script were all correct; this one sheet
+   was not, and it is the sheet a reader would open to reproduce panel B.
+
+   The block is replaced and the comment rewritten, with a note recording what
+   the earlier version said.
+
+---
+
 AD-Metabolic-Collapse -- repository v25
 =======================================
 
